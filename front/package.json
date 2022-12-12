@@ -1,0 +1,32 @@
+{
+  "name": "react_twitter_clone_front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mangojang/react_twitter_clone.git"
+  },
+  "author": "mangojang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mangojang/react_twitter_clone/issues"
+  },
+  "homepage": "https://github.com/mangojang/react_twitter_clone#readme",
+  "dependencies": {
+    "next": "^13.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "nodemon": "^2.0.20",
+    "webpack": "^5.75.0"
+  }
+}
