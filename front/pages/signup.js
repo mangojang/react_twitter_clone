@@ -1,5 +1,5 @@
 import { Form, Button, Input, Checkbox } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import AppLayout from '../components/AppLayout';
 
 
@@ -8,10 +8,19 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
-   
-    const onSubmit = (e) => {
-        e.preventdefault();
 
+    const useInput = (initValue = null) => {
+        const [value, setter] = useState(initValue);
+        const handler = useCallback((e) => {
+            setter(e.target.value);
+        },[]);
+        return [value, handler]
+    };
+
+    const [id, onChangeId] = useInput('');
+    const [nickname, onChangeNickname] = useInput('');
+   
+    const onSubmit = useCallback((e) => {
         console.log({
             id,
             nickname,
@@ -19,32 +28,21 @@ const Signup = () => {
             passwordCheck,
             term
         });
-    };
+    },[]);
 
-    const onChangePassword = (e) => {
+    const onChangePassword = useCallback((e) => {
         setPassword(e.target.value);
-    };
+    },[]);
 
-    const onChangePasswordCheck = (e) => {
-        setPasswordError(e.target.value !== password);
+    const onChangePasswordCheck = useCallback((e) => {
         setPasswordCheck(e.target.value);
-    };
+    },[]);
 
-    const onChangeTerm = (e) => {
-        setTermError(false);
+    const onChangeTerm = useCallback((e) => {
         setTerm(e.target.checked);
-    };
+    },[]);
 
-    const useInput = (initValue = null) => {
-        const [value, setter] = useState(initValue);
-        const handler = (e) => {
-            setter(e.target.value);
-        }
-        return [value, handler]
-    };
-
-    const [id, onChangeId] = useInput('');
-    const [nickname, onChangeNickname] = useInput('');
+    
 
     return (
         <AppLayout>
