@@ -41,7 +41,7 @@ const AppLayout = ({children}) => {
     return (
         <div>
             <Menu mode="horizontal" items={items}/>
-            <Row>
+            <Row gutter={10}>
                 <Col xs={24} md={6}>
                     {dummyData.isLoggedIn?
                     <Card
