@@ -1,16 +1,21 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd';
 import { Input } from 'antd';
+import Link from 'next/link';
 
 const { Search } = Input;
 
 const items =[
     {
-        label: '홈',
+        label: (
+            <Link href="/" legacyBehavior><a>홈</a></Link>
+        ),
         key: 'home',
     },
     {
-        label: '프로필',
+        label: (
+            <Link href="/profile" legacyBehavior><a>프로필</a></Link>
+        ),
         key: 'profile',
     },
     {
@@ -25,6 +30,7 @@ const AppLayout = ({children}) => {
     return (
         <div>
             <Menu mode="horizontal" items={items}/>
+            <Link href='/signup' legacyBehavior><a><Button>회원가입</Button></a></Link>
             {children}
         </div>
     );
