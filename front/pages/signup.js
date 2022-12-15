@@ -92,10 +92,6 @@ const Signup = () => {
                         name="password_check"
                         dependencies={['password']}
                         rules={[
-                        {
-                            required: true,
-                            message: '비밀번호를 입력하세요!',
-                        },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                               if (!value || getFieldValue('password') === value) {
