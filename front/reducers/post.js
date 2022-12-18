@@ -37,7 +37,11 @@ const reducer = (state=initialState,action) => {
             }
         }
     
-        default: addPost
+        default: {
+            return {
+                ...state
+            }
+        }
             break;
     }
 }

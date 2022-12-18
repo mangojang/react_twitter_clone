@@ -37,7 +37,11 @@ const reducer = (state = initialState, action) => {
             
             break;
     
-        default: LOG_IN
+        default: {
+            return {
+                ...state
+            }
+        }
             break;
     }
 };
