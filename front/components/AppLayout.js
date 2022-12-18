@@ -3,6 +3,7 @@ import { Button, Menu, Input, Col, Row, Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
+import UserProfile from './UserProfile';
 
 const { Meta } = Card;
 
@@ -44,18 +45,7 @@ const AppLayout = ({children}) => {
             <Row gutter={10}>
                 <Col xs={24} md={6}>
                     {dummyData.isLoggedIn?
-                    <Card
-                        actions={[
-                        <div key="twit">짹짹<br/>{dummyData.posts.length}</div>,
-                        <div key="following">팔로잉<br/>{dummyData.followings.length}</div>,
-                        <div key="follower">팔로워<br/>{dummyData.followers.length}</div>,
-                        ]}
-                    >
-                        <Meta
-                        avatar={<Avatar size="large" icon={<UserOutlined />} />}
-                        title={dummyData.nickname}
-                        />
-                    </Card>
+                    <UserProfile/>
                     :
                     <LoginForm/>
                     }

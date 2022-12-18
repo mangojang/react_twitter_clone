@@ -1,16 +1,13 @@
-import { Form, Button, Card, Input, List } from 'antd';
-import { StopOutlined } from '@ant-design/icons';
 import React from 'react';
+import { Button, Card, List } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
+import NicknameEditForm from '../components/NicknameEditForm';
+
 
 const Profile = () => {
     return (
         <div>
-            <Form style={{ marginBottom: '20px', border: '1px solid #d9d9d9', padding: '20px'}}>
-                <Form.Item>
-                    <Input addonBefore="닉네임"/>
-                    <Button type='primary'>수정</Button>
-                </Form.Item>
-            </Form>
+            <NicknameEditForm/>
             <List
                 style={{marginBottom: '20px'}}
                 grid={{gutter:4, xs:2, md:3}}
