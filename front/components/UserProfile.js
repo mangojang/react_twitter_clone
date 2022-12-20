@@ -1,13 +1,19 @@
-import React from 'react';
-import { Avatar, Card } from 'antd';
+import React, {useCallback} from 'react';
+import { Avatar, Button, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '../reducers/user';
 
 const { Meta } = Card;
 
 
 const UserProfile = () => {
     const { user} = useSelector(state => state.user);
+    const dispatch= useDispatch();
+
+    const onClickLogout = useCallback((e)=>{
+        dispatch(logoutAction);
+    },[]);
 
     return (
         <Card
@@ -20,6 +26,7 @@ const UserProfile = () => {
             <Meta
             avatar={<Avatar size="large" icon={<UserOutlined />} />}
             title={user.nickname}
+            description={<Button onClick={onClickLogout}>로그아웃</Button>}
             />
         </Card>
     );
