@@ -1,19 +1,25 @@
+import createSagaMiddleware from "@redux-saga/core";
 import { createWrapper } from "next-redux-wrapper";
 
 import { applyMiddleware, compose, legacy_createStore as createStore } from "redux";
 
 
 import reducers from "../reducers";
+import rootSaga from "../sagas";
+
+
 
 const configureStore = () =>{
-    const middlewares = [];
+    const sagaMiddleware = createSagaMiddleware();
+    const middlewares = [sagaMiddleware];
     const composeEnhancers =
-        typeof window === 'object' &&
+        process.env.NODE_ENV==='production' && typeof window === 'object' && 
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
             window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     }) : compose;
     const enhancer = composeEnhancers(applyMiddleware(...middlewares)) 
     const store= createStore(reducers, enhancer);
+    sagaMiddleware.run(rootSaga)
     return store;
 }
 
