@@ -1,5 +1,13 @@
 export const initialState ={
-    mainPosts : []
+    mainPosts: [{
+        User: {
+            id:1,
+            nickname:'mangojang',
+        },
+        content:'얄리얄리얄라리얄라',
+        img:'',
+        createdAt: new Date()
+    }]
 }
 
 const ADD_POST ='ADD_POST';

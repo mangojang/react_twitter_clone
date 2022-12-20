@@ -22,7 +22,6 @@ App.Proptypes ={
     store: Proptypes.object,
 }
 
-//export default wrapper.withRedux(App);
 
 export default App;
 

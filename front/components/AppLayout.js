@@ -1,21 +1,14 @@
 import React from 'react';
-import { Button, Menu, Input, Col, Row, Avatar, Card } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { Menu, Input, Col, Row} from 'antd';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
 
-const { Meta } = Card;
+
 
 const { Search } = Input;
 
-const dummyData ={
-    nickname:'mangojang',
-    posts:[],
-    followings:[],
-    followers:[],
-    isLoggedIn: false
-}
 
 const items =[
     {
@@ -39,12 +32,15 @@ const items =[
 ]
 
 const AppLayout = ({children}) => {
+
+    const {isLoggedIn} = useSelector(state => state.user);
+
     return (
         <div>
             <Menu mode="horizontal" items={items}/>
             <Row gutter={10}>
                 <Col xs={24} md={6}>
-                    {dummyData.isLoggedIn?
+                    {isLoggedIn?
                     <UserProfile/>
                     :
                     <LoginForm/>
