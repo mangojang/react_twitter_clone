@@ -45,8 +45,22 @@ const reducer = (state = initialState, action) => {
         case LOG_IN:{
             return {
                 ...state,
+                // isLoggedIn: true,
+                // user: dummyUser,
+            }
+        }
+        case LOG_IN_SUCCESS:{
+            return {
+                ...state,
                 isLoggedIn: true,
                 user: dummyUser,
+            }
+        }
+        case LOG_IN_FAILURE:{
+            return {
+                ...state,
+                isLoggedIn: false,
+                user: null,
             }
         }   
         case LOG_OUT:{

@@ -13,13 +13,13 @@ const configureStore = () =>{
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware];
     const composeEnhancers =
-        process.env.NODE_ENV==='production' && typeof window === 'object' && 
+        process.env.NODE_ENV==='production' || typeof window === 'object' && 
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
             window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
     }) : compose;
     const enhancer = composeEnhancers(applyMiddleware(...middlewares)) 
     const store= createStore(reducers, enhancer);
-    sagaMiddleware.run(rootSaga)
+    store.sagaTask = sagaMiddleware.run(rootSaga);
     return store;
 }
 
