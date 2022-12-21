@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mangojang/react_twitter_clone#readme",
   "dependencies": {
+    "@ant-design/compatible": "^5.1.1",
     "antd": "^5.0.6",
     "babel-eslint": "^10.1.0",
     "next": "^13.0.6",
