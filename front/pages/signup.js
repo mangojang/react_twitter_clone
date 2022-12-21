@@ -1,5 +1,6 @@
 import { Form, Button, Input, Checkbox } from 'antd';
-import React, { useState, useCallback } from 'react';
+import Router from 'next/router';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signupAction } from '../reducers/user';
 
@@ -9,7 +10,13 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
-    const { isSigningUp } = useSelector(state=>state.user)
+    const { isSigningUp, mine } = useSelector(state=>state.user)
+
+    useEffect(()=>{
+        if(mine){
+            Router.push('/')
+        }
+    },[mine && mine.id]);
 
     const useInput = (initValue = null) => {
         const [value, setter] = useState(initValue);
