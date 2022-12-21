@@ -14,7 +14,7 @@ const LoginForm = () => {
             id,
             password,
         });
-        dispatch(loginAction);
+        dispatch(loginAction({id,password}));
     },[id, password]);
 
     const onChangeId = useCallback((e)=>{
