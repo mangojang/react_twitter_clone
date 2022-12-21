@@ -16,6 +16,7 @@ const postCard = ({post}) => {
                 <MessageOutlined key="message" />,
                 <EllipsisOutlined key="ellipsis" />,
             ]}
+            style={{marginBottom: '10px'}}
             
         >
             <Meta
