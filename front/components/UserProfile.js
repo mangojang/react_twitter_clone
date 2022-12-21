@@ -8,7 +8,7 @@ const { Meta } = Card;
 
 
 const UserProfile = () => {
-    const { user} = useSelector(state => state.user);
+    const { mine } = useSelector(state => state.user);
     const dispatch= useDispatch();
 
     const onClickLogout = useCallback((e)=>{
@@ -18,14 +18,14 @@ const UserProfile = () => {
     return (
         <Card
             actions={[
-            <div key="twit">짹짹<br/>{user.posts.length}</div>,
-            <div key="following">팔로잉<br/>{user.followings.length}</div>,
-            <div key="follower">팔로워<br/>{user.followers.length}</div>,
+            <div key="twit">짹짹<br/>{mine.posts.length}</div>,
+            <div key="following">팔로잉<br/>{mine.followings.length}</div>,
+            <div key="follower">팔로워<br/>{mine.followers.length}</div>,
             ]}
         >
             <Meta
             avatar={<Avatar size="large" icon={<UserOutlined />} />}
-            title={user.nickname}
+            title={mine.nickname}
             description={<Button onClick={onClickLogout}>로그아웃</Button>}
             />
         </Card>

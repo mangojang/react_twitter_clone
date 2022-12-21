@@ -1,12 +1,13 @@
 import { Form, Button, Input } from 'antd';
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { loginAction } from '../reducers/user';
 
 const LoginForm = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
+    const { isLoggingIn } = useSelector(state=>state.user);
     const dispatch = useDispatch();
 
     const onSubmit = useCallback((e) => {
@@ -30,7 +31,7 @@ const LoginForm = () => {
         <Form onFinish={onSubmit}>
                 <Form.Item
                     label="아이디"
-                    name="id"
+                    name="user_id"
                     rules={[
                     {
                         required: true,
@@ -42,7 +43,7 @@ const LoginForm = () => {
                 </Form.Item>
                 <Form.Item
                     label="비밀번호"
-                    name="password"
+                    name="user_password"
                     rules={[
                     {
                         required: true,
@@ -52,7 +53,7 @@ const LoginForm = () => {
                 >
                     <Input.Password value={password} onChange={onChangePassword}/>
                 </Form.Item>
-            <Button type="primary" htmlType="submit" loading={false}>로그인</Button>
+            <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
             <Link href='/signup' legacyBehavior><a><Button>회원가입</Button></a></Link>
         </Form>
         </div>

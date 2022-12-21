@@ -1,6 +1,6 @@
 import { Form, Button, Input, Checkbox } from 'antd';
 import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signupAction } from '../reducers/user';
 
 
@@ -9,6 +9,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
+    const { isSigningUp } = useSelector(state=>state.user)
 
     const useInput = (initValue = null) => {
         const [value, setter] = useState(initValue);
@@ -57,7 +58,7 @@ const Signup = () => {
             <div>회원가입</div>
                 <Form.Item
                     label="아이디"
-                    name="id"
+                    name="signup_id"
                     rules={[
                     {
                         required: true,
@@ -69,7 +70,7 @@ const Signup = () => {
                 </Form.Item>
                 <Form.Item
                     label="닉네임"
-                    name="nickname"
+                    name="signup_nickname"
                     rules={[
                     {
                         required: true,
@@ -82,7 +83,7 @@ const Signup = () => {
 
                 <Form.Item
                     label="비밀번호"
-                    name="password"
+                    name="signup_password"
                     rules={[
                     {
                         required: true,
@@ -94,7 +95,7 @@ const Signup = () => {
                 </Form.Item>
                 <Form.Item
                     label="비밀번호 확인"
-                    name="password_check"
+                    name="signup_password_check"
                     dependencies={['password']}
                     rules={[
                     ({ getFieldValue }) => ({
@@ -111,7 +112,7 @@ const Signup = () => {
                     
                 </Form.Item>
                 <Form.Item
-                    name="term"
+                    name="signup_term"
                     valuePropName="checked"
                     rules={[
                         {
@@ -124,7 +125,7 @@ const Signup = () => {
                     
                 </Form.Item>
                 
-            <Button type="primary" htmlType="submit" style={{marginTop:'20px'}}>전송하기</Button>
+            <Button type="primary" htmlType="submit" loading={isSigningUp} style={{marginTop:'20px'}}>전송하기</Button>
         </Form>
     );
 };

@@ -8,7 +8,7 @@ import { loginAction, logoutAction } from '../reducers/user';
 const Home = () => {
     const dispatch = useDispatch();
 
-    const {user, isLoggedIn} = useSelector(state => state.user);
+    const {mine, isLoggedIn} = useSelector(state => state.user);
     const {mainPosts} = useSelector(state => state.post);
 
     useEffect(()=>{
@@ -17,11 +17,11 @@ const Home = () => {
 
     return (
         <div style={{paddingTop:'20px'}}>
-            {user? <div>로그인 했습니다.{user.nickname}</div> : <div>로그아웃 했습니다.</div>}
+            {mine? <div>로그인 했습니다.{mine.nickname}</div> : <div>로그아웃 했습니다.</div>}
             {isLoggedIn && <PostForm/>}
             {mainPosts.map((v,i)=>{
                 return(
-                    <PostCard key={v} post={v}/>  
+                    <PostCard key={i} post={v}/>  
                 )
             })}
         </div>
