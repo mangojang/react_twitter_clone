@@ -17,8 +17,10 @@ export const initialState = {
 };
 
 export const SIGN_UP ='SIGN_UP';
-export const LOG_IN ='LOG_IN';
+
 export const LOG_OUT ='LOG_OUT';
+
+export const LOG_IN_REQUEST ='LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS ='LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE ='LOG_IN_FAILURE';
 
@@ -30,21 +32,22 @@ export const signupAction = (data)=> {
 }
 
 export const loginAction = {
-    type: 'LOG_IN',
+    type: LOG_IN_REQUEST,
     // data: {
     //     nickname: 'mangojang'
     // },
 };
 
 export const logoutAction = {
-    type: 'LOG_OUT',
+    type: LOG_OUT,
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOG_IN:{
+        case LOG_IN_REQUEST:{
             return {
                 ...state,
+                isLoading: true,
                 // isLoggedIn: true,
                 // user: dummyUser,
             }
@@ -52,6 +55,7 @@ const reducer = (state = initialState, action) => {
         case LOG_IN_SUCCESS:{
             return {
                 ...state,
+                isLoading: false,
                 isLoggedIn: true,
                 user: dummyUser,
             }
@@ -59,6 +63,7 @@ const reducer = (state = initialState, action) => {
         case LOG_IN_FAILURE:{
             return {
                 ...state,
+                isLoading: false,
                 isLoggedIn: false,
                 user: null,
             }
