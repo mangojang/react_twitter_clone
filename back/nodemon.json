@@ -1,0 +1,7 @@
+{
+    "watch": [
+        "index.js"
+    ],
+    "exac": "node index.js",
+    "ext" : "js json"
+}
