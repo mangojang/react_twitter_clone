@@ -1,27 +1,46 @@
 export const initialState ={
     mainPosts: [{
+        id: 1,
         User: {
             id:1,
             nickname:'mangojang',
         },
         content:'얄리얄리얄라리얄라',
         img:'',
+        Comments:[],
         createdAt: new Date()
     }], //화면에 보일 포스트들
+
     imagePaths: [], // 미리보기 이미지 경로
     addPostErrorReason: false, // 포스트 업로드 실패 사유
     isAddingPost: false, //포스트 업로드 중
-    postAdded: false //포스트 추가하였나
+    postAdded: false, //포스트 추가하였나
+    addPostErrorReason:'',
+    isAddingComment: true, // 댓글 업로드 중
+    commentAdded: false, //댓글 추가하였나
+    addCommentErrorReason: '',
 }
 
 const dummyPost = {
+    id:2,
     User: {
         id:1,
         nickname:'mangojang',
     },
     content:'얄리얄리얄라리얄라',
     img:'',
-    createdAt: new Date()
+    Comments:[],
+    createdAt: new Date(),
+}
+
+const dummyComment = {
+    id:1,
+    User:{
+        id:1,
+        nickname:'장망고',
+    },
+    createdAt: new Date(),
+    content: "더미 댓글입니다."
 }
 
 const LOAD_MAIN_POSTS_REQUEST ='LOAD_MAIN_POSTS_REQUEST';
@@ -99,6 +118,36 @@ const reducer = (state=initialState,action) => {
                 isAddingPost:false,
                 postAdded:false,
                 addPostErrorReason: action.error,
+            }
+        }
+        case ADD_COMMENT_REQUEST:{
+            return {
+                ...state,
+                isAddingComment:true,
+                commentAdded:false,
+                addCommentErrorReason:'',
+                
+            }
+        }
+        case ADD_COMMENT_SUCCESS:{
+            const postIndex = state.mainPosts.findIndex(v=>v.id === action.data.postId);
+            const post = state.mainPosts[postIndex];
+            const Comments = [...post.Comments, dummyComment];
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = {...post, Comments};
+            return {
+                ...state,
+                isAddingComment:false,
+                commentAdded:true,
+                mainPosts,
+            }
+        }
+        case ADD_COMMENT_FAILURE:{
+            return {
+                ...state,
+                isAddingComment:false,
+                commentAdded:false,
+                addCommentErrorReason: action.error,
             }
         }
     

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Avatar, Form, Input, Button, List } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined } from '@ant-design/icons';
@@ -15,7 +15,12 @@ const postCard = ({post}) => {
     const [commentContent, setCommentContent] = useState('');
 
     const {mine}= useSelector(state=>state.user);
+    const {commentAdded, isAddingComment} = useSelector(state=>state.post);
     const dispatch = useDispatch();
+
+    useEffect(()=>{
+        setCommentContent('');
+    },[commentAdded===true])
 
     const onToggleComment = useCallback(()=>{
         setCommentFormOpend(prev => !prev);
@@ -24,12 +29,15 @@ const postCard = ({post}) => {
     const onSubmitComment = useCallback(()=>{
         if(!mine){
             return alert('로그인이 필요 합니다.')
-            
         }
+        console.log("post",post);
         return dispatch({
             type:ADD_COMMENT_REQUEST,
+            data:{
+                postId: post.id,
+            }
         })
-    },[mine]);
+    },[mine &&  mine.id]);
 
     const onChangeContent = useCallback((e)=>{
         setCommentContent(e.target.value);
@@ -57,7 +65,7 @@ const postCard = ({post}) => {
                 <>
                     <Form onFinish={onSubmitComment}>
                         <TextArea name="comment_content" placeholder="댓글을 입력해주세요" value={commentContent} onChange={onChangeContent} maxLength={140} style={{marginTop: '20px'}}/>
-                        <Button type='primary' htmlType='submit' loading={false} style={{marginTop: '10px'}}>전송</Button>
+                        <Button type='primary' htmlType='submit' loading={isAddingComment} style={{marginTop: '10px'}}>전송</Button>
                     </Form>
                     <List
                         header={`${post.Comments ? post.Comments.length : 0} 댓글`}
@@ -69,7 +77,7 @@ const postCard = ({post}) => {
                                     author={item.User.nickname}
                                     avatar={<Avatar>{item.User.nickname}</Avatar>}
                                     content={item.content}
-                                    datetime={item.createdAt}
+                                    //datetime={item.createdAt}
                                 />
                             </li>
                         )}
