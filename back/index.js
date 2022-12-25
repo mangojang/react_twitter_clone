@@ -8,10 +8,13 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require('dotenv');
+const passport = require('passport');
+const passportConfig = require('./passport');
 
 db.sequelize.sync();
 
 dotenv.config();
+passportConfig();
 
 app.use(morgan('dev'));
 app.use(express.json()); // json으로 넘어온 데이타 처리
@@ -27,6 +30,9 @@ app.use(expressSession({
         secure: false, // https 사용시 true
     }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);

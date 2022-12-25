@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const bcrypt= require('bcrypt');
+const passport = require('passport');
 
 router.get('/',(req, res)=>{
 
@@ -36,6 +37,25 @@ router.get('/:id',(req, res)=>{
 
 });
 router.post('/login',(req, res)=>{
+    passport.authenticate('local', (error, user, info)=>{
+        if(error){ // 서버 상의 에러
+            console.error(error);
+            return next(error);
+        }
+
+        if(info){ // 로직상의 에러
+            return res.status(401).send(info.reason);
+        }
+
+        return req.login(user, loginErr=>{
+            if(loginErr){
+                return next(loginErr);
+            }
+            const filteredUser = Object.assign({}, user);
+            delete filteredUser.password;
+            return res.json(user);
+        })
+    })
 
 });
 router.post('/logout',(req, res)=>{
