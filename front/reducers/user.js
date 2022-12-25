@@ -4,7 +4,7 @@ const dummyUser = {
     followings:[{name:'mango'}],
     followers:[],
     signupData: {
-        id: '',
+        userId: '',
         nickname: '',
         password: ''
     }

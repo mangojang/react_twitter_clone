@@ -14,7 +14,7 @@ const Signup = () => {
 
     useEffect(()=>{
         if(mine){
-            Router.push('/')
+            Router.push('/')    
         }
     },[mine && mine.id]);
 
@@ -26,25 +26,29 @@ const Signup = () => {
         return [value, handler]
     };
 
-    const [id, onChangeId] = useInput('');
+    const [userId, onChangeId] = useInput('');
     const [nickname, onChangeNickname] = useInput('');
 
     const dispatch = useDispatch();
    
-    const onSubmit = useCallback((e) => {
+    const onSubmit = useCallback((values) => {
         dispatch(signupAction({
-            id,
+            userId,
             nickname,
             password,
         }))
         console.log({
-            id,
+            userId,
             nickname,
             password,
             passwordCheck,
             term
         });
-    },[password, passwordCheck, term]);
+    },[ userId, nickname, password, passwordCheck, term]);
+
+    const onFinishFailed = (error) => {
+        console.log('Failed:', error);
+      };
 
     const onChangePassword = useCallback((e) => {
         setPassword(e.target.value);
@@ -61,7 +65,7 @@ const Signup = () => {
     
 
     return (
-        <Form onFinish={onSubmit}>
+        <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
             <div>회원가입</div>
                 <Form.Item
                     label="아이디"
@@ -73,7 +77,7 @@ const Signup = () => {
                     },
                     ]}
                 >
-                    <Input value={id} onChange={onChangeId}/>
+                    <Input value={userId} onChange={onChangeId}/>
                 </Form.Item>
                 <Form.Item
                     label="닉네임"
@@ -107,7 +111,7 @@ const Signup = () => {
                     rules={[
                     ({ getFieldValue }) => ({
                         validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
+                            if (!value || getFieldValue('signup_password') === value) {
                             return Promise.resolve();
                             }
                             return Promise.reject(new Error('비밀번호가 일치하지 않습니다.'));
