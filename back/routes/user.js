@@ -45,16 +45,37 @@ router.post('/login', (req, res, next)=>{
         }
 
         if(info){ // 로직상의 에러
-            return res.status(401).send(info.reason);
+            return res.status(401).send(info);
         }
 
-        return req.login(user, loginErr=>{
+        return req.login(user, async(loginErr)=>{
+            console.log ('유저:',user.id);
             if(loginErr){
                 return next(loginErr);
             }
-            const filteredUser = Object.assign({}, user);
-            delete filteredUser.password;
-            return res.json(user);
+            const fullUser = await db.User.findOne({
+                where : {id: user.id},
+                attributes: {
+                    exclude: ['password']
+                },
+                include: [{
+                    model: db.Post,
+                    as: 'Post',
+                    attributes: ['id'],
+                },{
+                    model: db.User,
+                    as:'Followings',
+                    attributes: ['id'],
+                },{
+                    model: db.User,
+                    as:'Followers',
+                    attributes: ['id'],
+                }],
+                
+            })
+            console.log(fullUser);
+            return res.status(200).json(fullUser);
+            
         })
     })(req, res, next)
 });
