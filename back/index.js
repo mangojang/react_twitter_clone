@@ -14,12 +14,15 @@ const passportConfig = require('./passport');
 db.sequelize.sync();
 
 dotenv.config();
-passportConfig();
+
 
 app.use(morgan('dev'));
 app.use(express.json()); // json으로 넘어온 데이타 처리
 app.use(express.urlencoded({extended:true})); //form으로 넘어온 데이타 처리
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(expressSession({
     resave: false,
@@ -28,10 +31,12 @@ app.use(expressSession({
     cookie:{
         httpOnly: true,
         secure: false, // https 사용시 true
-    }
+    },
+    name: 'mgck'
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+passportConfig(passport);
 
 
 app.use('/api/user', userAPIRouter);

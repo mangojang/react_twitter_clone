@@ -3,21 +3,26 @@ import { LOG_IN_REQUEST, LOG_IN_FAILURE, LOG_IN_SUCCESS, LOG_OUT_REQUEST, LOG_OU
 
 const axios = require('axios')
 
-function* loginAPI(){
+axios.defaults.baseURL = `http://localhost:8000/api`;
 
+function loginAPI(data){
+    return axios.post(`/user/login`, data, {
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
 }
-function* login(){
-    try {
-        //yield call(loginAPI)
-        yield delay(2000)
+function* login(action){
+    const { response, error } = yield call(loginAPI, action.data)
+    if (response){
         yield put({
-            type: LOG_IN_SUCCESS
+            type: LOG_IN_SUCCESS,
+            data: response.data
         })
-    } catch (error) {
-        console.log(error)
+    }else{
         yield put({
             type: LOG_IN_FAILURE,
-            error: e
+            error: error
         })
     }
 }
@@ -25,21 +30,22 @@ function* watchLogin(){
     yield takeLatest(LOG_IN_REQUEST, login)
 }
 
-function* logoutAPI(){
-
+function logoutAPI(){
+    return axios.post(`/user/logout`)
+    .then(response=>({response}))
+    .catch(error=>({error}))
+    
 }
 function* logout(){
-    try {
-        //yield call(logoutAPI)
-        yield delay(2000)
+    const { response, error } = yield call(logoutAPI)
+    if (response){
         yield put({
-            type: LOG_OUT_SUCCESS
+            type: LOG_OUT_SUCCESS,
         })
-    } catch (error) {
-        console.log(error)
+    }else{
         yield put({
             type: LOG_OUT_FAILURE,
-            error: e
+            error: error
         })
     }
 }
@@ -47,17 +53,19 @@ function* watchLogout(){
     yield takeLatest(LOG_OUT_REQUEST, logout)
 }
 
-function* signUpAPI(data){
-    return axios.post(`http://localhost:8000/api/user/`, data);
+function signUpAPI(data){
+    return axios.post(`/user/`, data)
+    .then(response=>({response}))
+    .catch(error=>({error}))
+    
 }
 function* signUp(action){
-    try {
-        yield call(signUpAPI, action.data)
+    const { response, error } = yield call(signUpAPI, action.data)
+    if (response){
         yield put({
             type: SIGN_UP_SUCCESS,
         })
-    } catch (error) {
-        console.log(error)
+    }else{
         yield put({
             type: SIGN_UP_FAILURE,
             error: error

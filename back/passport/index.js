@@ -1,8 +1,7 @@
-const passport = require('passport');
 const db = require('../models');
 const local = require('./local');
 
-module.exports = () => {
+module.exports = (passport) => {
     passport.serializeUser((user,done)=>{
         return done(null, user.id);
     });
@@ -19,5 +18,6 @@ module.exports = () => {
         }
     });
 
-    local();
+    passport.use('local-login', local);
+
 };

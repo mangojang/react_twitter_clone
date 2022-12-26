@@ -15,8 +15,13 @@ const LoginForm = () => {
             id,
             password,
         });
-        dispatch(loginAction({id,password}));
+        dispatch(loginAction({userId: id, password: password}));
     },[id, password]);
+
+    const onFinishFailed = (error) => {
+        console.log('Failed:', error);
+    };
+
 
     const onChangeId = useCallback((e)=>{
         setId(e.target.value);
@@ -28,7 +33,7 @@ const LoginForm = () => {
 
     return (
         <div style={{paddingTop:'20px'}}>
-        <Form onFinish={onSubmit}>
+        <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
                 <Form.Item
                     label="아이디"
                     name="user_id"

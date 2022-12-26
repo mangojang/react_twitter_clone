@@ -36,8 +36,9 @@ router.post('/',async(req, res, next)=>{
 router.get('/:id',(req, res)=>{
 
 });
-router.post('/login',(req, res)=>{
-    passport.authenticate('local', (error, user, info)=>{
+
+router.post('/login', (req, res, next)=>{
+     passport.authenticate('local-login', (error, user, info)=>{
         if(error){ // 서버 상의 에러
             console.error(error);
             return next(error);
@@ -55,11 +56,14 @@ router.post('/login',(req, res)=>{
             delete filteredUser.password;
             return res.json(user);
         })
-    })
-
+    })(req, res, next)
 });
-router.post('/logout',(req, res)=>{
-
+router.post('/logout',(req, res, next)=>{
+    req.logout((error) =>{
+        if (error) { return next(error); }
+        req.session.destroy();
+        return res.send('logout 성공');
+    });
 });
 router.get('/:id/follow',(req, res)=>{
 
