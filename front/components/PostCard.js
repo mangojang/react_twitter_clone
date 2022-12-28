@@ -5,6 +5,7 @@ import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined } fro
 import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST } from '../reducers/post';
+import Link from 'next/link';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -58,7 +59,20 @@ const postCard = ({post}) => {
                 <Meta
                 avatar={<Avatar>{post.User.nickname}</Avatar>}
                 title={post.User.nickname}
-                description={post.content}
+                description={
+                <div>
+                    {
+                        post.content.split(/(#[^\s]+)/g).map((v)=>{
+                            if(v.match(/#[^\s]+/)){
+                                console.log(v);
+                                return <Link href="/hashtag" legacyBehavior><a>{v}</a></Link>
+                            }else{
+                                return v;
+                            }
+                        })
+                    }
+                </div>
+                }
                 />
             </Card>
             {commentFormOpend && (
