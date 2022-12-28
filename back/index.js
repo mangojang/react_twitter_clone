@@ -2,7 +2,6 @@ const express = require('express');
 const db = require('./models');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
-const app = express();
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -10,6 +9,8 @@ const expressSession = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const passportConfig = require('./passport');
+
+const app = express();
 
 db.sequelize.sync();
 
