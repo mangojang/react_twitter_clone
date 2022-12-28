@@ -86,13 +86,6 @@ router.post('/login', (req, res, next)=>{
     })(req, res, next)
 });
 router.post("/logout", (req, res, next) => {
-    // req.logout();
-    // req.session.destroy(()=>{
-    //     //클라이언트 측 세션 암호화 쿠키 삭제
-    //     res.cookie('mgck','',{maxAge:0});
-    //     return res.status(200).send("로그아웃 성공");
-    // });
-    
 	req.logout((error) => {
         if (error) { return next(error); }
         req.session.destroy((error)=>{
