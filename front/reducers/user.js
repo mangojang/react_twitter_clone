@@ -142,6 +142,22 @@ const reducer = (state = initialState, action) => {
                 signUpErrorReason: action.error,
             }
         }
+        case LOAD_USER_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case LOAD_USER_SUCCESS:{
+            return {
+                ...state,
+                mine: action.data,
+            }
+        }
+        case LOAD_USER_FAILURE:{
+            return {
+                ...state,
+            }
+        }
             
         default: {
             return {

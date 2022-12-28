@@ -1,9 +1,10 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Input, Col, Row} from 'antd';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 
 
@@ -33,14 +34,23 @@ const items =[
 
 const AppLayout = ({children}) => {
 
-    const {isLoggedIn} = useSelector(state => state.user);
+    const {isLoggedIn, mine} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if(!mine){
+            dispatch({
+                type: LOAD_USER_REQUEST
+            })
+        }
+    },[]);
 
     return (
         <div>
             <Menu mode="horizontal" items={items}/>
             <Row gutter={10}>
                 <Col xs={24} md={6}>
-                    {isLoggedIn?
+                    {mine?
                     <UserProfile/>
                     :
                     <LoginForm/>

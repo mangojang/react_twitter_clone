@@ -5,7 +5,13 @@ const bcrypt= require('bcrypt');
 const passport = require('passport');
 
 router.get('/',(req, res)=>{
-
+    console.log("실행",req.user);
+    if(!req.user){
+        return res.status(401).send('로그인이 필요 합니다');
+    }
+    const user = Object.assign({},req.user.dataValues);
+    delete user.password
+    return res.json(user);
 });
 router.post('/',async(req, res, next)=>{
     try {
@@ -49,7 +55,7 @@ router.post('/login', (req, res, next)=>{
         }
 
         return req.login(user, async(loginErr)=>{
-            console.log ('유저:',user.id);
+            
             if(loginErr){
                 return next(loginErr);
             }
@@ -79,13 +85,24 @@ router.post('/login', (req, res, next)=>{
         })
     })(req, res, next)
 });
-router.post('/logout',(req, res, next)=>{
-    req.logout((error) =>{
+router.post("/logout", (req, res, next) => {
+    // req.logout();
+    // req.session.destroy(()=>{
+    //     //클라이언트 측 세션 암호화 쿠키 삭제
+    //     res.cookie('mgck','',{maxAge:0});
+    //     return res.status(200).send("로그아웃 성공");
+    // });
+    
+	req.logout((error) => {
         if (error) { return next(error); }
-        req.session.destroy();
-        return res.send('logout 성공');
-    });
-});
+        req.session.destroy((error)=>{
+            if(error){return next(error)}
+            //클라이언트 측 세션 암호화 쿠키 삭제
+            res.cookie('mgck','',{maxAge:0});
+            return res.status(200).send("로그아웃 성공");
+        });
+	});
+})
 router.get('/:id/follow',(req, res)=>{
 
 });
