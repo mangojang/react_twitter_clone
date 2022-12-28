@@ -43,9 +43,9 @@ const dummyComment = {
     content: "더미 댓글입니다."
 }
 
-const LOAD_MAIN_POSTS_REQUEST ='LOAD_MAIN_POSTS_REQUEST';
-const LOAD_MAIN_POSTS_SUCCESS ='LOAD_MAIN_POSTS_SUCCESS';
-const LOAD_MAIN_POSTS_FAILURE ='LOAD_MAIN_POSTS_FAILURE';
+export const LOAD_MAIN_POSTS_REQUEST ='LOAD_MAIN_POSTS_REQUEST';
+export const LOAD_MAIN_POSTS_SUCCESS ='LOAD_MAIN_POSTS_SUCCESS';
+export const LOAD_MAIN_POSTS_FAILURE ='LOAD_MAIN_POSTS_FAILURE';
 
 const LOAD_HASHTAG_POSTS_REQUEST ='LOAD_HASHTAG_POSTS_REQUEST';
 const LOAD_HASHTAG_POSTS_SUCCESS ='LOAD_HASHTAG_POSTS_SUCCESS';
@@ -120,13 +120,30 @@ const reducer = (state=initialState,action) => {
                 addPostErrorReason: action.error,
             }
         }
+        case LOAD_MAIN_POSTS_REQUEST:{
+            return {
+                ...state,
+                mainPosts: [],
+                
+            }
+        }
+        case LOAD_MAIN_POSTS_SUCCESS:{
+            return {
+                ...state,
+                mainPosts: action.data
+            }
+        }
+        case LOAD_MAIN_POSTS_FAILURE:{
+            return {
+                ...state,
+                isAddingPost:false,
+                postAdded:false,
+                addPostErrorReason: action.error,
+            }
+        }
         case ADD_COMMENT_REQUEST:{
             return {
                 ...state,
-                isAddingComment:true,
-                commentAdded:false,
-                addCommentErrorReason:'',
-                
             }
         }
         case ADD_COMMENT_SUCCESS:{

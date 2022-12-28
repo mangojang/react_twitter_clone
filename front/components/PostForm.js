@@ -15,13 +15,14 @@ const PostForm = () => {
     },[postAdded==true]);
 
     const onSubmit = useCallback((e) => {
-        console.log({
-            content
-        });
+        if(!content || !content.trim()){
+            return alert("게시글을 작성해주세요.")
+        }
+        console.log(content);
         dispatch({
             type: ADD_POST_REQUEST,
             data: {
-                content: content
+                content: content.trim()
             },
         });
     },[content]);
