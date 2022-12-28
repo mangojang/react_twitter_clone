@@ -75,7 +75,9 @@ function signUpAPI(data){
     
 }
 function* signUp(action){
-    const { response, error } = yield call(signUpAPI, action.data)
+    const { response, error } = yield call(signUpAPI, action.data,{
+        withCredentials: true
+    })
     if (response){
         yield put({
             type: SIGN_UP_SUCCESS,

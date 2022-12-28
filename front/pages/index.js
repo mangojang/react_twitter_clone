@@ -18,7 +18,7 @@ const Home = () => {
     return (
         <div style={{paddingTop:'20px'}}>
             {mine? <div>로그인 했습니다.{mine.nickname}</div> : <div>로그아웃 했습니다.</div>}
-            {isLoggedIn && <PostForm/>}
+            {mine && <PostForm/>}
             {mainPosts.map((v,i)=>{
                 return(
                     <PostCard key={i} post={v}/>  

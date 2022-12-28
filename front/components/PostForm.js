@@ -20,7 +20,9 @@ const PostForm = () => {
         });
         dispatch({
             type: ADD_POST_REQUEST,
-            // data: {content},
+            data: {
+                content: content
+            },
         });
     },[content]);
 
