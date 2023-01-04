@@ -47,7 +47,7 @@ const postCard = ({post}) => {
     return (
         <div style={{marginBottom: '10px'}}> 
             <Card 
-                key={+post.createdAt}
+                key={post.createdAt}
                 cover={post.img && <img alt='example' src={post.img}/>}
                 actions={[
                     <RetweetOutlined key="retweet" />,
@@ -64,7 +64,6 @@ const postCard = ({post}) => {
                     {
                         post.content.split(/(#[^\s]+)/g).map((v)=>{
                             if(v.match(/#[^\s]+/)){
-                                console.log(v);
                                 return <Link href="/hashtag" legacyBehavior><a>{v}</a></Link>
                             }else{
                                 return v;
