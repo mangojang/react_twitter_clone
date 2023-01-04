@@ -1,7 +1,5 @@
 const express = require('express');
 const db = require('./models');
-const userAPIRouter = require('./routes/user');
-const postAPIRouter = require('./routes/post');
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -9,6 +7,9 @@ const expressSession = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const passportConfig = require('./passport');
+const userAPIRouter = require('./routes/user');
+const postAPIRouter = require('./routes/post');
+const hashtagAPIRouter = require('./routes/hashtag');
 
 const app = express();
 
@@ -42,6 +43,7 @@ passportConfig(passport);
 
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
+app.use('/api/hashtag', hashtagAPIRouter);
 
 app.get('/',(req, res)=>{
     res.send("Hello, server!")

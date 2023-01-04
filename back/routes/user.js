@@ -39,8 +39,38 @@ router.post('/',async(req, res, next)=>{
         return next(error);
     }
 });
-router.get('/:id',(req, res)=>{
+router.get('/:id', async(req, res)=>{
+    try {
+        const user = await db.User.findAll({
+            where:{ id: parseInt(req.params.id, 10)},
+            include:[{
+                model: db.Post,
+                as: 'Posts',
+                attributes: ['id'],
+            },{
+                model: db.User,
+                as: 'Followings',
+                attributes: ['id'],
+            },{
+                model: db.User,
+                as: 'Followers',
+                attributes: ['id'],
+            },],
+            attributes: {
+                exclude: ['password']
+            },
+        });
 
+        const jsonUser = user.toJson();
+        jsonUser.Posts = jsonUser.Posts? jsonUser.Posts.length : 0;
+        jsonUser.Followings = jsonUser.Followings? jsonUser.Followings.length : 0;
+        jsonUser.Followers = jsonUser.Followers? jsonUser.Followers.length : 0;
+
+        return res.json(user);
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
 });
 
 router.post('/login', (req, res, next)=>{
@@ -108,8 +138,25 @@ router.delete('/:id/follow',(req, res)=>{
 router.delete('/:id/follower',(req, res)=>{
 
 });
-router.get('/:id/posts',(req, res)=>{
-
+router.get('/:id/posts', async(req, res)=>{
+    try {
+        const posts = await db.Post.findAll({
+            where:{
+                UserId: parseInt(req.params.id, 10),
+                RetweetId: null,
+            },
+            include:[{
+                model: db.User,
+                attributes: {
+                    exclude: ['password']
+                },
+            }],
+        });
+        return res.json(posts);
+    } catch (error) {
+        console.log(error);
+        return next(error);
+    }
 });
 
 module.exports=router;

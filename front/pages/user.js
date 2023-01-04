@@ -29,7 +29,7 @@ const User = ({id}) => {
             {userInfo?
             <Card
                 actions={[
-                <div key="twit">짹짹<br/>{ userInfo.Post? userInfo.Post.length : 0 }</div>,
+                <div key="twit">짹짹<br/>{ userInfo.Posts? userInfo.Posts.length : 0 }</div>,
                 <div key="following">팔로잉<br/>{userInfo.Followings? userInfo.Followings.length : 0 }</div>,
                 <div key="follower">팔로워<br/>{userInfo.Followers? userInfo.Followers.length : 0}</div>,
                 ]}

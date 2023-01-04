@@ -6,14 +6,14 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from '../reducers/post';
 
 const Hashtag = ({tag}) => {
     const dispatch = useDispatch();
-    const { mainPosts } = useSelector(state=>state.user);
+    const { mainPosts } = useSelector(state=>state.post);
     
     useEffect(()=>{
         dispatch({
             type: LOAD_HASHTAG_POSTS_REQUEST,
             data: tag
         })
-    });
+    },[tag]);
 
     return (
         <div>

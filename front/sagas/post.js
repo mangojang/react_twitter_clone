@@ -8,7 +8,13 @@ import {
     LOAD_MAIN_POSTS_FAILURE, 
     ADD_COMMENT_SUCCESS, 
     ADD_COMMENT_FAILURE, 
-    ADD_COMMENT_REQUEST,  
+    ADD_COMMENT_REQUEST,
+    LOAD_USER_POSTS_REQUEST,
+    LOAD_USER_POSTS_SUCCESS,
+    LOAD_USER_POSTS_FAILURE,
+    LOAD_HASHTAG_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_FAILURE,
+    LOAD_HASHTAG_POSTS_REQUEST,  
 } from '../reducers/post';
 
 const axios = require('axios')
@@ -63,12 +69,16 @@ function* watchLoadPost(){
     yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadPost);
 }
 
-function* addCommentAPI(){
-
+function addCommentAPI(data){
+    return axios.post(`/comment/`, data, {
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
 }
 function* addComment(action){
     try {
-        //yield call(addCommentAPI)
+        //yield call(addCommentAPI, action.data)
         yield delay(2000)
         yield put({
             type: ADD_COMMENT_SUCCESS,
@@ -89,10 +99,59 @@ function* watchAddComment(){
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function loadUserPostsAPI(data){
+    return axios.get(`/user/${data.id}`)
+    .then(response=>({response}))
+    .catch(error=>({error}))
+}
+function* loadUserPosts(action){
+    const { response, error } = yield call(loadUserPostsAPI, action.data)
+    if (response){
+        yield put({
+            type: LOAD_USER_POSTS_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: LOAD_USER_POSTS_FAILURE,
+            error: error
+        })
+    }
+}
+
+function* watchLoadUserPosts(){
+    yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+
+function loadHashtagPostsAPI(data){
+    return axios.get(`/hashtag/${data}`)
+    .then(response=>({response}))
+    .catch(error=>({error}))
+}
+function* loadHashtagPosts(action){
+    const { response, error } = yield call(loadHashtagPostsAPI, action.data)
+    if (response){
+        yield put({
+            type: LOAD_HASHTAG_POSTS_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: LOAD_HASHTAG_POSTS_FAILURE,
+            error: error
+        })
+    }
+}
+function* watchLoadHashtagPosts(){
+    yield takeLatest(LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+}
+
 export default function* postSaga(){
     yield all([
         fork(watchAddPost),
         fork(watchLoadPost),
         fork(watchAddComment),
+        fork(watchLoadUserPosts),
+        fork(watchLoadHashtagPosts)
     ]);
 }

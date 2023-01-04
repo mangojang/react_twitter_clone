@@ -92,20 +92,21 @@ function* watchSignUp(){
 }
 
 
-function LoadUserAPI(){
-    return axios.get(`/user`, {
+function loadUserAPI(data){
+    return axios.get(data? `/user/${data}`:`/user/`, {
         withCredentials: true
     })
     .then(response=>({response}))
     .catch(error=>({error}))
     
 }
-function* LoadUser(){
-    const { response, error } = yield call(LoadUserAPI)
+function* loadUser(action){
+    const { response, error } = yield call(loadUserAPI,action.data)
     if (response){
         yield put({
             type: LOAD_USER_SUCCESS,
             data: response.data,
+            mine: action.data,
         })
     }else{
         yield put({
@@ -115,7 +116,7 @@ function* LoadUser(){
     }
 }
 function* watchLoadUser(){
-    yield takeLatest(LOAD_USER_REQUEST, LoadUser)
+    yield takeLatest(LOAD_USER_REQUEST, loadUser)
 }
 
 export default function* userSaga(){

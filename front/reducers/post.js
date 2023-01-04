@@ -120,20 +120,26 @@ const reducer = (state=initialState,action) => {
                 addPostErrorReason: action.error,
             }
         }
-        case LOAD_MAIN_POSTS_REQUEST:{
+        case LOAD_MAIN_POSTS_REQUEST:
+        case LOAD_HASHTAG_POSTS_REQUEST:
+        case LOAD_USER_POSTS_REQUEST:{
             return {
                 ...state,
                 mainPosts: [],
                 
             }
         }
-        case LOAD_MAIN_POSTS_SUCCESS:{
+        case LOAD_MAIN_POSTS_SUCCESS:
+        case LOAD_HASHTAG_POSTS_SUCCESS:
+        case LOAD_USER_POSTS_SUCCESS:{
             return {
                 ...state,
                 mainPosts: action.data
             }
         }
-        case LOAD_MAIN_POSTS_FAILURE:{
+        case LOAD_MAIN_POSTS_FAILURE:
+        case LOAD_HASHTAG_POSTS_FAILURE:
+        case LOAD_USER_POSTS_FAILURE:{
             return {
                 ...state,
                 isAddingPost:false,

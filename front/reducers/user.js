@@ -148,9 +148,15 @@ const reducer = (state = initialState, action) => {
             }
         }
         case LOAD_USER_SUCCESS:{
+            if(action.mine){
+                return {
+                    ...state,
+                    mine: action.data,
+                }    
+            }
             return {
                 ...state,
-                mine: action.data,
+                userInfo: action.data,
             }
         }
         case LOAD_USER_FAILURE:{
