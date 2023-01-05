@@ -14,7 +14,10 @@ import {
     LOAD_USER_POSTS_FAILURE,
     LOAD_HASHTAG_POSTS_SUCCESS,
     LOAD_HASHTAG_POSTS_FAILURE,
-    LOAD_HASHTAG_POSTS_REQUEST,  
+    LOAD_HASHTAG_POSTS_REQUEST,
+    LOAD_COMMENT_REQUEST,
+    LOAD_COMMENT_SUCCESS,
+    LOAD_COMMENT_FAILURE,  
 } from '../reducers/post';
 
 const axios = require('axios')
@@ -70,24 +73,20 @@ function* watchLoadPost(){
 }
 
 function addCommentAPI(data){
-    return axios.post(`/comment/`, data, {
+    return axios.post(`/post/${data.postId}/comment/`, data, {
         withCredentials: true
     })
     .then(response=>({response}))
     .catch(error=>({error}))
 }
 function* addComment(action){
-    try {
-        //yield call(addCommentAPI, action.data)
-        yield delay(2000)
+    const { response, error } = yield call(addCommentAPI, action.data)
+    if (response){
         yield put({
             type: ADD_COMMENT_SUCCESS,
-            data:{
-                postId: action.data.postId
-            }
+            data: response.data,
         })
-    } catch (error) {
-        console.log(error)
+    }else{
         yield put({
             type: ADD_COMMENT_FAILURE,
             error: error
@@ -97,6 +96,32 @@ function* addComment(action){
 
 function* watchAddComment(){
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+}
+
+function loadCommentsAPI(data){
+    return axios.get(`/post/${data}/comments`,{
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
+}
+function* loadComments(action){
+    const { response, error } = yield call(loadCommentsAPI, action.data)
+    if (response){
+        yield put({
+            type: LOAD_COMMENT_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: LOAD_COMMENT_FAILURE,
+            error: error
+        })
+    }
+}
+
+function* watchLoadComments(){
+    yield takeLatest(LOAD_COMMENT_REQUEST, loadComments);
 }
 
 function loadUserPostsAPI(data){
@@ -124,7 +149,6 @@ function* watchLoadUserPosts(){
 }
 
 function loadHashtagPostsAPI(data){
-    console.log('해시태그',data);
     return axios.get(`/hashtag/${data}`)
     .then(response=>({response}))
     .catch(error=>({error}))
@@ -153,6 +177,7 @@ export default function* postSaga(){
         fork(watchLoadPost),
         fork(watchAddComment),
         fork(watchLoadUserPosts),
-        fork(watchLoadHashtagPosts)
+        fork(watchLoadHashtagPosts),
+        fork(watchLoadComments),
     ]);
 }

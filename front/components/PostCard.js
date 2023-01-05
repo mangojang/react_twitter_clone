@@ -4,7 +4,7 @@ import { Comment } from '@ant-design/compatible';
 import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined } from '@ant-design/icons';
 import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_COMMENT_REQUEST } from '../reducers/post';
+import { ADD_COMMENT_REQUEST, LOAD_COMMENT_REQUEST } from '../reducers/post';
 import Link from 'next/link';
 import user from '../../back/models/user';
 
@@ -26,6 +26,13 @@ const postCard = ({post}) => {
 
     const onToggleComment = useCallback(()=>{
         setCommentFormOpend(prev => !prev);
+        console.log("post",post);
+        if(!commentFormOpend){
+            dispatch({
+                type: LOAD_COMMENT_REQUEST,
+                data: post.id,
+            },[]);
+        }
     },[]); 
 
     const onSubmitComment = useCallback(()=>{
@@ -37,9 +44,10 @@ const postCard = ({post}) => {
             type:ADD_COMMENT_REQUEST,
             data:{
                 postId: post.id,
+                content: commentContent
             }
         })
-    },[mine &&  mine.id]);
+    },[mine && mine.id, commentContent]);
 
     const onChangeContent = useCallback((e)=>{
         setCommentContent(e.target.value);

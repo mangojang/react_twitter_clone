@@ -55,4 +55,72 @@ router.post('/images',(req, res)=>{
 
 });
 
+router.get('/:id/comments', async (req, res, next)=>{
+    try {
+        const post = await db.Post.findOne({where: {id: req.params.id}});
+        if(!post){
+            return res.status(404).send('포스트가 존재하지 않습니다.')
+        }
+        const comments = await db.Comment.findAll({
+            where: {
+                PostId: req.params.id,
+            },
+            order:[['createdAt','ASC']],
+            include:[{
+                model: db.User,
+                attributes: {
+                    exclude: ['password']
+                },
+            }]
+        });
+        console.log('@@',comments);
+        let sendData = {
+            postId: req.params.id,
+            comments: comments
+        }
+
+        return res.json(sendData);
+
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
+})
+router.post('/:id/comment', async (req, res, next)=>{
+    try {
+        if(!req.user){
+            return res.status(401).send('로그인이 필요합니다.')
+        }
+        console.log('@@reqparams',req.params.id);
+        const post = await db.Post.findOne({where: {id: req.params.id}});
+        if(!post){
+            return res.status(404).send('포스트가 존재하지 않습니다.')
+        }
+        const newComment = await db.Comment.create({
+            PostId: post.id,
+            UserId: req.user.id,
+            content: req.body.content,
+        });
+
+        await post.addComment(newComment.id);
+        const comment = await db.Comment.findOne({
+            where: {
+                id: newComment.id,
+            },
+            include:[{
+                model: db.User,
+                attributes: {
+                    exclude: ['password']
+                },
+            }]
+        });
+
+        return res.json(comment);
+
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
+})
+
 module.exports=router;

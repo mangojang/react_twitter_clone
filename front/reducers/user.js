@@ -74,7 +74,6 @@ export const logoutAction ={
 
 
 const reducer = (state = initialState, action) => {
-    console.log('mine유무',action);
     switch (action.type) {
         case LOG_IN_REQUEST:{
             return {

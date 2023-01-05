@@ -16,7 +16,7 @@ export const initialState ={
     isAddingPost: false, //포스트 업로드 중
     postAdded: false, //포스트 추가하였나
     addPostErrorReason:'',
-    isAddingComment: true, // 댓글 업로드 중
+    isAddingComment: false, // 댓글 업로드 중
     commentAdded: false, //댓글 추가하였나
     addCommentErrorReason: '',
 }
@@ -77,9 +77,9 @@ export const ADD_COMMENT_REQUEST ='ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS ='ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE ='ADD_COMMENT_FAILURE';
 
-const LOAD_COMMENT_REQUEST ='LOAD_COMMENT_REQUEST';
-const LOAD_COMMENT_SUCCESS ='LOAD_COMMENT_SUCCESS';
-const LOAD_COMMENT_FAILURE ='LOAD_COMMENT_FAILURE';
+export const LOAD_COMMENT_REQUEST ='LOAD_COMMENT_REQUEST';
+export const LOAD_COMMENT_SUCCESS ='LOAD_COMMENT_SUCCESS';
+export const LOAD_COMMENT_FAILURE ='LOAD_COMMENT_FAILURE';
 
 const RETWEET_REQUEST ='RETWEET_REQUEST';
 const RETWEET_SUCCESS ='RETWEET_SUCCESS';
@@ -94,6 +94,7 @@ const addPost= {
 }
 
 const reducer = (state=initialState,action) => {
+    console.log('postaction', action.data)
     switch (action.type) {
         case ADD_POST_REQUEST:{
             return {
@@ -147,15 +148,31 @@ const reducer = (state=initialState,action) => {
                 addPostErrorReason: action.error,
             }
         }
+        case LOAD_COMMENT_SUCCESS:{
+            const postIndex = state.mainPosts.findIndex(v=>v.id === parseInt(action.data.postId, 10));
+            const post = state.mainPosts[postIndex];
+            const Comments = action.data.comments;
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = {...post, Comments};
+            return {
+                ...state,
+                mainPosts,
+            }
+        }
+        case LOAD_COMMENT_FAILURE:{
+            return {
+                ...state,
+            }
+        }
         case ADD_COMMENT_REQUEST:{
             return {
                 ...state,
             }
         }
         case ADD_COMMENT_SUCCESS:{
-            const postIndex = state.mainPosts.findIndex(v=>v.id === action.data.postId);
+            const postIndex = state.mainPosts.findIndex(v=>v.id === parseInt(action.data.PostId,10));
             const post = state.mainPosts[postIndex];
-            const Comments = [...post.Comments, dummyComment];
+            const Comments = [...post.Comments, action.data];
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = {...post, Comments};
             return {
