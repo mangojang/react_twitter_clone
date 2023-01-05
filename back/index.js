@@ -16,7 +16,7 @@ const app = express();
 db.sequelize.sync();
 
 dotenv.config();
-
+app.use('/', express.static('uploads'));
 
 app.use(morgan('dev'));
 app.use(express.json()); // json으로 넘어온 데이타 처리
@@ -44,6 +44,7 @@ passportConfig(passport);
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
 app.use('/api/hashtag', hashtagAPIRouter);
+
 
 app.get('/',(req, res)=>{
     res.send("Hello, server!")
