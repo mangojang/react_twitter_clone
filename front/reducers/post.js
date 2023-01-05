@@ -59,7 +59,7 @@ export const UPLOAD_IMAGE_REQUEST ='UPLOAD_IMAGE_REQUEST';
 export const UPLOAD_IMAGE_SUCCESS ='UPLOAD_IMAGE_SUCCESS';
 export const UPLOAD_IMAGE_FAILURE ='UPLOAD_IMAGE_FAILURE';
 
-const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 
 export const ADD_POST_REQUEST ='ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS ='ADD_POST_SUCCESS';
@@ -199,6 +199,12 @@ const reducer = (state=initialState,action) => {
         case UPLOAD_IMAGE_FAILURE:{
             return {
                 ...state,
+            }
+        }
+        case REMOVE_IMAGE:{
+            return{
+                ...state,
+                imagePaths: state.imagePaths.filter((v,i)=> i !== action.data)
             }
         }
     
