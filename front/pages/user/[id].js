@@ -1,18 +1,24 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Proptypes from 'prop-types';
-import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
+import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { LOAD_USER_REQUEST } from '../reducers/user';
+import PostCard from '../../components/PostCard';
+import { LOAD_USER_REQUEST } from '../../reducers/user';
 
 const { Meta } = Card;
 
-const User = ({id}) => {
+const User = () => {
+    const router = useRouter()
+    const { id } = router.query
+
     const dispatch = useDispatch();
     const { mainPosts } = useSelector(state=>state.post);
-    const { userInfo } = useSelector(state=>state.user);
-
+    let { userInfo } = useSelector(state=>state.user);
+    userInfo = userInfo[0];
+  
     useEffect(()=>{
         dispatch({
             type: LOAD_USER_REQUEST,
@@ -22,17 +28,18 @@ const User = ({id}) => {
             type: LOAD_USER_POSTS_REQUEST,
             data: id
         })
-    });
+    },[]);
     
     return (
         <div>
             {userInfo?
             <Card
                 actions={[
-                <div key="twit">짹짹<br/>{ userInfo.Posts? userInfo.Posts.length : 0 }</div>,
+                <div key="twit">짹짹<br/>{ userInfo.Post? userInfo.Post.length : 0 }</div>,
                 <div key="following">팔로잉<br/>{userInfo.Followings? userInfo.Followings.length : 0 }</div>,
                 <div key="follower">팔로워<br/>{userInfo.Followers? userInfo.Followers.length : 0}</div>,
                 ]}
+                style={{marginBottom: '20px'}}
             >
                 <Meta
                 avatar={<Avatar size="large" icon={<UserOutlined />} />}
@@ -52,13 +59,5 @@ const User = ({id}) => {
 User.Proptypes ={
     id: Proptypes.string.isRequired
 }
-
-export async function getServerSideProps(context) {
-    console.log('ctx',context.req.params.id);
-    return {
-      props: {id: parseInt(context.req.params.id)},
-    }
-}
-
 
 export default User;

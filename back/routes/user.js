@@ -39,13 +39,13 @@ router.post('/',async(req, res, next)=>{
         return next(error);
     }
 });
-router.get('/:id', async(req, res)=>{
+router.get('/:id', async(req, res, next)=>{
     try {
         const user = await db.User.findAll({
-            where:{ id: parseInt(req.params.id, 10)},
+            where:{ id: req.params.id},
             include:[{
                 model: db.Post,
-                as: 'Posts',
+                as: 'Post',
                 attributes: ['id'],
             },{
                 model: db.User,
@@ -61,7 +61,7 @@ router.get('/:id', async(req, res)=>{
             },
         });
 
-        const jsonUser = user.toJson();
+        const jsonUser = user[0].toJSON();
         jsonUser.Posts = jsonUser.Posts? jsonUser.Posts.length : 0;
         jsonUser.Followings = jsonUser.Followings? jsonUser.Followings.length : 0;
         jsonUser.Followers = jsonUser.Followers? jsonUser.Followers.length : 0;
@@ -138,7 +138,7 @@ router.delete('/:id/follow',(req, res)=>{
 router.delete('/:id/follower',(req, res)=>{
 
 });
-router.get('/:id/posts', async(req, res)=>{
+router.get('/:id/posts', async(req, res, next)=>{
     try {
         const posts = await db.Post.findAll({
             where:{

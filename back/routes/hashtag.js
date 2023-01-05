@@ -7,7 +7,7 @@ router.get('/:tag', async(req, res, next)=>{
         const posts = await db.Post.findAll({
             include:[{
                 model: db.Hashtag,
-                where: { name: decodeURIComponent(req.params.tag)},
+                where: { content: decodeURIComponent(req.params.tag)},
             },{
                 model: db.User,
                 attributes: {

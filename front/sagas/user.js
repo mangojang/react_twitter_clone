@@ -93,7 +93,8 @@ function* watchSignUp(){
 
 
 function loadUserAPI(data){
-    return axios.get(data? `/user/${data}`:`/user/`, {
+    let getUrl = data ? `/user/${data}`:`/user`;
+    return axios.get(getUrl, {
         withCredentials: true
     })
     .then(response=>({response}))
@@ -101,12 +102,12 @@ function loadUserAPI(data){
     
 }
 function* loadUser(action){
-    const { response, error } = yield call(loadUserAPI,action.data)
+    const { response, error } = yield call(loadUserAPI, action.data)
     if (response){
         yield put({
             type: LOAD_USER_SUCCESS,
             data: response.data,
-            mine: action.data,
+            mine: !action.data,
         })
     }else{
         yield put({

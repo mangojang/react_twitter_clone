@@ -6,6 +6,7 @@ import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST } from '../reducers/post';
 import Link from 'next/link';
+import user from '../../back/models/user';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -57,14 +58,14 @@ const postCard = ({post}) => {
                 ]}
             >
                 <Meta
-                avatar={<Avatar>{post.User.nickname}</Avatar>}
+                avatar={<Link href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{post.User.nickname}</Avatar></a></Link>}
                 title={post.User.nickname}
                 description={
                 <div>
                     {
                         post.content.split(/(#[^\s]+)/g).map((v)=>{
                             if(v.match(/#[^\s]+/)){
-                                return <Link href="/hashtag" legacyBehavior><a>{v}</a></Link>
+                                return <Link href={{pathname:'/hashtag/[tag]',query:{tag:v.slice(1)}}} legacyBehavior><a>{v}</a></Link>
                             }else{
                                 return v;
                             }
@@ -88,7 +89,7 @@ const postCard = ({post}) => {
                             <li>
                                 <Comment
                                     author={item.User.nickname}
-                                    avatar={<Avatar>{item.User.nickname}</Avatar>}
+                                    avatar={<Link  href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{item.User.nickname}</Avatar></a></Link>}
                                     content={item.content}
                                     //datetime={item.createdAt}
                                 />

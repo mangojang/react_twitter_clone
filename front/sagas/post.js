@@ -100,7 +100,7 @@ function* watchAddComment(){
 }
 
 function loadUserPostsAPI(data){
-    return axios.get(`/user/${data.id}`)
+    return axios.get(`/user/${data}/posts`)
     .then(response=>({response}))
     .catch(error=>({error}))
 }
@@ -124,6 +124,7 @@ function* watchLoadUserPosts(){
 }
 
 function loadHashtagPostsAPI(data){
+    console.log('해시태그',data);
     return axios.get(`/hashtag/${data}`)
     .then(response=>({response}))
     .catch(error=>({error}))
