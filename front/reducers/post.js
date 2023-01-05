@@ -55,9 +55,9 @@ export const LOAD_USER_POSTS_REQUEST ='LOAD_USER_POSTS_REQUEST';
 export const LOAD_USER_POSTS_SUCCESS ='LOAD_USER_POSTS_SUCCESS';
 export const LOAD_USER_POSTS_FAILURE ='LOAD_USER_POSTS_FAILURE';
 
-const UPLOAD_IMAGE_REQUEST ='UPLOAD_IMAGE_REQUEST';
-const UPLOAD_IMAGE_SUCCESS ='UPLOAD_IMAGE_SUCCESS';
-const UPLOAD_IMAGE_FAILURE ='UPLOAD_IMAGE_FAILURE';
+export const UPLOAD_IMAGE_REQUEST ='UPLOAD_IMAGE_REQUEST';
+export const UPLOAD_IMAGE_SUCCESS ='UPLOAD_IMAGE_SUCCESS';
+export const UPLOAD_IMAGE_FAILURE ='UPLOAD_IMAGE_FAILURE';
 
 const REMOVE_IMAGE = 'REMOVE_IMAGE';
 
@@ -188,6 +188,17 @@ const reducer = (state=initialState,action) => {
                 isAddingComment:false,
                 commentAdded:false,
                 addCommentErrorReason: action.error,
+            }
+        }
+        case UPLOAD_IMAGE_SUCCESS:{
+            return {
+                ...state,
+                imagePaths: [...state.imagePaths, action.data],
+            }
+        }
+        case UPLOAD_IMAGE_FAILURE:{
+            return {
+                ...state,
             }
         }
     

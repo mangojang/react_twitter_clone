@@ -1,7 +1,7 @@
-import React, {useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useState, useEffect, useRef} from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_POST_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGE_REQUEST } from '../reducers/post';
 
 const { TextArea } = Input;
 
@@ -9,6 +9,7 @@ const PostForm = () => {
     const { imagePaths, isAddingPost, postAdded } = useSelector(state=>state.post)
     const [content, setContent] = useState('');
     const dispatch = useDispatch();
+    const imageInput = useRef();
 
     useEffect(()=>{
         setContent('');
@@ -28,23 +29,36 @@ const PostForm = () => {
     },[content]);
 
     const onClickImageUpload = useCallback((e)=>{
-        const postImage = document.getElementById('postImage');
-        postImage.click();
+        imageInput.current.click();
     },[]);
 
     const onChangeContent = useCallback((e)=>{
         setContent(e.target.value);
     },[]);
 
+    const onChangeImages = useCallback((e)=>{
+        console.log(e.target.files);
+        const imageFormData = new FormData();
+        [].forEach.call(e.target.files, (f)=>{
+            imageFormData.append('image',f);
+        })
+        dispatch({
+            type: UPLOAD_IMAGE_REQUEST,
+            data: imageFormData
+        },[]);
+    },[]);
+
+
     return (
         <Form encType='multipart/form-data' onFinish={onSubmit}>
             <TextArea name="post_content" placeholder="어떤 일이 있으셨나요?" value={content} onChange={onChangeContent} maxLength={140} />
             <div style={{display:'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px'}}>
-                <input id='postImage' name='post_image' type='file' hidden={true} style={{display:'none'}}/>
+                <input name='post_image' type='file' hidden={true} ref={imageInput} onChange={onChangeImages} style={{display:'none'}}/>
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 <Button type='primary' htmlType='submit' loading={isAddingPost}>짹짹</Button>
             </div>
-            {imagePaths.map((v,i)=>{
+            {console.log(typeof(imagePaths))}
+            {imagePaths.map((v, i) => {
                 return(
                     <div key={v} style={{display:'inline-block'}}>
                         <img src={'http://localhost:3000/'+v} style={{width:'200px'}} alt={v}/>
