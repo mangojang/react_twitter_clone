@@ -20,13 +20,17 @@ const PostForm = () => {
             return alert("게시글을 작성해주세요.")
         }
         console.log(content);
+        const formData = new FormData();
+        imagePaths.forEach((i)=>{
+            formData.append('image', i);
+        })
+        formData.append('content', content.trim());
+
         dispatch({
             type: ADD_POST_REQUEST,
-            data: {
-                content: content.trim()
-            },
+            data: formData,
         });
-    },[content]);
+    },[content, imagePaths]);
 
     const onClickImageUpload = useCallback((e)=>{
         imageInput.current.click();

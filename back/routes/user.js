@@ -147,6 +147,8 @@ router.get('/:id/posts', async(req, res, next)=>{
                 attributes: {
                     exclude: ['password']
                 },
+            },{
+                model: db.Image,
             }],
         });
         return res.json(posts);

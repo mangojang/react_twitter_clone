@@ -5,6 +5,20 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, cb){
+            cb(null, 'uploads');
+        },
+        filename(req, file, cb){
+            const ext = path.extname(file.originalname);
+            const basename = path.basename(file.originalname, ext);
+            cb(null, basename + new Date().valueOf() + ext);
+        }
+    }),
+    limits: { fileSize: 20*1024*1024},
+})
+
 router.get('/', async(req, res, next)=>{
     try {
         const posts = await db.Post.findAll({
@@ -13,6 +27,8 @@ router.get('/', async(req, res, next)=>{
                 attributes: {
                     exclude: ['password']
                 },
+            },{
+                model: db.Image,
             }],
             order:[['createdAt','DESC']] //DESC : 내림차순, ASC: 오름차순   
         });
@@ -23,7 +39,7 @@ router.get('/', async(req, res, next)=>{
     }
 });
 
-router.post('/',isLoggedIn, async(req, res, next)=>{
+router.post('/',isLoggedIn, upload.none(), async(req, res, next)=>{
     try {
         const hashtag = req.body.content.match( /#[^\s#]+/g);
         let newPost = await db.Post.create({
@@ -38,6 +54,18 @@ router.post('/',isLoggedIn, async(req, res, next)=>{
             await newPost.addHashtags(result.map(r=> r[0])); // addHashtags -> sequealize에서 associate함수를 보고 자동으로 만들어줌.   
             // console.log('해시태그 포함', includeHashtag);
         }
+
+        if(req.body.image){
+            if(Array.isArray(req.body.image)){
+                const images = await Promise.all(req.body.image.map((image)=>{
+                    return db.Image.create({content: image});
+                }))
+                await newPost.addImage(images);
+            }else{
+                const image = await db.Image.create({content: req.body.image});
+                await newPost.addImage(image);
+            }
+        }
         const fullPost = await db.Post.findOne({
             where: {id: newPost.id},
             include:[{
@@ -45,6 +73,8 @@ router.post('/',isLoggedIn, async(req, res, next)=>{
                 attributes: {
                     exclude: ['password']
                 },
+            },{
+                model: db.Image,
             }]
         })
         return res.json(fullPost);
@@ -54,19 +84,6 @@ router.post('/',isLoggedIn, async(req, res, next)=>{
     }
 });
 
-const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, cb){
-            cb(null, 'uploads');
-        },
-        filename(req, file, cb){
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext);
-            cb(null, basename + new Date().valueOf() + ext);
-        }
-    }),
-    limits: { fileSize: 20*1024*1024},
-})
 
 router.post('/images',upload.array('image'),(req, res)=>{
     console.log(req.files);

@@ -110,7 +110,8 @@ const reducer = (state=initialState,action) => {
                 ...state,
                 isAddingPost:false,
                 postAdded:true,
-                mainPosts: [action.data, ...state.mainPosts]
+                mainPosts: [action.data, ...state.mainPosts],
+                imagePaths:[]
             }
         }
         case ADD_POST_FAILURE:{
