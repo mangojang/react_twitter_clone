@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENT_REQUEST } from '../reducers/post';
 import Link from 'next/link';
 import user from '../../back/models/user';
+import PostImages from './PostImages';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -57,7 +58,8 @@ const postCard = ({post}) => {
         <div style={{marginBottom: '10px'}}> 
             <Card 
                 key={post.createdAt}
-                cover={post.img && <img alt='example' src={post.img}/>}
+                // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
+                cover={post.Images[0] && <PostImages images={post.Images}/>}
                 actions={[
                     <RetweetOutlined key="retweet" />,
                     <HeartOutlined key="heart" />,
