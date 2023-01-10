@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card, Avatar, Form, Input, Button, List } from 'antd';
 import { Comment } from '@ant-design/compatible';
-import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined } from '@ant-design/icons';
+import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined, HeartTwoTone } from '@ant-design/icons';
 import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_COMMENT_REQUEST, LOAD_COMMENT_REQUEST } from '../reducers/post';
+import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
 import Link from 'next/link';
-import user from '../../back/models/user';
 import PostImages from './PostImages';
 
 const { Meta } = Card;
@@ -25,9 +24,9 @@ const postCard = ({post}) => {
         setCommentContent('');
     },[commentAdded===true])
 
+
     const onToggleComment = useCallback(()=>{
         setCommentFormOpend(prev => !prev);
-        console.log("post",post);
         if(!commentFormOpend){
             dispatch({
                 type: LOAD_COMMENT_REQUEST,
@@ -52,17 +51,44 @@ const postCard = ({post}) => {
 
     const onChangeContent = useCallback((e)=>{
         setCommentContent(e.target.value);
-    },[])
+    },[]);
+
+
+    const onLike = useCallback(()=>{
+        if(!mine){
+            return alert('로그인이 필요합니다.')
+        }
+
+        return dispatch({
+            type: LIKE_POST_REQUEST,
+            data: post.id
+        });
+    },[mine && mine.id, post && post.id]);
+
+    const onUnLike = useCallback(()=>{
+        if(!mine){
+            return alert('로그인이 필요합니다.')
+        }
+
+        return dispatch({
+            type: UNLIKE_POST_REQUEST,
+            data: post.id
+        });
+    },[mine && mine.id, post && post.id]);
+
+
+
+    const liked = post.Likers.find((v) => v.id === mine.id);
 
     return (
         <div style={{marginBottom: '10px'}}> 
             <Card 
-                key={post.createdAt}
+                key={+post.createdAt}
                 // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
-                cover={post.Images[0] && <PostImages images={post.Images}/>}
+                cover={post.Images && post.Images.length>0 ? <PostImages images={post.Images}/> : null}
                 actions={[
                     <RetweetOutlined key="retweet" />,
-                    <HeartOutlined key="heart" />,
+                    liked?<HeartTwoTone key="heart" onClick={onUnLike} />:<HeartOutlined key="heart" onClick={onLike} />,
                     <MessageOutlined key="message" onClick={onToggleComment}/>,
                     <EllipsisOutlined key="ellipsis" />,
                 ]}

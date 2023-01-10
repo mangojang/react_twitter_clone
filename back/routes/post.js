@@ -29,6 +29,11 @@ router.get('/', async(req, res, next)=>{
                 },
             },{
                 model: db.Image,
+            },{
+                model: db.User,
+                through: 'Like',
+                as: 'Likers',
+                attributes: ['id']
             }],
             order:[['createdAt','DESC']] //DESC : 내림차순, ASC: 오름차순   
         });
@@ -154,5 +159,34 @@ router.post('/:id/comment',isLoggedIn, async (req, res, next)=>{
         return next(error);
     }
 })
+
+router.post('/:id/like', isLoggedIn, async(req, res, next)=>{
+    try{
+        const post = await db.Post.findOne({ where: { id:req.params.id }})
+        if(!post){
+            return res.status(404).send('포스트가 존재하지 않습니다.')
+        }
+        await post.addLiker(req.user.id);
+        return res.json({ userId: req.user.id})
+
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
+});
+router.delete('/:id/like', isLoggedIn, async(req, res, next)=>{
+    try{
+        const post = await db.Post.findOne({ where: { id:req.params.id }})
+        if(!post){
+            return res.status(404).send('포스트가 존재하지 않습니다.')
+        }
+        await post.removeLiker(req.user.id);
+        return res.json({ userId: req.user.id})
+
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
+});
 
 module.exports=router;

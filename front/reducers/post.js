@@ -65,13 +65,13 @@ export const ADD_POST_REQUEST ='ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS ='ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE ='ADD_POST_FAILURE';
 
-const LIKE_POST_REQUEST ='LIKE_POST_REQUEST';
-const LIKE_POST_SUCCESS ='LIKE_POST_SUCCESS';
-const LIKE_POST_FAILURE ='LIKE_POST_FAILURE';
+export const LIKE_POST_REQUEST ='LIKE_POST_REQUEST';
+export const LIKE_POST_SUCCESS ='LIKE_POST_SUCCESS';
+export const LIKE_POST_FAILURE ='LIKE_POST_FAILURE';
 
-const UNLIKE_POST_REQUEST ='UNLIKE_POST_REQUEST';
-const UNLIKE_POST_SUCCESS ='UNLIKE_POST_SUCCESS';
-const UNLIKE_POST_FAILURE ='UNLIKE_POST_FAILURE';
+export const UNLIKE_POST_REQUEST ='UNLIKE_POST_REQUEST';
+export const UNLIKE_POST_SUCCESS ='UNLIKE_POST_SUCCESS';
+export const UNLIKE_POST_FAILURE ='UNLIKE_POST_FAILURE';
 
 export const ADD_COMMENT_REQUEST ='ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS ='ADD_COMMENT_SUCCESS';
@@ -94,7 +94,7 @@ const addPost= {
 }
 
 const reducer = (state=initialState,action) => {
-    console.log('postaction', action.data)
+    
     switch (action.type) {
         case ADD_POST_REQUEST:{
             return {
@@ -206,6 +206,51 @@ const reducer = (state=initialState,action) => {
             return{
                 ...state,
                 imagePaths: state.imagePaths.filter((v,i)=> i !== action.data)
+            }
+        }
+        case LIKE_POST_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case LIKE_POST_SUCCESS:{
+            const postIndex = state.mainPosts.findIndex(v=>v.id === action.data.postId);
+            const post = state.mainPosts[postIndex];
+            const Likers = [{id: action.data.userId}, ...post.Likers];
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = {...post, Likers};
+
+            return {
+                ...state,
+                mainPosts,
+            }
+        }
+        case LIKE_POST_FAILURE:{
+            return {
+                ...state,
+            }
+        }
+        case UNLIKE_POST_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case UNLIKE_POST_SUCCESS:{
+            const postIndex = state.mainPosts.findIndex(v=>v.id === action.data.postId);
+            const post = state.mainPosts[postIndex];
+            const Likers = post.Likers.filter(v=>v.id !== action.data.userId);
+            console.log('Likers', Likers);
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = {...post, Likers};
+
+            return {
+                ...state,
+                mainPosts,
+            }
+        }
+        case UNLIKE_POST_FAILURE:{
+            return {
+                ...state,
             }
         }
     

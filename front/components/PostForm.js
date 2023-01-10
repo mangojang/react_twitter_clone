@@ -68,7 +68,6 @@ const PostForm = () => {
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
                 <Button type='primary' htmlType='submit' loading={isAddingPost}>짹짹</Button>
             </div>
-            {console.log(typeof(imagePaths))}
             {imagePaths.map((v, i) => {
                 return(
                     <div key={v} style={{display:'inline-block'}}>
