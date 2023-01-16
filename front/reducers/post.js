@@ -19,6 +19,7 @@ export const initialState ={
     isAddingComment: false, // 댓글 업로드 중
     commentAdded: false, //댓글 추가하였나
     addCommentErrorReason: '',
+    retweetErrorReason:'',
 }
 
 const dummyPost = {
@@ -81,9 +82,9 @@ export const LOAD_COMMENT_REQUEST ='LOAD_COMMENT_REQUEST';
 export const LOAD_COMMENT_SUCCESS ='LOAD_COMMENT_SUCCESS';
 export const LOAD_COMMENT_FAILURE ='LOAD_COMMENT_FAILURE';
 
-const RETWEET_REQUEST ='RETWEET_REQUEST';
-const RETWEET_SUCCESS ='RETWEET_SUCCESS';
-const RETWEET_FAILURE ='RETWEET_FAILURE';
+export const RETWEET_REQUEST ='RETWEET_REQUEST';
+export const RETWEET_SUCCESS ='RETWEET_SUCCESS';
+export const RETWEET_FAILURE ='RETWEET_FAILURE';
 
 const REMOVE_POST_REQUEST ='REMOVE_POST_REQUEST';
 const REMOVE_POST_SUCCESS ='REMOVE_POST_SUCCESS';
@@ -253,7 +254,25 @@ const reducer = (state=initialState,action) => {
                 ...state,
             }
         }
-    
+        case RETWEET_REQUEST:{
+            return {
+                ...state,
+                retweetErrorReason:'',
+            }
+        }
+        case RETWEET_SUCCESS:{
+            return {
+                ...state,
+                mainPosts : [action.data, ... state.mainPosts],
+                retweetErrorReason:'',
+            }
+        }
+        case RETWEET_FAILURE:{
+            return {
+                ...state,
+                retweetErrorReason: action.error,
+            }
+        }
         default: {
             return {
                 ...state

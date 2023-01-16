@@ -4,9 +4,10 @@ import { Comment } from '@ant-design/compatible';
 import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined, HeartTwoTone } from '@ant-design/icons';
 import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
+import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
 import Link from 'next/link';
 import PostImages from './PostImages';
+import PostCardContent from './PostCardContent';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -76,40 +77,53 @@ const postCard = ({post}) => {
         });
     },[mine && mine.id, post && post.id]);
 
+    const liked = post.Likers && post.Likers.find((v) => v.id === mine.id);
 
+    const onRetweet = useCallback(()=>{
+        if(!mine){
+            return alert('로그인이 필요합니다.')
+        }
 
-    const liked = post.Likers.find((v) => v.id === mine.id);
+        return dispatch({
+            type: RETWEET_REQUEST,
+            data: post.id
+        });
+    },[mine && mine.id, post && post.id]);
 
     return (
         <div style={{marginBottom: '10px'}}> 
             <Card 
-                key={+post.createdAt}
+                key={+post.id}
                 // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
                 cover={post.Images && post.Images.length>0 ? <PostImages images={post.Images}/> : null}
                 actions={[
-                    <RetweetOutlined key="retweet" />,
+                    <RetweetOutlined key="retweet" onClick={onRetweet} />,
                     liked?<HeartTwoTone key="heart" onClick={onUnLike} />:<HeartOutlined key="heart" onClick={onLike} />,
                     <MessageOutlined key="message" onClick={onToggleComment}/>,
                     <EllipsisOutlined key="ellipsis" />,
                 ]}
+                title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.` : null}
+                extra={<Button>팔로우</Button>}
             >
+            {post.RetweetId && post.Retweet ?
+                (
+                <Card
+                    cover={post.Retweet.Images && post.Retweet.Images.length>0 ? <PostImages images={post.Retweet.Images}/> : null}    
+                >
+                    <Meta
+                    avatar={<Link href={{pathname:'/user/[id]',query:{id:post.Retweet.User.id}}} legacyBehavior><a><Avatar>{post.Retweet.User.nickname}</Avatar></a></Link>}
+                    title={post.Retweet.User.nickname}
+                    description={<PostCardContent postData={post.Retweet.content}/>}
+                    />
+                </Card>
+                )
+                :
                 <Meta
                 avatar={<Link href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{post.User.nickname}</Avatar></a></Link>}
                 title={post.User.nickname}
-                description={
-                <div>
-                    {
-                        post.content.split(/(#[^\s]+)/g).map((v)=>{
-                            if(v.match(/#[^\s]+/)){
-                                return <Link href={{pathname:'/hashtag/[tag]',query:{tag:v.slice(1)}}} legacyBehavior><a>{v}</a></Link>
-                            }else{
-                                return v;
-                            }
-                        })
-                    }
-                </div>
-                }
+                description={<PostCardContent postData={post.content}/>}
                 />
+            }
             </Card>
             {commentFormOpend && (
                 <>
