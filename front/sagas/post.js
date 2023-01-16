@@ -31,6 +31,7 @@ import {
     RETWEET_SUCCESS,
     RETWEET_FAILURE,  
 } from '../reducers/post';
+import { ADD_POST_TO_ME } from "../reducers/user";
 
 const axios = require('axios')
 
@@ -47,12 +48,16 @@ function* addPost(action){
         yield put({
             type: ADD_POST_SUCCESS,
             data: response.data,
-        })
+        });
+        yield put({
+            type: ADD_POST_TO_ME,
+            data: response.data.id,
+        });
     }else{
         yield put({
             type: ADD_POST_FAILURE,
             error: error
-        })
+        });
     }
 }
 

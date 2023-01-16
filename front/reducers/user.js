@@ -202,7 +202,15 @@ const reducer = (state = initialState, action) => {
                 ...state,
             }
         }
-            
+        case ADD_POST_TO_ME:{
+            return {
+                ...state,
+                mine: {
+                    ...state.mine,
+                    Post: [{id: action.data}, ...state.mine.Post],
+                }
+            }
+        }   
         default: {
             return {
                 ...state
