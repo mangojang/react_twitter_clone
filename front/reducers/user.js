@@ -164,6 +164,44 @@ const reducer = (state = initialState, action) => {
                 ...state,
             }
         }
+        case FOLLOW_USER_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case FOLLOW_USER_SUCCESS:{
+            return {
+                ...state,
+                mine: {
+                    ...state.mine,
+                    Followings: [{id: action.data}, ...state.mine.Followings],
+                }
+            }    
+        }
+        case FOLLOW_USER_FAILURE:{
+            return {
+                ...state,
+            }
+        }
+        case UNFOLLOW_USER_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case UNFOLLOW_USER_SUCCESS:{
+            return {
+                ...state,
+                mine: {
+                    ...state.mine,
+                    Followings: [...state.mine.Followings].filter(v=>v.id !== action.data),
+                }
+            }    
+        }
+        case UNFOLLOW_USER_FAILURE:{
+            return {
+                ...state,
+            }
+        }
             
         default: {
             return {

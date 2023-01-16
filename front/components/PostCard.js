@@ -8,6 +8,7 @@ import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_R
 import Link from 'next/link';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
+import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -90,6 +91,19 @@ const postCard = ({post}) => {
         });
     },[mine && mine.id, post && post.id]);
 
+    const onFollow = useCallback(userId =>()=>{
+        return dispatch({
+            type: FOLLOW_USER_REQUEST,
+            data: userId
+        });
+    },[]);
+    const onUnFollow = useCallback(userId =>()=>{
+        return dispatch({
+            type: UNFOLLOW_USER_REQUEST,
+            data: userId
+        });
+    },[]);
+
     return (
         <div style={{marginBottom: '10px'}}> 
             <Card 
@@ -103,7 +117,12 @@ const postCard = ({post}) => {
                     <EllipsisOutlined key="ellipsis" />,
                 ]}
                 title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.` : null}
-                extra={<Button>팔로우</Button>}
+                extra={!mine || post.User.id === mine.id
+                    ? null
+                    : mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
+                        ? <Button onClick={onUnFollow(post.User.id)}>팔로우 취소</Button>
+                        : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
+                }
             >
             {post.RetweetId && post.Retweet ?
                 (

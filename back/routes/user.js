@@ -126,12 +126,31 @@ router.post("/logout", (req, res, next) => {
 router.get('/:id/follow',(req, res)=>{
 
 });
-router.post('/:id/follow',(req, res)=>{
-
+router.post('/:id/follow', isLoggedIn, async(req, res)=>{
+    try {
+        const mine = await  db.User.findOne({
+            where: { id: req.user.id },
+        });
+        await mine.addFollowing(req.params.id);
+        return res.send(req.params.id);
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
 });
-router.delete('/:id/follow',(req, res)=>{
-
+router.delete('/:id/follow', isLoggedIn, async(req, res)=>{
+    try {
+        const mine = await  db.User.findOne({
+            where: { id: req.user.id },
+        });
+        await mine.removeFollowing(req.params.id);
+        return res.send(req.params.id);
+    } catch (error) {
+        console.error(error);
+        return next(error);
+    }
 });
+
 router.delete('/:id/follower',(req, res)=>{
 
 });

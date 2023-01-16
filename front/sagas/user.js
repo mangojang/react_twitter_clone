@@ -11,7 +11,13 @@ import {
     SIGN_UP_FAILURE, 
     LOAD_USER_REQUEST, 
     LOAD_USER_SUCCESS, 
-    LOAD_USER_FAILURE 
+    LOAD_USER_FAILURE, 
+    FOLLOW_USER_REQUEST,
+    FOLLOW_USER_SUCCESS,
+    FOLLOW_USER_FAILURE,
+    UNFOLLOW_USER_REQUEST,
+    UNFOLLOW_USER_SUCCESS,
+    UNFOLLOW_USER_FAILURE
 } from "../reducers/user";
 
 const axios = require('axios')
@@ -120,11 +126,65 @@ function* watchLoadUser(){
     yield takeLatest(LOAD_USER_REQUEST, loadUser)
 }
 
+function followAPI(data){
+    return axios.post(`/user/${data}/follow`,{}, {
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
+    
+}
+function* follow(action){
+    const { response, error } = yield call(followAPI, action.data)
+    if (response){
+        yield put({
+            type: FOLLOW_USER_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: FOLLOW_USER_FAILURE,
+            error: error.response.data
+        })
+    }
+}
+function* watchFollow(){
+    yield takeLatest(FOLLOW_USER_REQUEST, follow)
+}
+
+function unfollowAPI(data){
+    return axios.delete(`/user/${data}/follow`, {
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
+    
+}
+function* unfollow(action){
+    const { response, error } = yield call(unfollowAPI, action.data)
+    if (response){
+        yield put({
+            type: UNFOLLOW_USER_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: UNFOLLOW_USER_FAILURE,
+            error: error.response.data
+        })
+    }
+}
+function* watchUnFollow(){
+    yield takeLatest(UNFOLLOW_USER_REQUEST, unfollow)
+}
+
 export default function* userSaga(){
     yield all([
         fork(watchLogin),
         fork(watchLogout),
         fork(watchSignUp),
         fork(watchLoadUser),
+        fork(watchFollow),
+        fork(watchUnFollow),
     ]);
 }
