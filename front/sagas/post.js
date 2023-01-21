@@ -56,7 +56,7 @@ function* addPost(action){
     }else{
         yield put({
             type: ADD_POST_FAILURE,
-            error: error
+            error: error.response.data,
         });
     }
 }
@@ -80,7 +80,7 @@ function* loadPost(){
     }else{
         yield put({
             type: LOAD_MAIN_POSTS_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -106,7 +106,7 @@ function* addComment(action){
     }else{
         yield put({
             type: ADD_COMMENT_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -132,7 +132,7 @@ function* loadComments(action){
     }else{
         yield put({
             type: LOAD_COMMENT_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -156,7 +156,7 @@ function* loadUserPosts(action){
     }else{
         yield put({
             type: LOAD_USER_POSTS_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -180,7 +180,7 @@ function* loadHashtagPosts(action){
     }else{
         yield put({
             type: LOAD_HASHTAG_POSTS_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -205,7 +205,7 @@ function* uploadImages(action){
     }else{
         yield put({
             type: UPLOAD_IMAGE_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -235,7 +235,7 @@ function* likePost(action){
     }else{
         yield put({
             type: LIKE_POST_FAILURE,
-            error: error
+            error: error.response.data
         })
     }
 }
@@ -264,7 +264,7 @@ function* unLikePost(action){
     }else{
         yield put({
             type: UNLIKE_POST_FAILURE,
-            error: error
+            error: error.response.data
         })
     }
 }

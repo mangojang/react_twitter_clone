@@ -16,7 +16,7 @@ const Home = () => {
         if(retweetErrorReason){
             alert(retweetErrorReason)
         }
-    },[retweetErrorReason]);
+    },[retweetErrorReason==='']);
 
     useEffect(()=>{
        dispatch({

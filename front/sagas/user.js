@@ -51,7 +51,7 @@ function* login(action){
     }else{
         yield put({
             type: LOG_IN_FAILURE,
-            error: error
+            error: error.response.data
         })
     }
 }
@@ -76,7 +76,7 @@ function* logout(){
     }else{
         yield put({
             type: LOG_OUT_FAILURE,
-            error: error
+            error: error.response.data
         })
     }
 }
@@ -101,7 +101,7 @@ function* signUp(action){
     }else{
         yield put({
             type: SIGN_UP_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }
@@ -130,7 +130,7 @@ function* loadUser(action){
     }else{
         yield put({
             type: LOAD_USER_FAILURE,
-            error: error
+            error: error.response.data,
         })
     }
 }

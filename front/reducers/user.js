@@ -24,6 +24,14 @@ export const initialState = {
     userInfo: null, //남의 정보
     isEditingNickname: false, //닉네임 수정중
     editNicknameErrorReason: '', //닉네임 수정 실패 사유
+    logoutErrorReason: '',
+    loadUserErrorReason:'',
+    followErrorReason:'',
+    unfollowErrorReason:'',
+    loadFollowersErrorReason:'',
+    loadFollowingsErrorReason:'',
+    removeFollowerErrorReason:'',
+
 };
 
 export const SIGN_UP_REQUEST ='SIGN_UP_REQUEST';
@@ -105,7 +113,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isLoggingIn: false,
                 isLoggedIn: false,
-                loginErrorReason:action.error,
+                loginErrorReason:action.error.reason,
                 mine: null,
             }
         }   

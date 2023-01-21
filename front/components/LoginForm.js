@@ -1,5 +1,5 @@
 import { Form, Button, Input } from 'antd';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { loginAction } from '../reducers/user';
@@ -7,15 +7,17 @@ import { loginAction } from '../reducers/user';
 const LoginForm = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-    const { isLoggingIn } = useSelector(state=>state.user);
+    const { isLoggingIn, loginErrorReason } = useSelector(state=>state.user);
     const dispatch = useDispatch();
 
+    useEffect(()=>{
+        if(loginErrorReason){
+            alert(loginErrorReason)
+        }
+    },[loginErrorReason]);
+
     const onSubmit = useCallback((e) => {
-        console.log({
-            id,
-            password,
-        });
-        dispatch(loginAction({userId: id, password: password}));
+        return dispatch(loginAction({userId: id, password: password}));
     },[id, password]);
 
     const onFinishFailed = (error) => {

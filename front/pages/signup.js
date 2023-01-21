@@ -10,13 +10,19 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
-    const { isSigningUp, mine } = useSelector(state=>state.user)
+    const { isSigningUp, mine, signUpErrorReason } = useSelector(state=>state.user)
 
     useEffect(()=>{
         if(mine){
             Router.push('/')    
         }
     },[mine && mine.id]);
+
+    useEffect(()=>{
+        if(signUpErrorReason){
+            alert(signUpErrorReason)
+        }
+    },[signUpErrorReason]);
 
     const useInput = (initValue = null) => {
         const [value, setter] = useState(initValue);

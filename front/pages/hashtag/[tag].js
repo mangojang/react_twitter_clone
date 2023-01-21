@@ -10,7 +10,7 @@ const Hashtag = () => {
     const { tag } = router.query
 
     const dispatch = useDispatch();
-    const { mainPosts } = useSelector(state=>state.post);
+    const { mainPosts, retweetErrorReason } = useSelector(state=>state.post);
     
     useEffect(()=>{
         dispatch({
@@ -18,6 +18,12 @@ const Hashtag = () => {
             data: tag
         })
     },[]);
+
+    useEffect(()=>{
+        if(retweetErrorReason){
+            alert(retweetErrorReason)
+        }
+    },[retweetErrorReason]);
 
     return (
         <div>

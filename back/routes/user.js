@@ -18,8 +18,7 @@ router.post('/',async(req, res, next)=>{
             } 
         });
         if(exUser){
-            throw new Error("이미 사용중인 아이디 입니다.");
-            //return res.status(403).send('이미 사용중인 아이디 입니다.');
+            return res.status(403).send('이미 사용중인 아이디 입니다.');
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
         const newUser = await db.User.create({
@@ -79,6 +78,7 @@ router.post('/login', (req, res, next)=>{
 
         if(info){ // 로직상의 에러
             return res.status(401).send(info);
+            // throw new Error(info.reason);
         }
 
         return req.login(user, async(loginErr)=>{

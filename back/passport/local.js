@@ -20,7 +20,7 @@ module.exports = new LocalStrategy({
         return done(null, false, {reason: '비밀번호가 틀립니다'});
     } catch (error) {
         console.log(error);
-        return done(e);
+        return done(error);
     }
 } );
 
