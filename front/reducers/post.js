@@ -1,16 +1,16 @@
+const dummyMainPosts = {
+    id: 1,
+    User: {
+        id:1,
+        nickname:'mangojang',
+    },
+    content:'얄리얄리얄라리얄라',
+    img:'',
+    Comments:[],
+    createdAt: new Date()
+};
 export const initialState ={
-    mainPosts: [{
-        id: 1,
-        User: {
-            id:1,
-            nickname:'mangojang',
-        },
-        content:'얄리얄리얄라리얄라',
-        img:'',
-        Comments:[],
-        createdAt: new Date()
-    }], //화면에 보일 포스트들
-
+    mainPosts: [], //화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로
     isAddingPost: false, //포스트 업로드 중
     postAdded: false, //포스트 추가하였나
