@@ -10,14 +10,15 @@ import { LOAD_USER_REQUEST } from '../../reducers/user';
 
 const { Meta } = Card;
 
-const User = () => {
+const User = (props) => {
     const router = useRouter()
     const { id } = router.query
 
     const dispatch = useDispatch();
     const { mainPosts } = useSelector(state=>state.post);
     let { userInfo } = useSelector(state=>state.user);
-    userInfo = userInfo[0];
+    // userInfo = userInfo[0];
+    // console.log("userporps", props);
   
     useEffect(()=>{
         dispatch({
@@ -59,5 +60,12 @@ const User = () => {
 User.Proptypes ={
     id: Proptypes.string.isRequired
 }
+
+// export const getServerSideProps = async (context) => {
+//     console.log('@@@user', Object.keys(context)); 
+//     console.log('@@user', context.query.id); 
+//     return { props: { id: parseInt(context.query.id, 10)  } };
+    
+// };
 
 export default User;

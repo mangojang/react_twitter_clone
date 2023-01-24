@@ -4,7 +4,7 @@ import { Menu, Input, Col, Row} from 'antd';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
-import { LOAD_USER_REQUEST } from '../reducers/user';
+import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../reducers/user';
 
 
 
@@ -38,11 +38,11 @@ const AppLayout = ({children}) => {
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        if(!mine){
-            dispatch({
-                type: LOAD_USER_REQUEST
-            })
-        }
+       if(!mine){
+           dispatch({
+               type: LOAD_MYINFO_REQUEST
+           })
+       }
     },[]);
 
     return (

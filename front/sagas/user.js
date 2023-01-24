@@ -29,7 +29,10 @@ import {
     REMOVE_FOLLOWER_FAILURE,
     EDIT_NICKNAME_REQUEST,
     EDIT_NICKNAME_SUCCESS,
-    EDIT_NICKNAME_FAILURE
+    EDIT_NICKNAME_FAILURE,
+    LOAD_MYINFO_REQUEST,
+    LOAD_MYINFO_SUCCESS,
+    LOAD_MYINFO_FAILURE
 } from "../reducers/user";
 
 const axios = require('axios')
@@ -136,6 +139,32 @@ function* loadUser(action){
 }
 function* watchLoadUser(){
     yield takeLatest(LOAD_USER_REQUEST, loadUser)
+}
+
+function loadMyInfoAPI(data){
+    return axios.get(`/user`, {
+        withCredentials: true
+    })
+    .then(response=>({response}))
+    .catch(error=>({error}))
+    
+}
+function* loadMyInfo(action){
+    const { response, error } = yield call(loadMyInfoAPI, action.data)
+    if (response){
+        yield put({
+            type: LOAD_MYINFO_SUCCESS,
+            data: response.data,
+        })
+    }else{
+        yield put({
+            type: LOAD_MYINFO_FAILURE,
+            error: error.response.data,
+        })
+    }
+}
+function* watchLoadMyInfo(){
+    yield takeEvery(LOAD_MYINFO_REQUEST, loadMyInfo)
 }
 
 function followAPI(data){
@@ -300,6 +329,7 @@ export default function* userSaga(){
         fork(watchLogout),
         fork(watchSignUp),
         fork(watchLoadUser),
+        fork(watchLoadMyInfo),
         fork(watchFollow),
         fork(watchUnFollow),
         fork(watchLoadFollowers),

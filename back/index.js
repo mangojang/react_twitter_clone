@@ -16,6 +16,7 @@ const app = express();
 db.sequelize.sync();
 
 dotenv.config();
+passportConfig(passport);
 app.use('/', express.static('uploads'));
 
 app.use(morgan('dev'));
@@ -38,7 +39,7 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-passportConfig(passport);
+
 
 
 app.use('/api/user', userAPIRouter);

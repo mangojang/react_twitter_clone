@@ -5,10 +5,43 @@ const bcrypt= require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn } = require('./middleware');
 
-router.get('/',isLoggedIn,(req, res)=>{
-    const user = Object.assign({},req.user.dataValues);
-    delete user.password
-    return res.json(user);
+router.get('/', isLoggedIn, async(req, res, next)=>{
+    console.log('@@req.isAuthenticated', req.isAuthenticated());
+    console.log('@@req.user', req.user);
+
+    // const user = Object.assign({},req.user.dataValues);
+    // delete user.password
+    // return res.json(user);
+    
+    try {
+        const user = await db.User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+            exclude: ['password']
+        },
+        include: [{
+            model: db.Post,
+            as: 'Post',
+            attributes: ['id'],
+        }, {
+            model: db.User,
+            as: 'Followings',
+            attributes: ['id'],
+        }, {
+            model: db.User,
+            as: 'Followers',
+            attributes: ['id'],
+        }]
+        })
+        return res.status(200).json(user);
+        
+      } catch (error) {
+        console.error(error);
+        return next(error);
+      }
+
+
+
 });
 router.post('/',async(req, res, next)=>{
     try {

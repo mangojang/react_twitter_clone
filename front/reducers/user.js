@@ -26,6 +26,7 @@ export const initialState = {
     editNicknameErrorReason: '', //닉네임 수정 실패 사유
     logoutErrorReason: '',
     loadUserErrorReason:'',
+    loadMyInfoErrorReason:'',
     followErrorReason:'',
     unfollowErrorReason:'',
     loadFollowersErrorReason:'',
@@ -45,6 +46,10 @@ export const LOG_OUT_FAILURE ='LOG_OUT_FAILURE';
 export const LOG_IN_REQUEST ='LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS ='LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE ='LOG_IN_FAILURE';
+
+export const LOAD_MYINFO_REQUEST ='LOAD_MYINFO_REQUEST';
+export const LOAD_MYINFO_SUCCESS ='LOAD_MYINFO_SUCCESS';
+export const LOAD_MYINFO_FAILURE ='LOAD_MYINFO_FAILURE';
 
 export const LOAD_USER_REQUEST ='LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS ='LOAD_USER_SUCCESS';
@@ -163,15 +168,10 @@ const reducer = (state = initialState, action) => {
         case LOAD_USER_REQUEST:{
             return {
                 ...state,
+                loadUserErrorReason:'',
             }
         }
         case LOAD_USER_SUCCESS:{
-            if(action.mine){
-                return {
-                    ...state,
-                    mine: action.data,
-                }    
-            }
             return {
                 ...state,
                 userInfo: action.data,
@@ -180,6 +180,25 @@ const reducer = (state = initialState, action) => {
         case LOAD_USER_FAILURE:{
             return {
                 ...state,
+                loadUserErrorReason: action.error,
+            }
+        }
+        case LOAD_MYINFO_REQUEST:{
+            return {
+                ...state,
+                loadMyInfoErrorReason:'',
+            }
+        }
+        case LOAD_MYINFO_SUCCESS:{
+            return {
+                ...state,
+                mine: action.data,
+            }    
+        }
+        case LOAD_MYINFO_FAILURE:{
+            return {
+                ...state,
+                loadMyInfoErrorReason: action.error,
             }
         }
         case FOLLOW_USER_REQUEST:{
