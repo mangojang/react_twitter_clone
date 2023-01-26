@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, List } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import NicknameEditForm from '../components/NicknameEditForm';
+import { END } from "redux-saga";
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
+import wrapper from '../store/configureStore';
 import PostCard from '../components/PostCard';
 
 
@@ -87,5 +89,29 @@ const Profile = () => {
         </div>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    
+    const state = store.getState();
+    
+    store.dispatch({
+        type: LOAD_FOLLOWERS_REQUEST,
+        data: state.user &&state.user.mine && state.user.mine.id,
+    });
+    
+    store.dispatch({
+        type: LOAD_FOLLOWINGS_REQUEST,
+        data: state.user &&state.user.mine && state.user.mine.id,
+    });
+
+    store.dispatch({
+        type: LOAD_USER_POSTS_REQUEST,
+        data: state.user &&state.user.mine && state.user.mine.id,
+    });
+
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+});
 
 export default Profile;

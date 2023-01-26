@@ -142,7 +142,7 @@ function* watchLoadComments(){
 }
 
 function loadUserPostsAPI(data){
-    return axios.get(`/user/${data}/posts`)
+    return axios.get(`/user/${data || 0}/posts`)
     .then(response=>({response}))
     .catch(error=>({error}))
 }
