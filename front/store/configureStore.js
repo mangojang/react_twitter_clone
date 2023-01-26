@@ -11,7 +11,10 @@ import rootSaga from "../sagas";
 
 const configureStore = () =>{
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware];
+    const middlewares = [sagaMiddleware, (store) => (next) => (action) => {
+        console.log(action);
+        next(action);
+    }];
     const composeEnhancers =
         process.env.NODE_ENV==='production' || typeof window === 'object' && 
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?   
