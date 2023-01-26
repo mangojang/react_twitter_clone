@@ -95,7 +95,7 @@ router.get('/:id', async(req, res, next)=>{
         jsonUser.Followings = jsonUser.Followings? jsonUser.Followings.length : 0;
         jsonUser.Followers = jsonUser.Followers? jsonUser.Followers.length : 0;
 
-        return res.json(user);
+        return res.json(user[0]);
     } catch (error) {
         console.log(error);
         return next(error);
