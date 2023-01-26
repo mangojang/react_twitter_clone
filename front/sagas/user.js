@@ -114,8 +114,7 @@ function* watchSignUp(){
 
 
 function loadUserAPI(data){
-    let getUrl = data ? `/user/${data}`:`/user`;
-    return axios.get(getUrl, {
+    return axios.get( `/user/${data}`, {
         withCredentials: true
     })
     .then(response=>({response}))

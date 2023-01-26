@@ -1,35 +1,18 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Proptypes from 'prop-types';
-import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import PostCard from '../../components/PostCard';
+import { END } from "redux-saga";
+import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_USER_REQUEST } from '../../reducers/user';
+import wrapper from '../../store/configureStore';
+import PostCard from '../../components/PostCard';
 
 const { Meta } = Card;
 
-const User = (props) => {
-    const router = useRouter()
-    const { id } = router.query
-
-    const dispatch = useDispatch();
+const User = () => {
     const { mainPosts } = useSelector(state=>state.post);
     let { userInfo } = useSelector(state=>state.user);
-    // userInfo = userInfo[0];
-    // console.log("userporps", props);
-  
-    useEffect(()=>{
-        dispatch({
-            type: LOAD_USER_REQUEST,
-            data: id
-        })
-        dispatch({
-            type: LOAD_USER_POSTS_REQUEST,
-            data: id
-        })
-    },[]);
     
     return (
         <div>
@@ -57,15 +40,24 @@ const User = (props) => {
     );
 };
 
-User.Proptypes ={
-    id: Proptypes.string.isRequired
-}
-
-// export const getServerSideProps = async (context) => {
-//     console.log('@@@user', Object.keys(context)); 
-//     console.log('@@user', context.query.id); 
-//     return { props: { id: parseInt(context.query.id, 10)  } };
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    const id = parseInt(etc.query.id, 10) ;
     
-// };
+    store.dispatch({
+        type: LOAD_USER_REQUEST,
+        data: id
+    });
+    
+    store.dispatch({
+        type: LOAD_USER_POSTS_REQUEST,
+        data: id
+    });
+
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+
+    return {props: {id}}
+});
 
 export default User;
