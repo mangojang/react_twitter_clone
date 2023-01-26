@@ -166,7 +166,7 @@ function* watchLoadUserPosts(){
 }
 
 function loadHashtagPostsAPI(data){
-    return axios.get(`/hashtag/${data}`)
+    return axios.get(`/hashtag/${encodeURIComponent(data)}`)
     .then(response=>({response}))
     .catch(error=>({error}))
 }

@@ -1,23 +1,13 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Proptypes from 'prop-types';
 import PostCard from '../../components/PostCard';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
-import { useRouter } from 'next/router';
+import wrapper from '../../store/configureStore';
+import { END } from "redux-saga";
 
 const Hashtag = () => {
-    const router = useRouter()
-    const { tag } = router.query
-
-    const dispatch = useDispatch();
     const { mainPosts, retweetErrorReason } = useSelector(state=>state.post);
-    
-    useEffect(()=>{
-        dispatch({
-            type: LOAD_HASHTAG_POSTS_REQUEST,
-            data: tag
-        })
-    },[]);
 
     useEffect(()=>{
         if(retweetErrorReason){
@@ -39,6 +29,21 @@ const Hashtag = () => {
 Hashtag.Proptypes ={
     tag: Proptypes.string.isRequired
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    const tag = etc.query.tag;
+    
+    store.dispatch({
+        type: LOAD_HASHTAG_POSTS_REQUEST,
+        data: tag
+    });
+
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+
+    return { props: { tag } };
+});
 
 
 export default Hashtag;
