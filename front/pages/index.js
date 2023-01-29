@@ -35,11 +35,11 @@ const Home = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
-    
-    const cookie = req ? req.headers.cookie : '';
-    axios.defaults.headers.Cookie = '';  
-    if (req && cookie) {
-      axios.defaults.headers.Cookie = cookie;
+    const cookie = req? req.headers.cookie:'';
+    console.log('@@cookie', cookie);
+    axios.defaults.headers.Cookie= '';
+    if(req&&cookie){
+        axios.defaults.headers.Cookie = cookie;
     }
     
     store.dispatch({
