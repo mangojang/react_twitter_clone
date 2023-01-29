@@ -14,6 +14,7 @@ const Signup = () => {
 
     useEffect(()=>{
         if(mine){
+            alert('로그인시 접근 불가합니다.')
             Router.push('/')    
         }
     },[mine && mine.id]);
@@ -68,7 +69,9 @@ const Signup = () => {
         setTerm(e.target.checked);
     },[]);
 
-    
+    if(mine){
+        return null;
+    }
 
     return (
         <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
