@@ -141,9 +141,7 @@ function* watchLoadUser(){
 }
 
 function loadMyInfoAPI(data){
-    return axios.get(`/user`, {
-        withCredentials: true
-    })
+    return axios.get(`/user`)
     .then(response=>({response}))
     .catch(error=>({error}))
     

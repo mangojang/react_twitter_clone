@@ -6,9 +6,7 @@ const passport = require('passport');
 const { isLoggedIn } = require('./middleware');
 
 router.get('/', isLoggedIn, async(req, res, next)=>{
-    console.log('@@req.isAuthenticated', req.isAuthenticated());
-    console.log('@@req.user', req.user);
-
+    
     // const user = Object.assign({},req.user.dataValues);
     // delete user.password
     // return res.json(user);

@@ -4,10 +4,12 @@ import { Button, Card, List } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import NicknameEditForm from '../components/NicknameEditForm';
 import { END } from "redux-saga";
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import PostCard from '../components/PostCard';
+
+const axios = require("axios");
 
 
 const Profile = () => {
@@ -91,8 +93,19 @@ const Profile = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
-    
+    const cookie = req? req.headers.cookie:'';
+    console.log('@@cookie', cookie);
+
     const state = store.getState();
+
+    axios.defaults.headers.Cookie= '';
+    if(req&&cookie){
+        axios.defaults.headers.Cookie = cookie;
+    }
+    
+    store.dispatch({
+        type: LOAD_MYINFO_REQUEST
+    });
     
     store.dispatch({
         type: LOAD_FOLLOWERS_REQUEST,

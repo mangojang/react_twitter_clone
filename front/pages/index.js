@@ -6,7 +6,10 @@ import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST, loginAction, logoutAction } fro
 import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { END } from "redux-saga";
-import axios from 'axios';
+// import axios from 'axios';
+
+const axios = require("axios");
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -37,6 +40,7 @@ const Home = () => {
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
     const cookie = req? req.headers.cookie:'';
     console.log('@@cookie', cookie);
+
     axios.defaults.headers.Cookie= '';
     if(req&&cookie){
         axios.defaults.headers.Cookie = cookie;
