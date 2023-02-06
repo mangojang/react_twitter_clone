@@ -3,8 +3,11 @@ import { useSelector } from 'react-redux';
 import Proptypes from 'prop-types';
 import PostCard from '../../components/PostCard';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
+import { LOAD_MYINFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { END } from "redux-saga";
+
+const axios = require("axios");
 
 const Hashtag = () => {
     const { mainPosts, retweetErrorReason } = useSelector(state=>state.post);
@@ -31,7 +34,18 @@ Hashtag.Proptypes ={
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    const cookie = req? req.headers.cookie:'';
+
     const tag = etc.query.tag;
+
+    axios.defaults.headers.Cookie= '';
+    if(req&&cookie){
+        axios.defaults.headers.Cookie = cookie;
+    }
+    
+    store.dispatch({
+        type: LOAD_MYINFO_REQUEST
+    });
     
     store.dispatch({
         type: LOAD_HASHTAG_POSTS_REQUEST,

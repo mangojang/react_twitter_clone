@@ -2,9 +2,11 @@ import { Form, Button, Input, Checkbox } from 'antd';
 import Router from 'next/router';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signupAction } from '../reducers/user';
+import { LOAD_MYINFO_REQUEST, signupAction } from '../reducers/user';
+import wrapper from '../store/configureStore';
+import { END } from "redux-saga";
 
-
+const axios = require("axios");
 
 const Signup = () => {
     const [password, setPassword] = useState('');
@@ -149,5 +151,22 @@ const Signup = () => {
         </Form>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    const cookie = req? req.headers.cookie:'';
+
+    axios.defaults.headers.Cookie= '';
+    if(req&&cookie){
+        axios.defaults.headers.Cookie = cookie;
+    }
+    
+    store.dispatch({
+        type: LOAD_MYINFO_REQUEST
+    });
+    
+    store.dispatch(END);
+
+    await store.sagaTask.toPromise();
+});
 
 export default Signup;

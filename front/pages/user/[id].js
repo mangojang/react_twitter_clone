@@ -4,9 +4,11 @@ import { Avatar, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { END } from "redux-saga";
 import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
-import { LOAD_USER_REQUEST } from '../../reducers/user';
+import { LOAD_USER_REQUEST, LOAD_MYINFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import PostCard from '../../components/PostCard';
+
+const axios = require("axios");
 
 const { Meta } = Card;
 
@@ -41,7 +43,18 @@ const User = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
+    const cookie = req? req.headers.cookie:'';
+
     const id = parseInt(etc.query.id, 10) ;
+
+    axios.defaults.headers.Cookie= '';
+    if(req&&cookie){
+        axios.defaults.headers.Cookie = cookie;
+    }
+    
+    store.dispatch({
+        type: LOAD_MYINFO_REQUEST
+    });
     
     store.dispatch({
         type: LOAD_USER_REQUEST,
