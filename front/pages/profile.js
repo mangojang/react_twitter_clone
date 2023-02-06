@@ -94,7 +94,6 @@ const Profile = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req, res, ...etc }) => {
     const cookie = req? req.headers.cookie:'';
-    console.log('@@cookie', cookie);
 
     const state = store.getState();
 
