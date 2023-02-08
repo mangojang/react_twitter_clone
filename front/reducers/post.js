@@ -94,9 +94,10 @@ export const RETWEET_REQUEST ='RETWEET_REQUEST';
 export const RETWEET_SUCCESS ='RETWEET_SUCCESS';
 export const RETWEET_FAILURE ='RETWEET_FAILURE';
 
-const REMOVE_POST_REQUEST ='REMOVE_POST_REQUEST';
-const REMOVE_POST_SUCCESS ='REMOVE_POST_SUCCESS';
-const REMOVE_POST_FAILURE ='REMOVE_POST_FAILURE';
+export const REMOVE_POST_REQUEST ='REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS ='REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE ='REMOVE_POST_FAILURE';
+
 
 const addPost= {
     type: ADD_POST_REQUEST,
@@ -279,6 +280,22 @@ const reducer = (state=initialState,action) => {
             return {
                 ...state,
                 retweetErrorReason: action.error,
+            }
+        }
+        case REMOVE_POST_REQUEST:{
+            return {
+                ...state,
+            }
+        }
+        case REMOVE_POST_SUCCESS:{
+            return {
+                ...state,
+                mainPosts :  state.mainPosts.filter(v=> v.id !== action.data),
+            }
+        }
+        case REMOVE_POST_FAILURE:{
+            return {
+                ...state,
             }
         }
         default: {

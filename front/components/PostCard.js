@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, Avatar, Form, Input, Button, List } from 'antd';
+import { Card, Avatar, Form, Input, Button, List, Popover } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined, HeartTwoTone } from '@ant-design/icons';
 import Proptypes from 'prop-types';
@@ -9,6 +9,7 @@ import Link from 'next/link';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
 import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
+import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -104,6 +105,13 @@ const postCard = ({post}) => {
         });
     },[]);
 
+    const onRemovePost = useCallback(userId=>()=>{
+        return dispatch({
+            type: REMOVE_POST_REQUEST,
+            data: userId
+        });
+    },[]);
+
     return (
         <div style={{marginBottom: '10px'}}> 
             <Card 
@@ -114,7 +122,21 @@ const postCard = ({post}) => {
                     <RetweetOutlined key="retweet" onClick={onRetweet} />,
                     liked?<HeartTwoTone key="heart" onClick={onUnLike} />:<HeartOutlined key="heart" onClick={onLike} />,
                     <MessageOutlined key="message" onClick={onToggleComment}/>,
-                    <EllipsisOutlined key="ellipsis" />,
+                    <Popover key="ellipsis" trigger="click" content={
+                        <Button.Group>
+                            {mine && post.UserId === mine.id
+                                ?(
+                                    <>
+                                        <Button>수정</Button>
+                                        <Button type="danger" onClick={onRemovePost(post.id)}>삭제</Button>
+                                    </>
+                                )
+                                : <Button>신고</Button>
+                            }
+                        </Button.Group>
+                    }>
+                        <EllipsisOutlined key="ellipsis" />
+                    </Popover>,
                 ]}
                 title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.` : null}
                 extra={!mine || post.User.id === mine.id
