@@ -216,8 +216,8 @@ function* watchUnFollow(){
     yield takeLatest(UNFOLLOW_USER_REQUEST, unfollow)
 }
 
-function loadFollowersAPI(data){
-    return axios.get(`/user/${data || 0}/followers`, {
+function loadFollowersAPI(data, offset= 0, limit= 3){
+    return axios.get(`/user/${data || 0}/followers?offset=${offset}&limit=${limit}`, {
         withCredentials: true
     })
     .then(response=>({response}))
@@ -225,7 +225,7 @@ function loadFollowersAPI(data){
     
 }
 function* loadFollowers(action){
-    const { response, error } = yield call(loadFollowersAPI, action.data)
+    const { response, error } = yield call(loadFollowersAPI, action.data, action.offset)
     if (response){
         yield put({
             type: LOAD_FOLLOWERS_SUCCESS,
@@ -242,8 +242,8 @@ function* watchLoadFollowers(){
     yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers)
 }
 
-function loadFollowingsAPI(data){
-    return axios.get(`/user/${data || 0}/followings`, {
+function loadFollowingsAPI(data, offset= 0, limit= 3){
+    return axios.get(`/user/${data || 0}/followings?offset=${offset}&limit=${limit}`, {
         withCredentials: true
     })
     .then(response=>({response}))
@@ -251,7 +251,7 @@ function loadFollowingsAPI(data){
     
 }
 function* loadFollowings(action){
-    const { response, error } = yield call(loadFollowingsAPI, action.data)
+    const { response, error } = yield call(loadFollowingsAPI, action.data, action.offset)
     if (response){
         yield put({
             type: LOAD_FOLLOWINGS_SUCCESS,

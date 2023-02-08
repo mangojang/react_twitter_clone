@@ -6,7 +6,7 @@ const passport = require('passport');
 const { isLoggedIn } = require('./middleware');
 
 router.get('/', isLoggedIn, async(req, res, next)=>{
-    
+
     // const user = Object.assign({},req.user.dataValues);
     // delete user.password
     // return res.json(user);
@@ -191,6 +191,8 @@ router.get('/:id/followings', isLoggedIn, async(req, res, next)=>{
             attributes: {
                 exclude: ['password']
             },
+            limit: parseInt(req.query.limit, 10),
+            offset: parseInt(req.query.offset, 10)
         })
         return res.json(followings);
     } catch (error) {
@@ -208,6 +210,8 @@ router.get('/:id/followers', isLoggedIn, async(req, res, next)=>{
             attributes: {
                 exclude: ['password']
             },
+            limit: parseInt(req.query.limit, 10),
+            offset: parseInt(req.query.offset, 10)
         })
         return res.json(followers);
         
