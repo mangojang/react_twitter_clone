@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,25 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const {mine, isLoggedIn} = useSelector(state => state.user);
-    const {mainPosts, retweetErrorReason} = useSelector(state => state.post);
+    const {mainPosts, retweetErrorReason, hasMorePost} = useSelector((state) => state.post);
+
+    useEffect(() => {
+        function onScroll() {
+            if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+                if (hasMorePost) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_MAIN_POSTS_REQUEST,
+                        lastId,
+                    });
+                }
+            }
+        }
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [hasMorePost, mainPosts[mainPosts.length - 1].id]);
 
     useEffect(()=>{
         if(retweetErrorReason){

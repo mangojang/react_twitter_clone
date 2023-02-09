@@ -14,8 +14,28 @@ const axios = require("axios");
 
 const Profile = () => {
     const dispatch = useDispatch();
-    const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector(state => state.user);
-    const { mainPosts } = useSelector(state => state.post);
+    const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
+    const { mainPosts, hasMorePost } = useSelector(state => state.post);
+
+    useEffect(() => {
+        function onScroll() {
+            console.log('@@mainPosts', mainPosts[mainPosts.length-1].id);
+            if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+                if (hasMorePost) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_USER_POSTS_REQUEST,
+                        data: mine.id,
+                        lastId,
+                    });
+                }
+            }
+        }
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [hasMorePost, mainPosts[mainPosts.length - 1].id]);
 
     const onUnFollow = useCallback(userId=>()=>{
         dispatch({

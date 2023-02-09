@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Proptypes from 'prop-types';
 import PostCard from '../../components/PostCard';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
@@ -9,9 +9,30 @@ import { END } from "redux-saga";
 
 const axios = require("axios");
 
-const Hashtag = () => {
-    const { mainPosts, retweetErrorReason } = useSelector(state=>state.post);
+const Hashtag = ({tag}) => {
+    const dispatch = useDispatch();
+    const { mainPosts, retweetErrorReason, hasMorePost } = useSelector((state)=>state.post);
+    
 
+    useEffect(() => {
+        function onScroll() {
+            if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
+                if (hasMorePost) {
+                    const lastId = mainPosts[mainPosts.length - 1]?.id;
+                    dispatch({
+                        type: LOAD_HASHTAG_POSTS_REQUEST,
+                        data: tag,
+                        lastId,
+                    });
+                }
+            }
+        }
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [hasMorePost, mainPosts[mainPosts.length - 1].id, tag]);
+    
     useEffect(()=>{
         if(retweetErrorReason){
             alert(retweetErrorReason)
