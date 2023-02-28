@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ const axios = require("axios");
 
 const Home = () => {
     const dispatch = useDispatch();
+    const countRef = useRef([]);
 
     const {mine, isLoggedIn} = useSelector(state => state.user);
     const {mainPosts, retweetErrorReason, hasMorePost} = useSelector((state) => state.post);
@@ -22,10 +23,13 @@ const Home = () => {
             if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
                 if (hasMorePost) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
-                    dispatch({
-                        type: LOAD_MAIN_POSTS_REQUEST,
-                        lastId,
-                    });
+                    if(!countRef.current.includes(lastId)){
+                        dispatch({
+                            type: LOAD_MAIN_POSTS_REQUEST,
+                            lastId,
+                        });
+                        countRef.current.push(lastId);
+                    }
                 }
             }
         }
