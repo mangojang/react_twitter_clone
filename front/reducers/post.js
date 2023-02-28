@@ -134,7 +134,7 @@ const reducer = (state=initialState,action) => {
                     draft.mainPosts.push(el);
                 });
                 draft.isLoadingPosts = false;
-                draft.hasMorePost.action.data.length == 10;
+                draft.hasMorePosts = action.data.length === 10;
                 break;
             }
             case LOAD_MAIN_POSTS_FAILURE:
