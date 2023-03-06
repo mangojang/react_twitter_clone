@@ -67,11 +67,17 @@ export const initialState ={
     //retweet
     isRetweet:false,
     retweetErrorReason:'',
+    //singlePost
+    singlePost:null,
 }
 
 export const LOAD_MAIN_POSTS_REQUEST ='LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS ='LOAD_MAIN_POSTS_SUCCESS';
 export const LOAD_MAIN_POSTS_FAILURE ='LOAD_MAIN_POSTS_FAILURE';
+
+export const LOAD_POST_REQUEST ='LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS ='LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE ='LOAD_POST_FAILURE';
 
 export const LOAD_HASHTAG_POSTS_REQUEST ='LOAD_HASHTAG_POSTS_REQUEST';
 export const LOAD_HASHTAG_POSTS_SUCCESS ='LOAD_HASHTAG_POSTS_SUCCESS';
@@ -281,6 +287,16 @@ const reducer = (state=initialState,action) => {
             case RETWEET_FAILURE:{
                 draft.isRetweet=false;
                 draft.retweetErrorReason= action.error;
+                break;
+            }
+            case LOAD_POST_REQUEST:{
+                break;
+            }
+            case LOAD_POST_SUCCESS:{
+                draft.singlePost = action.data;
+                break;
+            }
+            case LOAD_POST_FAILURE:{
                 break;
             }
             default: {
