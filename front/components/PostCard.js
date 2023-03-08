@@ -6,6 +6,7 @@ import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
 import Link from 'next/link';
+import styled from 'styled-components'
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
 import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../reducers/user';
@@ -13,6 +14,10 @@ import { REMOVE_POST_REQUEST } from '../reducers/post';
 
 const { Meta } = Card;
 const { TextArea } = Input;
+
+const PostCard = styled.div`
+    margin-bottom: 10px;
+`;
 
 const postCard = ({post}) => {
     
@@ -113,7 +118,7 @@ const postCard = ({post}) => {
     },[]);
 
     return (
-        <div style={{marginBottom: '10px'}}> 
+        <PostCard> 
             <Card 
                 key={+post.id}
                 // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
@@ -189,7 +194,7 @@ const postCard = ({post}) => {
                     />
                 </>
             )}
-        </div>
+        </PostCard>
     );
 };
 
