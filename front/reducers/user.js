@@ -241,6 +241,7 @@ const reducer = (state = initialState, action) => {
                 break;
             }
             case LOAD_FOLLOWERS_REQUEST:{
+                draft.followerList = !action.offset? [] : draft.followerList;
                 draft.isLoadingFollower = true;
                 draft.loadFollowersErrorReason = '';
                 draft.hasMoreFollower = action.offset? draft.hasMoreFollower : true;
@@ -260,6 +261,7 @@ const reducer = (state = initialState, action) => {
                 break;
             }
             case LOAD_FOLLOWINGS_REQUEST:{
+                draft.followingList = !action.offset? [] : draft.followingList;
                 draft.isLoadingFollowing = true;
                 draft.loadFollowingsErrorReason = '';
                 draft.hasMoreFollowing = action.offset ? draft.hasMoreFollowing: true;
