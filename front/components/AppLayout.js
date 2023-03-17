@@ -5,35 +5,14 @@ import Link from 'next/link';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
 import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../reducers/user';
+import { useRouter } from 'next/router';
 
 
 
 const { Search } = Input;
 
-
-const items =[
-    {
-        label: (
-            <Link href="/" legacyBehavior><a>홈</a></Link>
-        ),
-        key: 'home',
-    },
-    {
-        label: (
-            <Link href="/profile" legacyBehavior><a>프로필</a></Link>
-        ),
-        key: 'profile',
-    },
-    {
-        label: (
-            <Search placeholder="input search text" enterButton style={{ verticalAlign: 'middle' }} />
-          ),
-        key: 'mail',
-    },
-]
-
 const AppLayout = ({children}) => {
-
+    const router = useRouter();
     const {isLoggedIn, mine} = useSelector(state => state.user);
     const dispatch = useDispatch();
 
@@ -44,6 +23,33 @@ const AppLayout = ({children}) => {
     //        })
     //    }
     // },[]);
+
+    const onSearch = (value)=>{
+        router.push({pathname: '/hashtag', query: { tag : value }}, `/hashtag/${value}`);
+    };
+    
+    
+    const items =[
+        {
+            label: (
+                <Link href="/" legacyBehavior><a>홈</a></Link>
+            ),
+            key: 'home',
+        },
+        {
+            label: (
+                <Link href="/profile" legacyBehavior><a>프로필</a></Link>
+            ),
+            key: 'profile',
+        },
+        {
+            label: (
+                <Search placeholder="input search text" enterButton style={{ verticalAlign: 'middle' }} onSearch={onSearch} />
+              ),
+            key: 'mail',
+        },
+    ]
+    
 
     return (
         <div>
