@@ -43,7 +43,7 @@ const Hashtag = ({tag}) => {
         <div>
             {mainPosts.map((v,i)=>{
                 return(
-                    <PostCard key={i} post={v}/>  
+                    <PostCard key={v.id} post={v}/>  
                 )
             })}
         </div>

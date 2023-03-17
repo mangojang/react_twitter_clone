@@ -120,7 +120,6 @@ const postCard = ({post}) => {
     return (
         <PostCard> 
             <Card 
-                key={+post.id}
                 // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
                 cover={post.Images && post.Images.length>0 ? <PostImages images={post.Images}/> : null}
                 actions={[
