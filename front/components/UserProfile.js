@@ -3,6 +3,7 @@ import { Avatar, Button, Card } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../reducers/user';
+import Link from 'next/link';
 
 const { Meta } = Card;
 
@@ -18,9 +19,9 @@ const UserProfile = () => {
     return (
         <Card
             actions={[
-            <div key="twit">짹짹<br/>{ mine.Post? mine.Post.length : 0 }</div>,
-            <div key="following">팔로잉<br/>{mine.Followings? mine.Followings.length : 0 }</div>,
-            <div key="follower">팔로워<br/>{mine.Followers? mine.Followers.length : 0}</div>,
+            <Link href={'/profile'} key="twit"><div>짹짹<br/>{ mine.Post? mine.Post.length : 0 }</div></Link>,
+            <Link href={'/profile'} key="following"><div>팔로잉<br/>{mine.Followings? mine.Followings.length : 0 }</div></Link>,
+            <Link href={'/profile'} key="follower"><div>팔로워<br/>{mine.Followers? mine.Followers.length : 0}</div></Link>,
             ]}
         >
             <Meta
