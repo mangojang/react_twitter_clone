@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Input, Col, Row} from 'antd';
 import Link from 'next/link';
-import LoginForm from './LoginForm';
-import UserProfile from './UserProfile';
-import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../reducers/user';
+import LoginForm from '../LoginForm';
+import UserProfile from '../UserProfile';
+import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../../reducers/user';
 import { useRouter } from 'next/router';
 
 

@@ -1,7 +1,7 @@
 import React, {useCallback, useState, useEffect, useRef} from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGE_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGE_REQUEST } from '../../reducers/post';
 
 const { TextArea } = Input;
 

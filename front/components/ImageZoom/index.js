@@ -3,23 +3,24 @@ import Proptypes from 'prop-types';
 import { CloseOutlined } from '@ant-design/icons';
 import Slick from 'react-slick';
 import styled from 'styled-components';
+import  {Header, BtnClose } from './style';
 
-const Header = styled.div`
-    height: 44px; 
-    background: white; 
-    position: relative; 
-    padding: 0; 
-    text-align: center;
-`;
+// const Header = styled.div`
+//     height: 44px; 
+//     background: white; 
+//     position: relative; 
+//     padding: 0; 
+//     text-align: center;
+// `;
 
-const BtnClose = styled(CloseOutlined)`
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 14px;
-    line-height: 14px;
-    cursor: pointer;
-`;
+// const BtnClose = styled(CloseOutlined)`
+//     position: absolute;
+//     right: 0;
+//     top: 0;
+//     padding: 14px;
+//     line-height: 14px;
+//     cursor: pointer;
+// `;
 
 const ImageZoom = ({images, onClose}) => {
     const [currentSlide, setCurrentSlide] = useState(0);

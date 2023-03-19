@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Button, Input } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { EDIT_NICKNAME_REQUEST } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';     
+import { EDIT_NICKNAME_REQUEST } from '../../reducers/user';
 
 const NicknameEditForm = () => {
     const [ editName, setEditName] = useState('');
