@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require('dotenv');
+const path = require('path');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const handle = app.getRequestHandler();
 app.prepare().then(()=>{
     const server= express();
     server.use(morgan('dev'));
+    server.use('/', express.static(path.join(__dirname, 'public')));
     server.use(express.json()); // json으로 넘어온 데이타 처리
     server.use(express.urlencoded({extended:true})); //form으로 넘어온 데이타 처리
     server.use(cookieParser(process.env.COOKIE_SECRET));
