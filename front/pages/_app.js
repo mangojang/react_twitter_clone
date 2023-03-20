@@ -4,7 +4,7 @@ import AppLayout from '../components/AppLayout';
 import { Provider } from 'react-redux';
 import wrapper from '../store/configureStore';
 import Head from 'next/head';
-
+import { Reset } from 'styled-reset'
 
 
 const App = ({Component, ...rest }) => {
@@ -25,6 +25,7 @@ const App = ({Component, ...rest }) => {
                 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
             </Head>
             <AppLayout>
+                <Reset />
                 <Component {...props.pageProps}/>
             </AppLayout>
         </Provider>
