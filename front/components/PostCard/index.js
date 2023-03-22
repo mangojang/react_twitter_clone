@@ -6,17 +6,15 @@ import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/post';
 import Link from 'next/link';
-import styled from 'styled-components'
 import PostImages from '../PostImages';
 import PostCardContent from '../PostCardContent';
 import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../../reducers/user';
+import { PostCard } from './style';
+import { Btn } from '../Styles';
 
 const { Meta } = Card;
 const { TextArea } = Input;
 
-const PostCard = styled.div`
-    margin-bottom: 10px;
-`;
 
 const postCard = ({post}) => {
     
@@ -110,44 +108,46 @@ const postCard = ({post}) => {
     },[]);
 
     const onRemovePost = useCallback(userId=>()=>{
-        return dispatch({
-            type: REMOVE_POST_REQUEST,
-            data: userId
-        });
+        const isConfirm =confirm("정말 삭제 하시겠습니까?");
+        if(isConfirm){
+            return dispatch({
+                type: REMOVE_POST_REQUEST,
+                data: userId
+            });
+        }
     },[]);
 
     return (
+        
         <PostCard> 
             <Card 
+                className='postcard'
                 // cover={post.Images[0] && <img alt='example' src={'http://localhost:8000/'+ post.Images[0].content}/>}
                 cover={post.Images && post.Images.length>0 ? <PostImages images={post.Images}/> : null}
                 actions={[
-                    <RetweetOutlined key="retweet" onClick={onRetweet} />,
-                    liked?<HeartTwoTone key="heart" onClick={onUnLike} />:<HeartOutlined key="heart" onClick={onLike} />,
-                    <MessageOutlined key="message" onClick={onToggleComment}/>,
+                    <RetweetOutlined key="retweet" title='리트윗' onClick={onRetweet} />,
+                    liked?<HeartTwoTone key="heart" title='좋아요' onClick={onUnLike} />:<HeartOutlined key="heart" title='좋아요' onClick={onLike} />,
+                    <MessageOutlined key="message" title='댓글' onClick={onToggleComment}/>,
                     <Popover key="ellipsis" trigger="click" content={
                         <Button.Group>
                             {mine && post.UserId === mine.id
                                 ?(
                                     <>
-                                        <Button>수정</Button>
-                                        <Button type="danger" onClick={onRemovePost(post.id)}>삭제</Button>
+                                        <Btn>수정</Btn>
+                                        <Btn onClick={onRemovePost(post.id)}>삭제</Btn>
                                     </>
                                 )
-                                : <Button>신고</Button>
+                                : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
+                                    ? <Btn onClick={onUnFollow(post.User.id)}>언팔로우</Btn>
+                                    : <Btn onClick={onFollow(post.User.id)}>팔로우</Btn>
+                                )
                             }
                         </Button.Group>
                     }>
-                        <EllipsisOutlined key="ellipsis" />
+                        <EllipsisOutlined key="ellipsis" title='더보기' />
                     </Popover>,
                 ]}
                 title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.` : null}
-                extra={!mine || post.User.id === mine.id
-                    ? null
-                    : mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
-                        ? <Button onClick={onUnFollow(post.User.id)}>팔로우 취소</Button>
-                        : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
-                }
             >
             {post.RetweetId && post.Retweet ?
                 (
@@ -155,7 +155,7 @@ const postCard = ({post}) => {
                     cover={post.Retweet.Images && post.Retweet.Images.length>0 ? <PostImages images={post.Retweet.Images}/> : null}    
                 >
                     <Meta
-                    avatar={<Link href={{pathname:'/user/[id]',query:{id:post.Retweet.User.id}}} legacyBehavior><a><Avatar>{post.Retweet.User.nickname}</Avatar></a></Link>}
+                    avatar={<Link href={{pathname:'/user/[id]',query:{id:post.Retweet.User.id}}} legacyBehavior><a><Avatar>{post.Retweet.User.nickname.slice(0,1)}</Avatar></a></Link>}
                     title={post.Retweet.User.nickname}
                     description={<PostCardContent postData={post.Retweet.content}/>}
                     />
@@ -163,7 +163,7 @@ const postCard = ({post}) => {
                 )
                 :
                 <Meta
-                avatar={<Link href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{post.User.nickname}</Avatar></a></Link>}
+                avatar={<Link href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{post.User.nickname.slice(0,1)}</Avatar></a></Link>}
                 title={post.User.nickname}
                 description={<PostCardContent postData={post.content}/>}
                 />
@@ -172,11 +172,11 @@ const postCard = ({post}) => {
             {commentFormOpend && (
                 <>
                     <Form onFinish={onSubmitComment}>
-                        <TextArea name="comment_content" placeholder="댓글을 입력해주세요" value={commentContent} onChange={onChangeContent} maxLength={140} style={{marginTop: '20px'}}/>
-                        <Button type='primary' htmlType='submit' loading={isAddingComment} style={{marginTop: '10px'}}>전송</Button>
+                        <TextArea name="comment_content" placeholder="내 답글을 트윗합니다." value={commentContent} onChange={onChangeContent} maxLength={140} style={{marginTop: '20px'}}/>
+                        <Btn type='primary' htmlType='submit' styletype='primary' loading={isAddingComment} style={{marginTop: '10px'}}>답글</Btn>
                     </Form>
                     <List
-                        header={`${post.Comments ? post.Comments.length : 0} 댓글`}
+                        header={`${post.Comments ? post.Comments.length : 0} 답글`}
                         itemLayout="horizontal"
                         dataSource={post.Comments || []}
                         renderItem={item=>(
@@ -193,6 +193,7 @@ const postCard = ({post}) => {
                 </>
             )}
         </PostCard>
+                            
     );
 };
 
