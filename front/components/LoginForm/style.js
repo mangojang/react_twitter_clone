@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const LoginFormBox = styled.div`
+    padding: 8px 16px;
     .login_input{ 
         margin-bottom: 10px;
     }

@@ -5,7 +5,8 @@ import Link from 'next/link';
 import LoginForm from '../LoginForm';
 import UserProfile from '../UserProfile';
 import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../../reducers/user';
-import { Container, Gnb, HomeIcon, Logo, LogoIcon, SideBarLeft, SideBarRight } from './style';
+import { Container, Gnb, HomeIcon, Logo, LogoIcon, ProfileIcon, SideBarLeft, SideBarRight } from './style';
+import SearchInput from '../SearchInput';
 
 
 const AppLayout = ({children}) => {
@@ -55,7 +56,7 @@ const AppLayout = ({children}) => {
                         <div className='contents'>{children}</div>
                         <SideBarRight className='sidebar_right'>
                             <div>
-                                {mine? <Search placeholder="input search text" enterButton style={{ verticalAlign: 'middle' }} onSearch={onSearch} /> : <LoginForm/>}
+                                {mine? <SearchInput/> : <LoginForm/>}
                                 <p className='cmt'>본 사이트는 개인 포트폴리오용 사이트 입니다.</p>
                             </div>
                         </SideBarRight>

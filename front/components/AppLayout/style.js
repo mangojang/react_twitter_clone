@@ -85,10 +85,11 @@ export const Container = styled.div`
 `;
 
 export const SideBarRight = styled.div`
-    padding: 8px 16px;
+    /* padding: 8px 16px; */
     border-left: 1px solid rgb(239, 243, 244);
     >div{
-        position: fixed;
+        position: sticky;
+        top: 0;
         
     }
     .cmt{
@@ -96,7 +97,7 @@ export const SideBarRight = styled.div`
         color: #536471;
         line-height: 1.2;
         word-break: keep-all;
-        margin: 16px 0;
+        margin: 8px 16px;
     }
     @media (max-width: 992px) {
         >div{
