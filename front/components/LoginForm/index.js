@@ -3,7 +3,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { loginAction } from '../../reducers/user';
-import { Btn, LoginFormBox } from './style';
+import { LoginFormBox } from './style';
+import { Btn } from '../Styles';
 
 const LoginForm = () => {
     const [id, setId] = useState('');

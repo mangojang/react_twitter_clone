@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from 'antd';
 
 export const LoginFormBox = styled.div`
     .login_input{ 
@@ -19,17 +18,3 @@ export const LoginFormBox = styled.div`
     }
 `;
 
-export const Btn = styled(Button)`
-    ${(props) => {
-        switch (props.styleType) {
-        case "primary":
-            return `
-                background-color: var(--primary_color);
-            `;
-        default:
-            return `
-                background-color: white;
-            `;
-        }
-  }}
-`;
