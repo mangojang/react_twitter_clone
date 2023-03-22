@@ -63,8 +63,8 @@ const LoginForm = () => {
                 <Input.Password className='login_input' value={password} onChange={onChangePassword}/>
             </Form.Item>
             <div className='btns_box'>
-                <Btn type="primary" htmlType="submit" loading={isLoggingIn} styleType='primary'>로그인</Btn>
-                <Link href='/signup' legacyBehavior><a><Btn styleType='default'>가입하기</Btn></a></Link>
+                <Btn type="primary" htmlType="submit" loading={isLoggingIn} styletype='primary'>로그인</Btn>
+                <Link href='/signup' legacyBehavior><a><Btn styletype='default'>가입하기</Btn></a></Link>
             </div>
         </Form>
         </LoginFormBox>
