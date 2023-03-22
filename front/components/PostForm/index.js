@@ -1,12 +1,16 @@
 import React, {useCallback, useState, useEffect, useRef} from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { ADD_POST_REQUEST, REMOVE_IMAGE, UPLOAD_IMAGE_REQUEST } from '../../reducers/post';
+import { Btn } from '../Styles';
+import { PictureOutlined, CloseOutlined } from '@ant-design/icons';
+import { PostFormBox } from './style';
 
 const { TextArea } = Input;
 
-const PostForm = () => {
-    const { imagePaths, isAddingPost, postAdded } = useSelector(state=>state.post)
+const PostForm = (props) => {
+    const { imagePaths, isAddingPost, postAdded } = useSelector(state=>state.post);
+    const { mine } = useSelector(state=>state.user);
     const [content, setContent] = useState('');
     const dispatch = useDispatch();
     const imageInput = useRef();
@@ -61,25 +65,35 @@ const PostForm = () => {
 
 
     return (
-        <Form encType='multipart/form-data' onFinish={onSubmit}>
-            <TextArea name="post_content" placeholder="어떤 일이 있으셨나요?" value={content} onChange={onChangeContent} maxLength={140} />
-            <div style={{display:'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px'}}>
-                <input name='post_image' type='file' hidden={true} ref={imageInput} onChange={onChangeImages} style={{display:'none'}}/>
-                <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-                <Button type='primary' htmlType='submit' loading={isAddingPost}>짹짹</Button>
+        <PostFormBox>
+            <div className='left'>
+                <Avatar className='postform_avatar' size="large">{mine.nickname.slice(0,1)}</Avatar>
             </div>
-            {imagePaths.map((v, i) => {
-                return(
-                    <div key={v} style={{display:'inline-block'}}>
-                        <img src={'http://localhost:8000/'+v} style={{width:'200px'}} alt={v}/>
-                        <div>
-                            <Button onClick={onRemoveImage(i)}>제거</Button>
-                        </div>
+            <div className='right'>
+                <Form encType='multipart/form-data' onFinish={onSubmit}>
+                    <TextArea name="post_content" placeholder="무슨 일이 일어나고 있나요?" value={content} onChange={onChangeContent} maxLength={140} />
+                    <div style={{display:'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px'}}>
+                        <input name='post_image' type='file' hidden={true} ref={imageInput} onChange={onChangeImages} style={{display:'none'}}/>
+                        <Btn icon={<PictureOutlined />} title={'이미지 업로드'} onClick={onClickImageUpload}/>
+                        <Btn type='primary' htmlType='submit' styletype='primary' loading={isAddingPost}>트윗하기</Btn>
                     </div>
-                )
-            })}
-        </Form>
+                    <div className='image_container'>
+                        {imagePaths.map((v, i) => {
+                            return(
+                                <div key={v}>
+                                    <div>
+                                        <Btn icon={<CloseOutlined />} title={'삭제'} styletype='icon' onClick={onRemoveImage(i)}/>
+                                    </div>
+                                    <img src={'http://localhost:8000/'+v} style={{width:'200px'}} alt={v}/>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </Form>
+            </div>
+        </PostFormBox>
     );
 };
+
 
 export default PostForm;
