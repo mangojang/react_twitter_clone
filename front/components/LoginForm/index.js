@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { loginAction } from '../../reducers/user';
+import { Btn, LoginFormBox } from './style';
 
 const LoginForm = () => {
     const [id, setId] = useState('');
@@ -34,36 +35,38 @@ const LoginForm = () => {
     },[]);
 
     return (
-        <div style={{paddingTop:'20px'}}>
+        <LoginFormBox style={{paddingTop:'20px'}}>
         <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
-                <Form.Item
-                    label="아이디"
-                    name="user_id"
-                    rules={[
-                    {
-                        required: true,
-                        message: '아이디를 입력하세요!',
-                    },
-                    ]}
-                >
-                    <Input value={id} onChange={onChangeId}/>
-                </Form.Item>
-                <Form.Item
-                    label="비밀번호"
-                    name="user_password"
-                    rules={[
-                    {
-                        required: true,
-                        message: '비밀번호를 입력하세요!',
-                    },
-                    ]}
-                >
-                    <Input.Password value={password} onChange={onChangePassword}/>
-                </Form.Item>
-            <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
-            <Link href='/signup' legacyBehavior><a><Button>회원가입</Button></a></Link>
+            <Form.Item
+                label="아이디"
+                name="user_id"
+                rules={[
+                {
+                    required: true,
+                    message: '아이디를 입력하세요!',
+                },
+                ]}
+            >
+                <Input className='login_input' value={id} onChange={onChangeId}/>
+            </Form.Item>
+            <Form.Item
+                label="비밀번호"
+                name="user_password"
+                rules={[
+                {
+                    required: true,
+                    message: '비밀번호를 입력하세요!',
+                },
+                ]}
+            >
+                <Input.Password className='login_input' value={password} onChange={onChangePassword}/>
+            </Form.Item>
+            <div className='btns_box'>
+                <Btn type="primary" htmlType="submit" loading={isLoggingIn} styleType='primary'>로그인</Btn>
+                <Link href='/signup' legacyBehavior><a><Btn styleType='default'>가입하기</Btn></a></Link>
+            </div>
         </Form>
-        </div>
+        </LoginFormBox>
     );
 };
 
