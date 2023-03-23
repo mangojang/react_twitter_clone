@@ -6,6 +6,7 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_MYINFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { END } from "redux-saga";
+import PageLayout from '../../components/PageLayout';
 
 const axios = require("axios");
 
@@ -40,13 +41,13 @@ const Hashtag = ({tag}) => {
     },[retweetErrorReason]);
 
     return (
-        <div>
+        <PageLayout title={"검색 결과"}>
             {mainPosts.map((v,i)=>{
                 return(
                     <PostCard key={v.id} post={v}/>  
                 )
             })}
-        </div>
+        </PageLayout>
     );
 };
 
