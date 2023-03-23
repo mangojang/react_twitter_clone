@@ -79,7 +79,6 @@ export const Container = styled.div`
         }
         .sidebar_right{
             width: 100%;
-            background-color: pink
         }
     }
 `;
