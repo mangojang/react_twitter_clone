@@ -10,7 +10,6 @@ import PostImages from '../PostImages';
 import PostCardContent from '../PostCardContent';
 import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../../reducers/user';
 import { PostCard } from './style';
-import { Btn } from '../Styles';
 
 const { Meta } = Card;
 const { TextArea } = Input;
@@ -135,15 +134,15 @@ const postCard = ({post}) => {
                                     post.UserId === mine.id
                                     ?(
                                         <>
-                                            <Btn>수정</Btn>
-                                            <Btn onClick={onRemovePost(post.id)}>삭제</Btn>
+                                            <Button>수정</Button>
+                                            <Button onClick={onRemovePost(post.id)}>삭제</Button>
                                         </>
                                     )
                                     : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
-                                        ? <Btn onClick={onUnFollow(post.User.id)}>언팔로우</Btn>
-                                        : <Btn onClick={onFollow(post.User.id)}>팔로우</Btn>
+                                        ? <Button onClick={onUnFollow(post.User.id)}>언팔로우</Button>
+                                        : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
                                     )
-                                : (<Btn>신고</Btn>)
+                                : (<Button>신고</Button>)
                             }
                         </Button.Group>
                     }>
@@ -176,7 +175,7 @@ const postCard = ({post}) => {
                 <>
                     <Form onFinish={onSubmitComment}>
                         <TextArea name="comment_content" placeholder="내 답글을 트윗합니다." value={commentContent} onChange={onChangeContent} maxLength={140} style={{marginTop: '20px'}}/>
-                        <Btn type='primary' htmlType='submit' styletype='primary' loading={isAddingComment} style={{marginTop: '10px'}}>답글</Btn>
+                        <Button type='primary' htmlType='submit' loading={isAddingComment} style={{marginTop: '10px'}}>답글</Button>
                     </Form>
                     <List
                         header={`${post.Comments ? post.Comments.length : 0} 답글`}

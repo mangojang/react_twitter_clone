@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { loginAction } from '../../reducers/user';
 import { LoginFormBox } from './style';
-import { Btn } from '../Styles';
 
 const LoginForm = () => {
     const [id, setId] = useState('');
@@ -63,8 +62,8 @@ const LoginForm = () => {
                 <Input.Password className='login_input' value={password} onChange={onChangePassword}/>
             </Form.Item>
             <div className='btns_box'>
-                <Btn type="primary" htmlType="submit" loading={isLoggingIn} styletype='primary'>로그인</Btn>
-                <Link href='/signup' legacyBehavior><a><Btn styletype='default'>가입하기</Btn></a></Link>
+                <Button type="primary" htmlType="submit" loading={isLoggingIn}>로그인</Button>
+                <Link href='/signup' legacyBehavior><a><Button>가입하기</Button></a></Link>
             </div>
         </Form>
         </LoginFormBox>

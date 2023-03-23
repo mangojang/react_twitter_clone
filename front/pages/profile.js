@@ -9,7 +9,6 @@ import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import PostCard from '../components/PostCard';
 import PageLayout from '../components/PageLayout';
-import { Btn } from '../components/Styles';
 import { ProfileLayout } from '../components/ProfileLayout/style';
 import { TitleBox, UserProfleCard } from '../components/UserProfile/style';
 
@@ -89,8 +88,8 @@ const Profile = () => {
             <TitleBox>
                 <div>{data.nickname}</div>
                 { type ==="following"
-                    ?<Btn onClick={onUnFollow(data.id)}>언팔로우</Btn>
-                    :<Btn onClick={onRemoveFollower(data.id)}>차단</Btn>
+                    ?<Button onClick={onUnFollow(data.id)}>언팔로우</Button>
+                    :<Button onClick={onRemoveFollower(data.id)}>차단</Button>
                 }
             </TitleBox>
         )
@@ -132,7 +131,7 @@ const Profile = () => {
                     <div className='user_info_box'>
                         <div className='top_box'>
                             <div><Avatar className='user_avatar'>{mine.nickname.slice(0,1)}</Avatar></div> 
-                            <div><Btn onClick={showModal}>프로필 수정</Btn></div>
+                            <div><Button onClick={showModal}>프로필 수정</Button></div>
                             <Modal title="프로필 수정" cancelText="취소" okText="확인" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                                 <NicknameEditForm/>
                             </Modal>

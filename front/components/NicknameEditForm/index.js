@@ -3,7 +3,6 @@ import { Form, Button, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';     
 import { EDIT_NICKNAME_REQUEST } from '../../reducers/user';
 import { Container } from './style';
-import { Btn } from '../Styles';
 
 const NicknameEditForm = () => {
     const [ editName, setEditName] = useState('');
@@ -26,7 +25,7 @@ const NicknameEditForm = () => {
                 <Form.Item>
                     <div className='row'>
                         <Input className='input' addonBefore="닉네임" value={editName || (mine &&  mine.nickname)} onChange={onChangeNickname}/>
-                        <Btn className='btn' type='primary' htmlType="submit" styletype='primary' loading={isEditingNickname}>수정</Btn>
+                        <Button className='btn' type='primary' htmlType="submit" loading={isEditingNickname}>수정</Button>
                     </div>
                 </Form.Item>
             </Form>

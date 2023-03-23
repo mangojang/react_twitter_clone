@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../reducers/user';
 import Link from 'next/link';
 import { TitleBox, UserProfleCard } from './style';
-import { Btn } from '../Styles';
 
 const { Meta } = Card;
 
@@ -24,7 +23,7 @@ const UserProfile = () => {
                 <div>{mine.nickname}</div>
                 <Popover key="ellipsis" trigger="click" content={
                     <Button.Group>
-                        <Btn onClick={onClickLogout}>로그아웃</Btn>
+                        <Button onClick={onClickLogout}>로그아웃</Button>
                     </Button.Group>
                 }>
                     <EllipsisOutlined key="ellipsis" title='더보기' className='btn_more' />

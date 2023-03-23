@@ -74,8 +74,8 @@ const PostForm = (props) => {
                     <TextArea name="post_content" placeholder="무슨 일이 일어나고 있나요?" value={content} onChange={onChangeContent} maxLength={140} />
                     <div style={{display:'flex', justifyContent: 'space-between', marginTop: '10px', marginBottom: '10px'}}>
                         <input name='post_image' type='file' hidden={true} ref={imageInput} onChange={onChangeImages} style={{display:'none'}}/>
-                        <Btn icon={<PictureOutlined />} title={'이미지 업로드'} onClick={onClickImageUpload}/>
-                        <Btn type='primary' htmlType='submit' styletype='primary' loading={isAddingPost}>트윗하기</Btn>
+                        <Button icon={<PictureOutlined />} title={'이미지 업로드'} onClick={onClickImageUpload}/>
+                        <Button type='primary' htmlType='submit' loading={isAddingPost}>트윗하기</Button>
                     </div>
                     <div className='image_container'>
                         {imagePaths.map((v, i) => {

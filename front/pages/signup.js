@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MYINFO_REQUEST, signupAction } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import { END } from "redux-saga";
-import { Btn } from '../components/Styles';
 import PageLayout from '../components/PageLayout';
 
 const axios = require("axios");
@@ -150,7 +149,7 @@ const Signup = () => {
                         
                     </Form.Item>
                     <div className='btns_area'>
-                        <Btn type="primary" htmlType="submit" loading={isSigningUp} size={'large'} styletype='primary' style={{borderRadius: '9999px'}}>가입하기</Btn>
+                        <Button type="primary" htmlType="submit" loading={isSigningUp} size={'large'}>가입하기</Button>
                     </div>
                 </Form>
             </div>
