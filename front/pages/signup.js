@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MYINFO_REQUEST, signupAction } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import { END } from "redux-saga";
+import { Btn } from '../components/Styles';
+import PageLayout from '../components/PageLayout';
 
 const axios = require("axios");
 
@@ -76,79 +78,83 @@ const Signup = () => {
     }
 
     return (
-        <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
-            <div>회원가입</div>
-                <Form.Item
-                    label="아이디"
-                    name="signup_id"
-                    rules={[
-                    {
-                        required: true,
-                        message: '아이디를 입력하세요!',
-                    },
-                    ]}
-                >
-                    <Input value={userId} onChange={onChangeId}/>
-                </Form.Item>
-                <Form.Item
-                    label="닉네임"
-                    name="signup_nickname"
-                    rules={[
-                    {
-                        required: true,
-                        message: '닉네임을 입력하세요!',
-                    },
-                    ]}
-                >
-                    <Input value={nickname} onChange={onChangeNickname}/>
-                </Form.Item>
-
-                <Form.Item
-                    label="비밀번호"
-                    name="signup_password"
-                    rules={[
-                    {
-                        required: true,
-                        message: '비밀번호를 입력하세요!',
-                    },
-                    ]}
-                >
-                    <Input.Password value={password} onChange={onChangePassword}/>
-                </Form.Item>
-                <Form.Item
-                    label="비밀번호 확인"
-                    name="signup_password_check"
-                    dependencies={['password']}
-                    rules={[
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            if (!value || getFieldValue('signup_password') === value) {
-                            return Promise.resolve();
-                            }
-                            return Promise.reject(new Error('비밀번호가 일치하지 않습니다.'));
-                        },
-                        }),
-                    ]}
-                >
-                    <Input.Password value={passwordCheck} onChange={onChangePasswordCheck} />
-                    
-                </Form.Item>
-                <Form.Item
-                    name="signup_term"
-                    valuePropName="checked"
-                    rules={[
+        <PageLayout title={'회원가입'}>
+            <div style={{padding: '0 16px'}}>
+                <Form onFinish={onSubmit} onFinishFailed={onFinishFailed}>
+                    <Form.Item
+                        label="아이디"
+                        name="signup_id"
+                        rules={[
                         {
-                            validator: (_, value) =>
-                            value ? Promise.resolve() : Promise.reject(new Error('개인정보 사용에 동의해주세요.')),
+                            required: true,
+                            message: '아이디를 입력하세요!',
                         },
-                    ]}
-                >
-                    <Checkbox value={term}  onChange={onChangeTerm}>개인정보 사용에 동의하십니까?</Checkbox>
-                    
-                </Form.Item>
-                
-            <Button type="primary" htmlType="submit" loading={isSigningUp} style={{marginTop:'20px'}}>전송하기</Button>
-        </Form>
+                        ]}
+                    >
+                        <Input value={userId} onChange={onChangeId}/>
+                    </Form.Item>
+                    <Form.Item
+                        label="닉네임"
+                        name="signup_nickname"
+                        rules={[
+                        {
+                            required: true,
+                            message: '닉네임을 입력하세요!',
+                        },
+                        ]}
+                    >
+                        <Input value={nickname} onChange={onChangeNickname}/>
+                    </Form.Item>
+    
+                    <Form.Item
+                        label="비밀번호"
+                        name="signup_password"
+                        rules={[
+                        {
+                            required: true,
+                            message: '비밀번호를 입력하세요!',
+                        },
+                        ]}
+                    >
+                        <Input.Password value={password} onChange={onChangePassword}/>
+                    </Form.Item>
+                    <Form.Item
+                        label="비밀번호 확인"
+                        name="signup_password_check"
+                        dependencies={['password']}
+                        rules={[
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('signup_password') === value) {
+                                return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('비밀번호가 일치하지 않습니다.'));
+                            },
+                            }),
+                        ]}
+                    >
+                        <Input.Password value={passwordCheck} onChange={onChangePasswordCheck} />
+                        
+                    </Form.Item>
+                    <Form.Item
+                        name="signup_term"
+                        valuePropName="checked"
+                        rules={[
+                            {
+                                validator: (_, value) =>
+                                value ? Promise.resolve() : Promise.reject(new Error('개인정보 사용에 동의해주세요.')),
+                            },
+                        ]}
+                    >
+                        <Checkbox value={term}  onChange={onChangeTerm}>개인정보 사용에 동의하십니까?</Checkbox>
+                        
+                    </Form.Item>
+                    <div className='btns_area'>
+                        <Btn type="primary" htmlType="submit" loading={isSigningUp} size={'large'} styletype='primary' style={{borderRadius: '9999px'}}>가입하기</Btn>
+                    </div>
+                </Form>
+            </div>
+        </PageLayout>
     );
 };
 
