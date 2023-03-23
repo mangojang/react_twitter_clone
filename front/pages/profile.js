@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, List } from 'antd';
+import { Button, Card, List, Avatar, Tabs, Empty, Modal } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import NicknameEditForm from '../components/NicknameEditForm';
 import { END } from "redux-saga";
@@ -8,18 +8,24 @@ import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUES
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import PostCard from '../components/PostCard';
+import PageLayout from '../components/PageLayout';
+import { Btn } from '../components/Styles';
+import { ProfileLayout } from '../components/ProfileLayout/style';
+import { TitleBox, UserProfleCard } from '../components/UserProfile/style';
 
 const axios = require("axios");
 
+const { Meta } = Card;
 
 const Profile = () => {
     const dispatch = useDispatch();
     const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
     const { mainPosts, hasMorePost } = useSelector(state => state.post);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         function onScroll() {
-            console.log('@@mainPosts', mainPosts[mainPosts.length-1].id);
+            // console.log('@@mainPosts', mainPosts[mainPosts.length-1].id);
             if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
                 if (hasMorePost) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
@@ -64,12 +70,110 @@ const Profile = () => {
             offset: followerList.length,
         })
     },[followerList.length]);
+
+    const tweetComponent = ()=>{
+        return(
+            <div>
+                {mainPosts.map((v,i)=>{
+                    return(
+                        <PostCard key={i} post={v}/>  
+                    )
+                })}
+            </div>
+        )
+    }
+
+    const titleComponent = props=>{
+        const {type, data} = props;
+        return(
+            <TitleBox>
+                <div>{data.nickname}</div>
+                { type ==="following"
+                    ?<Btn onClick={onUnFollow(data.id)}>언팔로우</Btn>
+                    :<Btn onClick={onRemoveFollower(data.id)}>차단</Btn>
+                }
+            </TitleBox>
+        )
+    }
+
+    const followComponent =  props=>{
+        const {key, data} = props;
+        return(
+            <UserProfleCard key={key}>
+                <Card>
+                    <Meta
+                        avatar={<Avatar size="large">{data.nickname.slice(0,1)}</Avatar>}
+                        title={titleComponent(props)}
+                        description={'@'+data.userId}
+                    />
+                </Card>
+            </UserProfleCard> 
+        )
+    }
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     
 
     return (
-        <div>
-            <NicknameEditForm/>
-            <List
+        <PageLayout title={mine.nickname} desc={mainPosts.length+"트윗"}>
+            <ProfileLayout>
+                <div className='top_container'>
+                    <div className='bg_box'></div>
+                    <div className='user_info_box'>
+                        <div className='top_box'>
+                            <div><Avatar className='user_avatar'>{mine.nickname.slice(0,1)}</Avatar></div> 
+                            <div><Btn onClick={showModal}>프로필 수정</Btn></div>
+                            <Modal title="프로필 수정" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                                <NicknameEditForm/>
+                            </Modal>
+                        </div>
+                        <div className='mid_box'>
+                            <p className='nickname'>{mine.nickname}</p>
+                            <p className='userid'>@{mine.userId}</p>
+                        </div>
+                        <div className='bottom_box'>
+                            <p><span>{followingList.length}</span> 팔로우 중</p>
+                            <p><span>{followerList.length}</span> 팔로워</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='bottom_container'>
+                    <Tabs
+                        defaultActiveKey="1"
+                        size={'large'}
+                        centered="true"
+                        items={[
+                            {
+                                label: "트윗",
+                                key: 0,
+                                children: tweetComponent(),
+                            },
+                            {
+                                label: "팔로우",
+                                key: 1,
+                                children: followingList && followingList.length? followingList.map((item,i)=> {return followComponent({key:i, data:item, type:"following"})}) : <Empty />,
+                            },
+                            {
+                                label: "팔로워",
+                                key: 2,
+                                children: followerList && followerList.length? followerList.map((item,i)=> {return followComponent({key:i, data:item, type:"follower"})}) : <Empty />,
+                            }
+                        ]}
+                    />
+                </div>
+            </ProfileLayout>
+            {/* <NicknameEditForm/> */}
+            {/* <List
                 style={{marginBottom: '20px'}}
                 grid={{gutter:4, xs:2, md:3}}
                 size="small"
@@ -98,13 +202,13 @@ const Profile = () => {
                 )}
             />
             <div>
-            {mainPosts.map((v,i)=>{
-                return(
-                    <PostCard key={i} post={v}/>  
-                )
-            })}
-        </div>
-        </div>
+                {mainPosts.map((v,i)=>{
+                    return(
+                        <PostCard key={i} post={v}/>  
+                    )
+                })}
+            </div> */}
+        </PageLayout>
     );
 };
 

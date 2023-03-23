@@ -1,8 +1,11 @@
 :root{
   --primary_color: #1D9BF0;
+  --default_color: #0F1419;
+  --grey_color: #536471;
 }
 
 html,
 body {
-  font-family: Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif
+  font-family: Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  color: var(--default_color);
 }
