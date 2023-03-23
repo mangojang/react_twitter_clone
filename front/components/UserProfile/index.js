@@ -1,9 +1,11 @@
 import React, {useCallback} from 'react';
-import { Avatar, Button, Card } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Popover } from 'antd';
+import { UserOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../reducers/user';
 import Link from 'next/link';
+import { TitleBox, UserProfleCard } from './style';
+import { Btn } from '../Styles';
 
 const { Meta } = Card;
 
@@ -16,20 +18,31 @@ const UserProfile = () => {
         dispatch(logoutAction);
     },[]);
 
+    const titleComponent = ()=>{
+        return(
+            <TitleBox>
+                <div>{mine.nickname}</div>
+                <Popover key="ellipsis" trigger="click" content={
+                    <Button.Group>
+                        <Btn onClick={onClickLogout}>로그아웃</Btn>
+                    </Button.Group>
+                }>
+                    <EllipsisOutlined key="ellipsis" title='더보기' className='btn_more' />
+                </Popover>
+            </TitleBox>
+        )
+    }
+
     return (
-        <Card
-            actions={[
-            <Link href={'/profile'} key="twit"><div>짹짹<br/>{ mine.Post? mine.Post.length : 0 }</div></Link>,
-            <Link href={'/profile'} key="following"><div>팔로잉<br/>{mine.Followings? mine.Followings.length : 0 }</div></Link>,
-            <Link href={'/profile'} key="follower"><div>팔로워<br/>{mine.Followers? mine.Followers.length : 0}</div></Link>,
-            ]}
-        >
-            <Meta
-            avatar={<Avatar size="large" icon={<UserOutlined />} />}
-            title={mine.nickname}
-            description={<Button onClick={onClickLogout}>로그아웃</Button>}
-            />
-        </Card>
+        <UserProfleCard>
+            <Card>
+                <Meta
+                    avatar={<Avatar size="large">{mine.nickname.slice(0,1)}</Avatar>}
+                    title={titleComponent()}
+                    description={'@'+mine.userId}
+                />
+            </Card>
+        </UserProfleCard>
     );
 };
 
