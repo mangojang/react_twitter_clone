@@ -133,7 +133,7 @@ const Profile = () => {
                         <div className='top_box'>
                             <div><Avatar className='user_avatar'>{mine.nickname.slice(0,1)}</Avatar></div> 
                             <div><Btn onClick={showModal}>프로필 수정</Btn></div>
-                            <Modal title="프로필 수정" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                            <Modal title="프로필 수정" cancelText="취소" okText="확인" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                                 <NicknameEditForm/>
                             </Modal>
                         </div>
