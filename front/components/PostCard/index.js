@@ -130,17 +130,20 @@ const postCard = ({post}) => {
                     <MessageOutlined key="message" title='댓글' onClick={onToggleComment}/>,
                     <Popover key="ellipsis" trigger="click" content={
                         <Button.Group>
-                            {mine && post.UserId === mine.id
-                                ?(
-                                    <>
-                                        <Btn>수정</Btn>
-                                        <Btn onClick={onRemovePost(post.id)}>삭제</Btn>
-                                    </>
-                                )
-                                : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
-                                    ? <Btn onClick={onUnFollow(post.User.id)}>언팔로우</Btn>
-                                    : <Btn onClick={onFollow(post.User.id)}>팔로우</Btn>
-                                )
+                            {
+                                mine?
+                                    post.UserId === mine.id
+                                    ?(
+                                        <>
+                                            <Btn>수정</Btn>
+                                            <Btn onClick={onRemovePost(post.id)}>삭제</Btn>
+                                        </>
+                                    )
+                                    : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
+                                        ? <Btn onClick={onUnFollow(post.User.id)}>언팔로우</Btn>
+                                        : <Btn onClick={onFollow(post.User.id)}>팔로우</Btn>
+                                    )
+                                : (<Btn>신고</Btn>)
                             }
                         </Button.Group>
                     }>
