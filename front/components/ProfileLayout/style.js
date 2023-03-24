@@ -45,5 +45,12 @@ export const ProfileLayout = styled.div`
                 }
             }
         }
+    }
+    .bottom_container{
+        .btns_box{
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
     }  
 `;

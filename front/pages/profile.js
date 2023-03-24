@@ -91,31 +91,28 @@ const Profile = () => {
         )
     }
 
-    const titleComponent = props=>{
-        const {type, data} = props;
-        return(
-            <TitleBox>
-                <div>{data.nickname}</div>
-                { type ==="following"
-                    ?<Button onClick={onUnFollow(data.id)}>언팔로우</Button>
-                    :<Button onClick={onRemoveFollower(data.id)}>차단</Button>
-                }
-            </TitleBox>
-        )
-    }
-
     const followComponent =  props=>{
-        const {key, data} = props;
+        const {data, type} = props;
         return(
-            <UserProfleCard key={key}>
-                <Card>
-                    <Meta
-                        avatar={<Avatar size="large">{data.nickname.slice(0,1)}</Avatar>}
-                        title={titleComponent(props)}
-                        description={'@'+data.userId}
-                    />
-                </Card>
-            </UserProfleCard> 
+            <List
+                loadMore={hasMoreFollowing && <div className='btns_box'><Button type='primary' onClick={ type ==="following"? loadMoreFollowings : loadMoreFollowers}>더 보기</Button></div>}
+                itemLayout="horizontal"
+                dataSource={data}
+                renderItem={(item)=>(
+                    <List.Item>
+                        <List.Item.Meta
+                            avatar={<Avatar size="large">{item.nickname.slice(0,1)}</Avatar>}
+                            title={item.nickname}
+                            description={'@'+item.userId}
+                        />
+                        <div>
+                            {type ==="following"
+                            ?<Button onClick={onUnFollow(data.id)}>언팔로우</Button>
+                            :<Button onClick={onRemoveFollower(data.id)}>차단</Button>}
+                        </div>
+                    </List.Item>
+                )}
+            />
         )
     }
 
@@ -172,12 +169,14 @@ const Profile = () => {
                             {
                                 label: "팔로우",
                                 key: 1,
-                                children: followingList && followingList.length? followingList.map((item,i)=> {return followComponent({key:i, data:item, type:"following"})}) : <Empty />,
+                                // children: followingList && followingList.length? followingList.map((item,i)=> {return followComponent({key:i, data:item, type:"following"})}) : <Empty />,
+                                children: followingList && followingList.length? followComponent({data:followingList, type:"following"}): <Empty />,
                             },
                             {
                                 label: "팔로워",
                                 key: 2,
-                                children: followerList && followerList.length? followerList.map((item,i)=> {return followComponent({key:i, data:item, type:"follower"})}) : <Empty />,
+                                // children: followerList && followerList.length? followerList.map((item,i)=> {return followComponent({key:i, data:item, type:"follower"})}) : <Empty />,
+                                children: followerList && followerList.length? followComponent({data:followerList, type:"follower"}) : <Empty />,
                             }
                         ]}
                     />
