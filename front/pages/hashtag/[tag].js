@@ -32,7 +32,7 @@ const Hashtag = ({tag}) => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [hasMorePost, mainPosts[mainPosts.length - 1].id, tag]);
+    }, [hasMorePost, mainPosts[mainPosts.length - 1]?.id, tag]);
     
     useEffect(()=>{
         if(retweetErrorReason){
