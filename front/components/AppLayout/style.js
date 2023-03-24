@@ -49,6 +49,7 @@ export const ProfileIcon = styled(UserOutlined)`
 `;
 
 export const SideBarLeft = styled(Col)`
+    min-height: 100vh;
     display: flex;
     justify-content: flex-end;
     border-right: 1px solid rgb(239, 243, 244);
@@ -85,6 +86,7 @@ export const Container = styled.div`
 
 export const SideBarRight = styled.div`
     /* padding: 8px 16px; */
+    min-height: 100vh;
     border-left: 1px solid rgb(239, 243, 244);
     >div{
         position: sticky;
@@ -111,13 +113,13 @@ export const Gnb = styled.ul`
         height: 52px;
         a{
             display: block;
+            color: var(--default_color);
             .hover_area{
                 display: inline-flex;
                 align-items: center;
                 border-radius: 9999px;
                 transition: background-color .2s ease;
                 padding: 12px ;
-                color: #0F1419;
                 .gnb_icon{
                     display: flex;
                     justify-content: center;
