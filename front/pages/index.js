@@ -38,7 +38,7 @@ const Home = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [hasMorePost, mainPosts[mainPosts.length - 1].id]);
+    }, [hasMorePost, mainPosts[mainPosts.length - 1]?.id]);
 
     useEffect(()=>{
         if(retweetErrorReason){
