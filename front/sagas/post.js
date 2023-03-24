@@ -294,10 +294,7 @@ function* retweet(action){
     if (response){
         yield put({
             type: RETWEET_SUCCESS,
-            data: {
-                postId: action.data,
-                userId: response.data.userId,
-            }
+            data: response.data,
         })
     }else{
         yield put({

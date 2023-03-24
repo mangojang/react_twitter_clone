@@ -250,7 +250,7 @@ router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
         if(!post){
             return res.status(404).send('포스트가 존재하지 않습니다.')
         }
-        if(req.user.id === post.UserId){
+        if(req.user.id === post.UserId|| (post.Retweet && post.Retweet.UserId === req.user.id)){
             return res.status(403).send('자신의 글은 리트윗 할 수 없습니다.');
         }
 
@@ -289,11 +289,25 @@ router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
                     },
                 },{
                     model: db.Image,
+                },
+                {
+                    model: User, // 좋아요 누른 사람
+                    as: 'Likers',
+                    exclude: ['password']
+                  }, {
+                    model: Image,
+                  }, {
+                    model: Comment,
+                    include: [{
+                      model: User,
+                      exclude: ['password'],
+                    }],
+                
                 }]
             }]
         })
 
-        return res.json(retweetWithPrevPost)
+        return res.status(201).json(retweetWithPrevPost)
 
     } catch (error) {
         console.error(error);
