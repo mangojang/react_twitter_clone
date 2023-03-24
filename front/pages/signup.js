@@ -48,13 +48,15 @@ const Signup = () => {
             nickname,
             password,
         }))
-        console.log({
-            userId,
-            nickname,
-            password,
-            passwordCheck,
-            term
-        });
+        // console.log({
+        //     userId,
+        //     nickname,
+        //     password,
+        //     passwordCheck,
+        //     term
+        // });
+        alert('회원가입 완료되었습니다.');
+        router.push('/');
     },[ userId, nickname, password, passwordCheck, term]);
 
     const onFinishFailed = (error) => {
