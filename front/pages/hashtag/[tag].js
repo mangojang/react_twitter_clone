@@ -7,6 +7,7 @@ import { LOAD_MYINFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { END } from "redux-saga";
 import PageLayout from '../../components/PageLayout';
+import { Empty } from 'antd';
 
 const axios = require("axios");
 
@@ -42,11 +43,15 @@ const Hashtag = ({tag}) => {
 
     return (
         <PageLayout title={"검색 결과"}>
-            {mainPosts.map((v,i)=>{
-                return(
-                    <PostCard key={v.id} post={v}/>  
-                )
-            })}
+            {
+                mainPosts && mainPosts.length
+                ?mainPosts.map((v,i)=>{
+                    return(
+                        <PostCard key={v.id} post={v}/>  
+                    )
+                })
+                :<Empty/>
+            }
         </PageLayout>
     );
 };
