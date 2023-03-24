@@ -129,6 +129,7 @@ const postCard = ({post}) => {
                     <RetweetOutlined key="retweet" title='리트윗' onClick={onRetweet} />,
                     liked?<HeartTwoTone key="heart" title='좋아요' onClick={onUnLike} />:<HeartOutlined key="heart" title='좋아요' onClick={onLike} />,
                     <MessageOutlined key="message" title='댓글' onClick={onToggleComment}/>,
+                    
                     <Popover key="ellipsis" trigger="click" content={
                         <Button.Group>
                             {
@@ -136,7 +137,7 @@ const postCard = ({post}) => {
                                     post.UserId === mine.id
                                     ?(
                                         <>
-                                            <Button>수정</Button>
+                                            <Button onClick={()=>alert('준비중입니다.')}>수정</Button>
                                             <Button onClick={onRemovePost(post.id)}>삭제</Button>
                                         </>
                                     )
@@ -144,12 +145,13 @@ const postCard = ({post}) => {
                                         ? <Button onClick={onUnFollow(post.UserId)}>언팔로우</Button>
                                         : <Button onClick={onFollow(post.UserId)}>팔로우</Button>
                                     )
-                                : (<Button>신고</Button>)
-                            }
+                                : (<Button onClick={()=>alert('준비중입니다.')}>신고</Button>)
+                            }               
                         </Button.Group>
                     }>
                         <EllipsisOutlined key="ellipsis" title='더보기' />
-                    </Popover>,
+                    </Popover>
+                    
                 ]}
                 title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.` : null}
             >
