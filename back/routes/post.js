@@ -194,7 +194,8 @@ router.post('/:id/comment',isLoggedIn, async (req, res, next)=>{
             content: req.body.content,
         });
 
-        await post.addComment(newComment.id);
+        await post.addComment(newComment);
+
         const comment = await db.Comment.findOne({
             where: {
                 id: newComment.id,
@@ -207,7 +208,7 @@ router.post('/:id/comment',isLoggedIn, async (req, res, next)=>{
             }]
         });
 
-        return res.json(comment);
+        return res.status(201).json(comment);
 
     } catch (error) {
         console.error(error);

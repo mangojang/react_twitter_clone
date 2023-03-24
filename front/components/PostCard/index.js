@@ -185,7 +185,7 @@ const postCard = ({post}) => {
                         header={`${post.Comments ? post.Comments.length : 0} 답글`}
                         itemLayout="horizontal"
                         dataSource={post.Comments || []}
-                        rowKey={(record) =>+record.createdAt}
+                        // rowKey={(record) =>+record.createdAt}
                         renderItem={item=>(
                             <List.Item >
                                 <Comment

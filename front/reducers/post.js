@@ -263,7 +263,7 @@ const reducer = (state=initialState,action) => {
             }
             case ADD_COMMENT_SUCCESS:{
                 const postIndex = draft.mainPosts.findIndex(v=>v.id === parseInt(action.data.PostId,10));
-                draft.mainPosts[postIndex].Comments.push(action.data.comment);
+                draft.mainPosts[postIndex].Comments.push(action.data);
                 draft.isAddingComment = false;
                 draft.commentAdded= true;
                 break;
