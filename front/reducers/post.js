@@ -168,7 +168,7 @@ const reducer = (state=initialState,action) => {
                 break;
             }
             case REMOVE_IMAGE:{
-                const index = draft.imagePaths.findIndex((v,i)=> i===action.index);
+                const index = draft.imagePaths.findIndex((v,i)=> i==action.data);
                 draft.imagePaths.splice(index, 1);
                 break;
             }
