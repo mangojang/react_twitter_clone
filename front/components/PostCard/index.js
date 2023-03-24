@@ -80,7 +80,7 @@ const postCard = ({post}) => {
         });
     },[mine && mine.id, post && post.id]);
 
-    const liked = post.Likers && post.Likers.find((v) => v.id === mine.id);
+    const liked = mine && mine.id ? post.Likers && post.Likers.find((v) => v.id === mine.id) : false;
 
     const onRetweet = useCallback(()=>{
         if(!mine){
