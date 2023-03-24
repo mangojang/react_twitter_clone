@@ -1,5 +1,5 @@
 import { Form, Button, Input, Checkbox } from 'antd';
-import Router from 'next/router';
+import { useRouter } from 'next/router'
 import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOAD_MYINFO_REQUEST, signupAction } from '../reducers/user';
@@ -10,6 +10,7 @@ import PageLayout from '../components/PageLayout';
 const axios = require("axios");
 
 const Signup = () => {
+    const router = useRouter()
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
@@ -18,7 +19,7 @@ const Signup = () => {
     useEffect(()=>{
         if(mine){
             alert('로그인시 접근 불가합니다.')
-            Router.push('/')    
+            router.push('/')    
         }
     },[mine && mine.id]);
 
