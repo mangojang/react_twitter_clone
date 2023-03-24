@@ -6,7 +6,7 @@ const PageLayout = (props) => {
         <Container>
             <div className='header'>
                 <p className='title'>{props.title}</p>
-                <p className='desc'>{props.desc}</p>
+                {props.desc&&<p className='desc'>{props.desc}</p>}
             </div>
             <div className='body'>
                 {props.children}
