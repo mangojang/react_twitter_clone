@@ -136,7 +136,7 @@ const Profile = () => {
     }
 
     return (
-        <PageLayout title={mine.nickname} desc={mainPosts.length+"트윗"}>
+        <PageLayout title={mine.nickname} desc={mine.Post.length+"트윗"}>
             <ProfileLayout>
                 <div className='top_container'>
                     <div className='bg_box'></div>
@@ -153,8 +153,8 @@ const Profile = () => {
                             <p className='userid'>@{mine.userId}</p>
                         </div>
                         <div className='bottom_box'>
-                            <p><span>{followingList.length}</span> 팔로우 중</p>
-                            <p><span>{followerList.length}</span> 팔로워</p>
+                            <p><span>{mine.Followings.length}</span> 팔로우 중</p>
+                            <p><span>{mine.Followers.length}</span> 팔로워</p>
                         </div>
                     </div>
                 </div>
