@@ -49,7 +49,7 @@ const Profile = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [hasMorePost, mainPosts[mainPosts.length - 1].id]);
+    }, [hasMorePost, mainPosts[mainPosts.length - 1]?.id]);
 
     const onUnFollow = useCallback(userId=>()=>{
         dispatch({
@@ -167,7 +167,7 @@ const Profile = () => {
                             {
                                 label: "트윗",
                                 key: 0,
-                                children: tweetComponent(),
+                                children: mainPosts && mainPosts.length? tweetComponent() : <Empty/>,
                             },
                             {
                                 label: "팔로우",
