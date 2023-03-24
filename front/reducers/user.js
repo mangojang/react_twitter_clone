@@ -227,7 +227,7 @@ const reducer = (state = initialState, action) => {
                 const followingIndex =  draft.mine.Followings.findIndex(v=>v.id == action.data);
                 draft.mine.Followings.splice(followingIndex,1);
                 const followingListIndex = draft.followingList.findIndex(v=>v.id == action.data);
-                draft.followingList = draft.followingList.splice(followingListIndex,1);
+                draft.followingList.splice(followingListIndex,1);
                 draft.isUnfollowing= false;
                 break;
             }

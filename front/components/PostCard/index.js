@@ -24,6 +24,7 @@ const postCard = ({post}) => {
     const {commentAdded, isAddingComment} = useSelector(state=>state.post);
     const dispatch = useDispatch();
 
+
     useEffect(()=>{
         setCommentContent('');
     },[commentAdded===true])
@@ -86,6 +87,7 @@ const postCard = ({post}) => {
         if(!mine){
             return alert('로그인이 필요합니다.')
         }
+        console.log('@@retweet',post);
 
         return dispatch({
             type: RETWEET_REQUEST,
@@ -138,9 +140,9 @@ const postCard = ({post}) => {
                                             <Button onClick={onRemovePost(post.id)}>삭제</Button>
                                         </>
                                     )
-                                    : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
-                                        ? <Button onClick={onUnFollow(post.User.id)}>언팔로우</Button>
-                                        : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
+                                    : (mine.Followings && mine.Followings.find(v=>v.id === post.UserId)
+                                        ? <Button onClick={onUnFollow(post.UserId)}>언팔로우</Button>
+                                        : <Button onClick={onFollow(post.UserId)}>팔로우</Button>
                                     )
                                 : (<Button>신고</Button>)
                             }
@@ -157,7 +159,7 @@ const postCard = ({post}) => {
                     cover={post.Retweet.Images && post.Retweet.Images.length>0 ? <PostImages images={post.Retweet.Images}/> : null}    
                 >
                     <Meta
-                    avatar={<Link href={{pathname:'/user/[id]',query:{id:post.Retweet.User.id}}} legacyBehavior><a><Avatar>{post.Retweet.User.nickname.slice(0,1)}</Avatar></a></Link>}
+                    avatar={<Link href={{pathname:'/user/[id]',query:{id:post.Retweet.UserId}}} legacyBehavior><a><Avatar>{post.Retweet.User.nickname.slice(0,1)}</Avatar></a></Link>}
                     title={post.Retweet.User.nickname}
                     description={<PostCardContent postData={post.Retweet.content}/>}
                     />
@@ -165,7 +167,7 @@ const postCard = ({post}) => {
                 )
                 :
                 <Meta
-                avatar={<Link href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{post.User.nickname.slice(0,1)}</Avatar></a></Link>}
+                avatar={<Link href={{pathname:'/user/[id]',query:{id:post.UserId}}} legacyBehavior><a><Avatar>{post.User.nickname.slice(0,1)}</Avatar></a></Link>}
                 title={post.User.nickname}
                 description={<PostCardContent postData={post.content}/>}
                 />
@@ -181,15 +183,16 @@ const postCard = ({post}) => {
                         header={`${post.Comments ? post.Comments.length : 0} 답글`}
                         itemLayout="horizontal"
                         dataSource={post.Comments || []}
+                        rowKey={(record) =>+record.createdAt}
                         renderItem={item=>(
-                            <li>
+                            <List.Item >
                                 <Comment
                                     author={item.User.nickname}
                                     avatar={<Link  href={{pathname:'/user/[id]',query:{id:post.User.id}}} legacyBehavior><a><Avatar>{item.User.nickname}</Avatar></a></Link>}
                                     content={item.content}
                                     //datetime={item.createdAt}
                                 />
-                            </li>
+                            </List.Item>
                         )}
                     />
                 </>
