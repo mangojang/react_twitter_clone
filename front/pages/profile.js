@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card, List, Avatar, Tabs, Empty, Modal } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
@@ -18,9 +19,17 @@ const { Meta } = Card;
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const router = useRouter()
     const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
     const { mainPosts, hasMorePost } = useSelector(state => state.post);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(()=>{
+        if(!mine ){
+            alert('로그아웃시 접근 불가합니다.')
+            router.push('/')    
+        }
+    },[mine && mine.id]);
 
     useEffect(() => {
         function onScroll() {
@@ -122,6 +131,9 @@ const Profile = () => {
         setIsModalOpen(false);
     };
     
+    if(!mine ){
+        return null;
+    }
 
     return (
         <PageLayout title={mine.nickname} desc={mainPosts.length+"트윗"}>
@@ -224,7 +236,8 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     store.dispatch({
         type: LOAD_MYINFO_REQUEST
     });
-    
+
+
     store.dispatch({
         type: LOAD_FOLLOWERS_REQUEST,
         data: state.user &&state.user.mine && state.user.mine.id,
@@ -243,6 +256,20 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     store.dispatch(END);
 
     await store.sagaTask.toPromise();
+
+    // console.log('@@state.user',state.user);
+    // if (state.user.mine){
+    //     console.log('@@ 있다')
+    //     // return {
+    //     //     redirect: {
+    //     //         permanent: false,
+    //     //         destination: "/",
+    //     //     },
+    //     //     props:{},
+    //     // }
+    // }else{
+    //     console.log('@@ 없다')
+    // }
 });
 
 export default Profile;
