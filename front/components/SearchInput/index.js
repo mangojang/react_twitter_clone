@@ -14,7 +14,7 @@ const SearchInput = () =>{
 
     return (
         <SearchBox>
-            <Search placeholder="트위터 검색" className='search_input' enterButton onSearch={onSearch} />
+            <Search placeholder="해시태그 검색" className='search_input' enterButton onSearch={onSearch} />
         </SearchBox>
     )
 }
