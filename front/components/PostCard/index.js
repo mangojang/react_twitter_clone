@@ -1,16 +1,16 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Card, Avatar, Button, List, Popover } from 'antd';
 import { Comment } from '@ant-design/compatible';
 import { RetweetOutlined, HeartOutlined, EllipsisOutlined, MessageOutlined, HeartTwoTone } from '@ant-design/icons';
 import Proptypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_COMMENT_REQUEST, LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/post';
+import { LIKE_POST_REQUEST, LOAD_COMMENT_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST, REMOVE_POST_REQUEST } from '../../reducers/post';
 import Link from 'next/link';
 import PostImages from '../PostImages';
 import PostCardContent from '../PostCardContent';
-import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from '../../reducers/user';
 import { PostCard } from './style';
 import CommentForm from '../CommentForm';
+import FollowButton from '../FollowButton';
 
 const { Meta } = Card;
 
@@ -18,8 +18,14 @@ const { Meta } = Card;
 const postCard = memo(({post}) => {
     const [commentFormOpend, setCommentFormOpend] = useState(false);
 
-    const {mine}= useSelector(state=>state.user);
+    const id= useSelector(state=>state.user.mine && state.user.mine.id);
     const dispatch = useDispatch();
+
+    // const postMemory = useRef(mine);
+
+    // useEffect(()=>{
+    //     console.log('mine useEffect',postMemory.current, postMemory.current === mine)
+    // },[mine])
 
     const onToggleComment = useCallback(()=>{
         setCommentFormOpend(prev => !prev);
@@ -33,7 +39,7 @@ const postCard = memo(({post}) => {
 
 
     const onLike = useCallback(()=>{
-        if(!mine){
+        if(!id){
             return alert('로그인이 필요합니다.')
         }
 
@@ -41,10 +47,10 @@ const postCard = memo(({post}) => {
             type: LIKE_POST_REQUEST,
             data: post.id
         });
-    },[mine && mine.id, post && post.id]);
+    },[id, post && post.id]);
 
     const onUnLike = useCallback(()=>{
-        if(!mine){
+        if(!id){
             return alert('로그인이 필요합니다.')
         }
 
@@ -52,12 +58,12 @@ const postCard = memo(({post}) => {
             type: UNLIKE_POST_REQUEST,
             data: post.id
         });
-    },[mine && mine.id, post && post.id]);
+    },[id, post && post.id]);
 
-    const liked = mine && mine.id ? post.Likers && post.Likers.find((v) => v.id === mine.id) : false;
+    const liked = id ? post.Likers && post.Likers.find((v) => v.id === id) : false;
 
     const onRetweet = useCallback(()=>{
-        if(!mine){
+        if(!id){
             return alert('로그인이 필요합니다.')
         }
 
@@ -65,20 +71,7 @@ const postCard = memo(({post}) => {
             type: RETWEET_REQUEST,
             data: post.id
         });
-    },[mine && mine.id, post && post.id]);
-
-    const onFollow = useCallback(userId =>()=>{
-        return dispatch({
-            type: FOLLOW_USER_REQUEST,
-            data: userId
-        });
-    },[]);
-    const onUnFollow = useCallback(userId =>()=>{
-        return dispatch({
-            type: UNFOLLOW_USER_REQUEST,
-            data: userId
-        });
-    },[]);
+    },[id, post && post.id]);
 
     const onRemovePost = useCallback(userId=>()=>{
         const isConfirm =confirm("정말 삭제 하시겠습니까?");
@@ -91,7 +84,6 @@ const postCard = memo(({post}) => {
     },[]);
 
     return (
-        
         <PostCard> 
             <Card 
                 className='postcard'
@@ -104,18 +96,15 @@ const postCard = memo(({post}) => {
                     <Popover key="ellipsis" trigger="click" content={
                         <Button.Group>
                             {
-                                mine?
-                                    post.UserId === mine.id
+                                id?
+                                    post.UserId === id
                                     ?(
                                         <>
                                             <Button onClick={()=>alert('준비중입니다.')}>수정</Button>
                                             <Button onClick={onRemovePost(post.id)}>삭제</Button>
                                         </>
                                     )
-                                    : (mine.Followings && mine.Followings.find(v=>v.id === post.User.id)
-                                        ? <Button onClick={onUnFollow(post.User.id)}>언팔로우</Button>
-                                        : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
-                                    )
+                                    :(<FollowButton post={post}/>)
                                 : (<Button onClick={()=>alert('준비중입니다.')}>신고</Button>)
                             }               
                         </Button.Group>
