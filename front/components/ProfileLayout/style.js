@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ProfileLayout = styled.div`
+export const Container = styled.div`
     .top_container{
         .bg_box{
             height: 200px;

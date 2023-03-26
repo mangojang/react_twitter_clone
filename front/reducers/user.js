@@ -210,6 +210,7 @@ const reducer = (state = initialState, action) => {
             }
             case FOLLOW_USER_SUCCESS:{
                 draft.mine.Followings.unshift({id: action.data});
+                draft.userInfo && draft.userInfo.id? draft.userInfo.Followers.unshift({id: action.data}) : null;
                 draft.isFollowing= false;
                 break;
             }
@@ -226,9 +227,15 @@ const reducer = (state = initialState, action) => {
             case UNFOLLOW_USER_SUCCESS:{
                 const followingIndex =  draft.mine.Followings.findIndex(v=>v.id == action.data);
                 draft.mine.Followings.splice(followingIndex,1);
+                draft.isUnfollowing= false;
                 const followingListIndex = draft.followingList.findIndex(v=>v.id == action.data);
                 draft.followingList.splice(followingListIndex,1);
-                draft.isUnfollowing= false;
+
+                // const userFollowerIndex =  draft.userInfo && draft.userInfo.id? draft.followerList.findIndex(v=>v.id == action.data) : null;
+                // userFollowerIndex>-1 && draft.userInfo.Followers.splice(userFollowerIndex,1);
+                // const followingListIndex = draft.userInfo && draft.userInfo.id? draft.followerList.findIndex(v=>v.id == action.data) : draft.followingList.findIndex(v=>v.id == action.data);
+                // draft.userInfo && draft.userInfo.id? draft.followerList.splice(followingListIndex,1) : draft.followingList.splice(followingListIndex,1);
+                
                 break;
             }
             case UNFOLLOW_USER_FAILURE:{

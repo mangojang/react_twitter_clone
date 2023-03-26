@@ -1,44 +1,34 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Avatar, Card } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Card, Button } from 'antd';
 import { END } from "redux-saga";
 import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
-import { LOAD_USER_REQUEST, LOAD_MYINFO_REQUEST } from '../../reducers/user';
+import { LOAD_USER_REQUEST, LOAD_MYINFO_REQUEST, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
-import PostCard from '../../components/PostCard';
+import PageLayout from '../../components/PageLayout';
+import ProfileLayout from '../../components/ProfileLayout';
+import FollowButton from '../../components/FollowButton';
 
 const axios = require("axios");
 
-const { Meta } = Card;
-
 const User = () => {
-    const { mainPosts } = useSelector(state=>state.post);
-    let { userInfo } = useSelector(state=>state.user);
+    let { userInfo } = useSelector((state)=>state.user);
+
+    // const rightSideRender = () => {
+    //     return(
+    //        <FollowButton user={userInfo}/>
+    //     )
+    // };
     
+    if(!userInfo ){
+        return null;
+    }
+
     return (
-        <div>
-            {userInfo?
-            <Card
-                actions={[
-                <div key="twit">짹짹<br/>{ userInfo.Post? userInfo.Post.length : 0 }</div>,
-                <div key="following">팔로잉<br/>{userInfo.Followings? userInfo.Followings.length : 0 }</div>,
-                <div key="follower">팔로워<br/>{userInfo.Followers? userInfo.Followers.length : 0}</div>,
-                ]}
-                style={{marginBottom: '20px'}}
-            >
-                <Meta
-                avatar={<Avatar size="large" icon={<UserOutlined />} />}
-                title={userInfo.nickname}
-                />
-            </Card>
-            :null}
-            {mainPosts.map((v,i)=>{
-                return(
-                    <PostCard key={v.id} post={v}/>  
-                )
-            })}
-        </div>
+        <PageLayout title={userInfo.nickname} desc={userInfo.Post.length+"트윗"}>
+            {/* <ProfileLayout user={userInfo} rightSideRender={rightSideRender}/> */}
+            <ProfileLayout user={userInfo}/>
+        </PageLayout>
     );
 };
 
@@ -59,6 +49,16 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     store.dispatch({
         type: LOAD_USER_REQUEST,
         data: id
+    });
+
+    store.dispatch({
+        type: LOAD_FOLLOWERS_REQUEST,
+        data: id,
+    });
+    
+    store.dispatch({
+        type: LOAD_FOLLOWINGS_REQUEST,
+        data: id,
     });
     
     store.dispatch({

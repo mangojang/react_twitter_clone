@@ -19,6 +19,7 @@ const postCard = memo(({post}) => {
     const [commentFormOpend, setCommentFormOpend] = useState(false);
 
     const id= useSelector(state=>state.user.mine && state.user.mine.id);
+    const {userInfo}= useSelector(state=>state.user);
     const dispatch = useDispatch();
 
     // const postMemory = useRef(mine);
@@ -103,8 +104,10 @@ const postCard = memo(({post}) => {
                                             <Button onClick={()=>alert('준비중입니다.')}>수정</Button>
                                             <Button onClick={onRemovePost(post.id)}>삭제</Button>
                                         </>
-                                    )
-                                    :(<FollowButton post={post}/>)
+                                    ) 
+                                    :userInfo 
+                                    ?(<div>Hi!</div>)
+                                    :(<FollowButton user={post.User}/>)
                                 : (<Button onClick={()=>alert('준비중입니다.')}>신고</Button>)
                             }               
                         </Button.Group>

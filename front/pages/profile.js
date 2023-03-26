@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux';
-import { Button, Avatar, Tabs, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import NicknameEditForm from '../components/NicknameEditForm';
 import { END } from "redux-saga";
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import PageLayout from '../components/PageLayout';
-import { ProfileLayout } from '../components/ProfileLayout/style';
-import TweetList from '../components/TweetList';
-import FollowList from '../components/FollowList';
+import  ProfileLayout from '../components/ProfileLayout';
 
 const axios = require("axios");
 
@@ -38,6 +36,19 @@ const Profile = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const rightSideRender = () => {
+        return(
+            <>
+                <div><Button onClick={showModal}>프로필 수정</Button></div>
+                <Modal title="프로필 수정" cancelText="취소" okText="확인" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <NicknameEditForm/>
+                </Modal>
+            </>
+        )
+    };
+
+    
     
     if(!mine ){
         return null;
@@ -45,16 +56,14 @@ const Profile = () => {
 
     return (
         <PageLayout title={mine.nickname} desc={mine.Post.length+"트윗"}>
-            <ProfileLayout>
+            <ProfileLayout user={mine} rightSideRender={rightSideRender}/>
+            {/* <ProfileLayout>
                 <div className='top_container'>
                     <div className='bg_box'></div>
                     <div className='user_info_box'>
                         <div className='top_box'>
                             <div><Avatar className='user_avatar'>{mine.nickname.slice(0,1)}</Avatar></div> 
-                            <div><Button onClick={showModal}>프로필 수정</Button></div>
-                            <Modal title="프로필 수정" cancelText="취소" okText="확인" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                <NicknameEditForm/>
-                            </Modal>
+                            {rightSideRender()}
                         </div>
                         <div className='mid_box'>
                             <p className='nickname'>{mine.nickname}</p>
@@ -90,7 +99,7 @@ const Profile = () => {
                         ]}
                     />
                 </div>
-            </ProfileLayout>
+            </ProfileLayout> */}
         </PageLayout>
     );
 };

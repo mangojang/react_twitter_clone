@@ -1,12 +1,12 @@
 import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Proptypes from 'prop-types';
 import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
 import PostCard from '../PostCard';
 import { Empty } from 'antd';
 
-const TweetList = () => {
+const TweetList = ({user}) => {
     const dispatch = useDispatch();
-    const { mine } = useSelector((state) => state.user);
     const { mainPosts, hasMorePost } = useSelector(state => state.post);
     
     useEffect(() => {
@@ -17,7 +17,7 @@ const TweetList = () => {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;
                     dispatch({
                         type: LOAD_USER_POSTS_REQUEST,
-                        data: mine.id,
+                        data: user.id,
                         lastId,
                     });
                 }
@@ -40,6 +40,12 @@ const TweetList = () => {
         </div>
         :<Empty/>
     )
+}
+
+TweetList.Proptypes ={
+    mine : Proptypes.shape({
+        id: Proptypes.number.isRequired,
+    })
 }
 
 

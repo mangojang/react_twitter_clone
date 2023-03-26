@@ -1,11 +1,12 @@
 import React, { useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Proptypes from 'prop-types';
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST} from '../../reducers/user';
 import { Button, List, Avatar, Empty } from 'antd';
 
-const FollowList = ({type}) => {
+const FollowList = ({user, type}) => {
     const dispatch = useDispatch();
-    const { followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
+    const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
 
     const loadMoreFollowings = useCallback(()=>{
         dispatch({
@@ -54,15 +55,24 @@ const FollowList = ({type}) => {
                         description={'@'+item.userId}
                     />
                     <div>
-                        {type ==="following"
-                        ?<Button onClick={onUnFollow(item.id)}>언팔로우</Button>
-                        :<Button onClick={onRemoveFollower(item.id)}>차단</Button>}
+                        { mine.id===user.id
+                        ?type ==="following"
+                            ?<Button onClick={onUnFollow(item.id)}>언팔로우</Button>
+                            :<Button onClick={onRemoveFollower(item.id)}>차단</Button>
+                        :null }
                     </div>
                 </List.Item>
             )}
         />
         :<Empty />
     )
+}
+
+FollowList.Proptypes ={
+    user : Proptypes.shape({
+        id: Proptypes.number.isRequired
+    }),
+    type : Proptypes.string.isRequired
 }
 
 export default FollowList;
