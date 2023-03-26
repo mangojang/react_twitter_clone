@@ -8,10 +8,10 @@ import { END } from "redux-saga";
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
-import PostCard from '../components/PostCard';
 import PageLayout from '../components/PageLayout';
 import { ProfileLayout } from '../components/ProfileLayout/style';
 import { TitleBox, UserProfleCard } from '../components/UserProfile/style';
+import TweetList from '../components/TweetList';
 
 const axios = require("axios");
 
@@ -21,7 +21,6 @@ const Profile = () => {
     const dispatch = useDispatch();
     const router = useRouter()
     const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
-    const { mainPosts, hasMorePost } = useSelector(state => state.post);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(()=>{
@@ -31,27 +30,9 @@ const Profile = () => {
         }
     },[mine && mine.id]);
 
-    useEffect(() => {
-        function onScroll() {
-            // console.log('@@mainPosts', mainPosts[mainPosts.length-1].id);
-            if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-                if (hasMorePost) {
-                    const lastId = mainPosts[mainPosts.length - 1]?.id;
-                    dispatch({
-                        type: LOAD_USER_POSTS_REQUEST,
-                        data: mine.id,
-                        lastId,
-                    });
-                }
-            }
-        }
-        window.addEventListener('scroll', onScroll);
-        return () => {
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, [hasMorePost, mainPosts[mainPosts.length - 1]?.id]);
 
     const onUnFollow = useCallback(userId=>()=>{
+        console.log('@@userId', userId);
         dispatch({
             type: UNFOLLOW_USER_REQUEST,
             data: userId, 
@@ -79,17 +60,6 @@ const Profile = () => {
         })
     },[followerList.length]);
 
-    const tweetComponent = ()=>{
-        return(
-            <div>
-                {mainPosts.map((v,i)=>{
-                    return(
-                        <PostCard key={i} post={v}/>  
-                    )
-                })}
-            </div>
-        )
-    }
 
     const followComponent =  props=>{
         const {data, type} = props;
@@ -107,8 +77,8 @@ const Profile = () => {
                         />
                         <div>
                             {type ==="following"
-                            ?<Button onClick={onUnFollow(data.id)}>언팔로우</Button>
-                            :<Button onClick={onRemoveFollower(data.id)}>차단</Button>}
+                            ?<Button onClick={onUnFollow(item.id)}>언팔로우</Button>
+                            :<Button onClick={onRemoveFollower(item.id)}>차단</Button>}
                         </div>
                     </List.Item>
                 )}
@@ -164,7 +134,7 @@ const Profile = () => {
                             {
                                 label: "트윗",
                                 key: 0,
-                                children: mainPosts && mainPosts.length? tweetComponent() : <Empty/>,
+                                children: <TweetList/>,
                             },
                             {
                                 label: "팔로우",
