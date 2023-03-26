@@ -1,26 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, List, Avatar, Tabs, Empty, Modal } from 'antd';
-import { StopOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { Button, Avatar, Tabs, Modal } from 'antd';
 import NicknameEditForm from '../components/NicknameEditForm';
 import { END } from "redux-saga";
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_REQUEST, UNFOLLOW_USER_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
 import { LOAD_USER_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import PageLayout from '../components/PageLayout';
 import { ProfileLayout } from '../components/ProfileLayout/style';
-import { TitleBox, UserProfleCard } from '../components/UserProfile/style';
 import TweetList from '../components/TweetList';
+import FollowList from '../components/FollowList';
 
 const axios = require("axios");
 
-const { Meta } = Card;
 
 const Profile = () => {
-    const dispatch = useDispatch();
     const router = useRouter()
-    const { mine, followerList, followingList, hasMoreFollowing, hasMoreFollower } = useSelector((state) => state.user);
+    const { mine } = useSelector((state) => state.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(()=>{
@@ -29,62 +26,6 @@ const Profile = () => {
             router.push('/')    
         }
     },[mine && mine.id]);
-
-
-    const onUnFollow = useCallback(userId=>()=>{
-        console.log('@@userId', userId);
-        dispatch({
-            type: UNFOLLOW_USER_REQUEST,
-            data: userId, 
-        })
-    },[]);
-
-    const onRemoveFollower = useCallback(userId=>()=>{
-        dispatch({
-            type: REMOVE_FOLLOWER_REQUEST,
-            data: userId, 
-        })
-    },[]);
-
-    const loadMoreFollowings = useCallback(()=>{
-        dispatch({
-            type: LOAD_FOLLOWINGS_REQUEST,
-            offset: followingList.length,
-        })
-    },[followingList.length]);
-
-    const loadMoreFollowers = useCallback(()=>{
-        dispatch({
-            type: LOAD_FOLLOWERS_REQUEST,
-            offset: followerList.length,
-        })
-    },[followerList.length]);
-
-
-    const followComponent =  props=>{
-        const {data, type} = props;
-        return(
-            <List
-                loadMore={hasMoreFollowing && <div className='btns_box'><Button type='primary' onClick={ type ==="following"? loadMoreFollowings : loadMoreFollowers}>더 보기</Button></div>}
-                itemLayout="horizontal"
-                dataSource={data}
-                renderItem={(item)=>(
-                    <List.Item>
-                        <List.Item.Meta
-                            avatar={<Avatar size="large">{item.nickname.slice(0,1)}</Avatar>}
-                            title={item.nickname}
-                            description={'@'+item.userId}
-                        />
-                        <div>
-                            {type ==="following"
-                            ?<Button onClick={onUnFollow(item.id)}>언팔로우</Button>
-                            :<Button onClick={onRemoveFollower(item.id)}>차단</Button>}
-                        </div>
-                    </List.Item>
-                )}
-            />
-        )
-    }
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -139,55 +80,17 @@ const Profile = () => {
                             {
                                 label: "팔로우",
                                 key: 1,
-                                // children: followingList && followingList.length? followingList.map((item,i)=> {return followComponent({key:i, data:item, type:"following"})}) : <Empty />,
-                                children: followingList && followingList.length? followComponent({data:followingList, type:"following"}): <Empty />,
+                                children: <FollowList type={"following"}/>,
                             },
                             {
                                 label: "팔로워",
                                 key: 2,
-                                // children: followerList && followerList.length? followerList.map((item,i)=> {return followComponent({key:i, data:item, type:"follower"})}) : <Empty />,
-                                children: followerList && followerList.length? followComponent({data:followerList, type:"follower"}) : <Empty />,
+                                children: <FollowList type={"follower"}/>,
                             }
                         ]}
                     />
                 </div>
             </ProfileLayout>
-            {/* <NicknameEditForm/> */}
-            {/* <List
-                style={{marginBottom: '20px'}}
-                grid={{gutter:4, xs:2, md:3}}
-                size="small"
-                header={<div>팔로워 목록</div>}
-                loadMore={ hasMoreFollower && <Button style={{width: '100%'}}  onClick={loadMoreFollowers}>더 보기</Button>}
-                bordered
-                dataSource={followerList}
-                renderItem={(item)=>(
-                    <List.Item style={{marginTop:'20px'}}>
-                        <Card actions={[<StopOutlined key='block' onClick={onRemoveFollower(item.id)} />]}><Card.Meta description={item.nickname}/></Card>
-                    </List.Item>
-                )}
-            />
-            <List
-                style={{marginBottom: '20px'}}
-                grid={{gutter:4, xs:2, md:3}}
-                size="small"
-                header={<div>팔로잉 목록</div>}
-                loadMore={hasMoreFollowing && <Button style={{width: '100%'}} onClick={loadMoreFollowings}>더 보기</Button>}
-                bordered
-                dataSource={followingList}
-                renderItem={(item)=>(
-                    <List.Item style={{marginTop:'20px'}}>
-                        <Card actions={[<StopOutlined key='block' onClick={onUnFollow(item.id)}/>]}><Card.Meta description={item.nickname}/></Card>
-                    </List.Item>
-                )}
-            />
-            <div>
-                {mainPosts.map((v,i)=>{
-                    return(
-                        <PostCard key={i} post={v}/>  
-                    )
-                })}
-            </div> */}
         </PageLayout>
     );
 };
@@ -205,7 +108,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     store.dispatch({
         type: LOAD_MYINFO_REQUEST
     });
-
 
     store.dispatch({
         type: LOAD_FOLLOWERS_REQUEST,
@@ -226,19 +128,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
 
     await store.sagaTask.toPromise();
 
-    // console.log('@@state.user',state.user);
-    // if (state.user.mine){
-    //     console.log('@@ 있다')
-    //     // return {
-    //     //     redirect: {
-    //     //         permanent: false,
-    //     //         destination: "/",
-    //     //     },
-    //     //     props:{},
-    //     // }
-    // }else{
-    //     console.log('@@ 없다')
-    // }
 });
 
 export default Profile;
