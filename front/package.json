@@ -7,7 +7,7 @@
     "dev": "next -p 3000",
     "build": "cross-env ANALYZE=true next build",
     "prestart": "npm run build",
-    "start": "cross-env NODE_ENV=production next start"
+    "start": "cross-env NODE_ENV=production pm2 start npm --name react_twitter_clone_front -- start --port 80"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "morgan": "^1.10.0",
     "next": "^13.0.6",
     "next-redux-wrapper": "^8.0.0",
+    "pm2": "^5.3.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
