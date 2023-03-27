@@ -1,13 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Avatar, Card, Button } from 'antd';
 import { END } from "redux-saga";
 import { LOAD_USER_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_USER_REQUEST, LOAD_MYINFO_REQUEST, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import PageLayout from '../../components/PageLayout';
 import ProfileLayout from '../../components/ProfileLayout';
-import FollowButton from '../../components/FollowButton';
 
 const axios = require("axios");
 

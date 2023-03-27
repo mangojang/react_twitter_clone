@@ -55,7 +55,7 @@ const FollowList = ({user, type}) => {
                         description={'@'+item.userId}
                     />
                     <div>
-                        { mine.id===user.id
+                        { mine&&mine.id===user.id
                         ?type ==="following"
                             ?<Button onClick={onUnFollow(item.id)}>언팔로우</Button>
                             :<Button onClick={onRemoveFollower(item.id)}>차단</Button>

@@ -182,7 +182,7 @@ router.delete('/:id/follow', isLoggedIn, async(req, res)=>{
     }
 });
 
-router.get('/:id/followings', isLoggedIn, async(req, res, next)=>{
+router.get('/:id/followings', async(req, res, next)=>{
     try {
         const user = await db.User.findOne({
             where: { id: parseInt(req.params.id, 10) || req.user && req.user.id || 0},
@@ -201,7 +201,7 @@ router.get('/:id/followings', isLoggedIn, async(req, res, next)=>{
     }
 });
 
-router.get('/:id/followers', isLoggedIn, async(req, res, next)=>{
+router.get('/:id/followers', async(req, res, next)=>{
     try {
         const user = await db.User.findOne({
             where: { id: parseInt(req.params.id, 10) || req.user && req.user.id || 0},
