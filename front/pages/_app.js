@@ -6,6 +6,8 @@ import wrapper from '../store/configureStore';
 import Head from 'next/head';
 import { Reset } from 'styled-reset'
 import '../styles/global.css';
+import 'antd/dist/reset.css';
+// import 'antd/dist/antd.css';
 
 
 const App = ({Component, ...rest }) => {
