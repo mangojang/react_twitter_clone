@@ -7,7 +7,7 @@
     "dev": "next -p 3000",
     "build": "cross-env ANALYZE=true next build",
     "prestart": "npm run build",
-    "start": "cross-env NODE_ENV=production next -p 80"
+    "start": "cross-env NODE_ENV=production next start -p 80"
   },
   "repository": {
     "type": "git",
