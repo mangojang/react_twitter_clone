@@ -7,7 +7,7 @@
     "dev": "next -p 3000",
     "build": "cross-env ANALYZE=true next build",
     "prestart": "npm run build",
-    "start": "cross-env NODE_ENV=production next -p 80 pm2 start npm --name react_twitter_clone_front -- start"
+    "start": "cross-env NODE_ENV=production next -p 80"
   },
   "repository": {
     "type": "git",
