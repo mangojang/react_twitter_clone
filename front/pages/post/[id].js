@@ -5,6 +5,7 @@ import wrapper from '../../store/configureStore';
 import { END } from "redux-saga";
 import { LOAD_POST_REQUEST } from '../../reducers/post';
 import Head from 'next/head';
+import { backURL } from '../../config/config';
 
 const Post = ({id}) => {
     const { singlePost } = useSelector( state => state.post);
@@ -15,11 +16,11 @@ const Post = ({id}) => {
                 <meta name="description" content={singlePost.content}></meta>
                 <meta property="og:title" content={`${singlePost.User.nickname}님의 글`} key="title" />
                 <meta property="og:description" content={singlePost.content} key="description" />
-                <meta property="og:image" content={`http://localhost:8000/${singlePost.Images[0].content}`} key="image" />
+                <meta property="og:image" content={`${backURL}/${singlePost.Images[0].content}`} key="image" />
             </Head>
             <div>{singlePost.content}</div>
             <div>{singlePost.User.nickname}</div>
-            <div>{singlePost.Images[0] && <img src={`http://localhost:8000/${singlePost.Images[0].content}`}/>}</div>
+            <div>{singlePost.Images[0] && <img src={`${backURL}/${singlePost.Images[0].content}`}/>}</div>
         </>
     );
 };

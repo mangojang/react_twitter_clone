@@ -84,7 +84,7 @@ const PostForm = (props) => {
                                     <div>
                                         <Btn icon={<CloseOutlined />} title={'삭제'} styletype='icon' onClick={onRemoveImage(i)}/>
                                     </div>
-                                    <img src={'http://localhost:8000/'+v} style={{width:'200px'}} alt={v}/>
+                                    <img src={`${backURL}/`+v} style={{width:'200px'}} alt={v}/>
                                 </div>
                             )
                         })}
