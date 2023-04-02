@@ -53,6 +53,6 @@ app.get('/',(req, res)=>{
 
 
 
-app.listen(8000, ()=>{
-    console.log('Server is running on http://localhost:8000')
+app.listen(process.env.NODE_ENV ==="production"? process.env.PORT : 8000, ()=>{
+    console.log(`Server is running on http://localhost:${process.env.NODE_ENV ==="production"? process.env.PORT : 8000}`)
 })
