@@ -51,6 +51,10 @@ app.get('/',(req, res)=>{
     res.send("Hello, server!")
 });
 
+app.get('/test',(req, res)=>{
+    res.send("Hello, server test!")
+});
+
 
 
 app.listen(process.env.NODE_ENV ==="production"? process.env.PORT : 8000, ()=>{
