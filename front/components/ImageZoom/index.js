@@ -29,7 +29,7 @@ const ImageZoom = ({images, onClose}) => {
                             return(
                                 <div className='image_box'>
                                     <div>
-                                        <img src={`${v.content}`}/>
+                                        <img src={v.content}/>
                                         {/* <img src={`${backURL}/${v.content}`}/> */}
                                     </div>
                                 </div>
