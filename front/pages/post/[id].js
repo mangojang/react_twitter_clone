@@ -16,7 +16,8 @@ const Post = ({id}) => {
                 <meta name="description" content={singlePost.content}></meta>
                 <meta property="og:title" content={`${singlePost.User.nickname}님의 글`} key="title" />
                 <meta property="og:description" content={singlePost.content} key="description" />
-                <meta property="og:image" content={`${backURL}/${singlePost.Images[0].content}`} key="image" />
+                <meta property="og:image" content={`${singlePost.Images[0].content}`} key="image" />
+                {/* <meta property="og:image" content={`${backURL}/${singlePost.Images[0].content}`} key="image" /> */}
             </Head>
             <div>{singlePost.content}</div>
             <div>{singlePost.User.nickname}</div>

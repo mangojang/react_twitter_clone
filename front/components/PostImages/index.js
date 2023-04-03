@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import { PlusOutlined } from '@ant-design/icons';
 import ImageZoom from '../ImageZoom';
 import { Container } from './style';
-import { backURL } from '../../config/config';
+// import { backURL } from '../../config/config';
 
 
 const PostImages = ({images}) => {
@@ -21,7 +21,8 @@ const PostImages = ({images}) => {
     if(images.length === 1){
         return(
             <Container>
-                <img alt={images[0].content} src={`${backURL}/`+ images[0].content} onClick={onZoom}/>
+                <img alt={images[0].content} src={images[0].content} onClick={onZoom}/>
+                {/* <img alt={images[0].content} src={`${backURL}/`+ images[0].content} onClick={onZoom}/> */}
                 {showImageZoom && <ImageZoom images={images} onClose={onClose}/>}
             </Container>
         )
@@ -31,8 +32,10 @@ const PostImages = ({images}) => {
         return(
             <Container>
                 <div className='group'>
-                    <img alt={images[0].content} src={`${backURL}/`+ images[0].content} width="50%" onClick={onZoom}/>
-                    <img alt={images[1].content} src={`${backURL}/`+ images[1].content} width="50%" onClick={onZoom}/>
+                    <img alt={images[0].content} src={images[0].content} width="50%" onClick={onZoom}/>
+                    <img alt={images[1].content} src={images[1].content} width="50%" onClick={onZoom}/>
+                    {/* <img alt={images[0].content} src={`${backURL}/`+ images[0].content} width="50%" onClick={onZoom}/>
+                    <img alt={images[1].content} src={`${backURL}/`+ images[1].content} width="50%" onClick={onZoom}/> */}
                 </div>
                 {showImageZoom && <ImageZoom images={images} onClose={onClose}/>}
             </Container>
@@ -41,7 +44,8 @@ const PostImages = ({images}) => {
     return (
         <Container>
             <div className='group'>
-                <img alt={images[0].content} src={`${backURL}/`+ images[0].content} width="50%" onClick={onZoom}/>
+                <img alt={images[0].content} src={images[0].content} width="50%" onClick={onZoom}/>
+                {/* <img alt={images[0].content} src={`${backURL}/`+ images[0].content} width="50%" onClick={onZoom}/> */}
                 <div className='more' onClick={onZoom}>
                     <div>
                         <PlusOutlined/>

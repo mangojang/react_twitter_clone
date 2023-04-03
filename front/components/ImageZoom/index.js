@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Proptypes from 'prop-types';
 import Slick from 'react-slick';
 import  {Header, BtnClose, Zoom, Body } from './style';
-import { backURL } from '../../config/config';
+// import { backURL } from '../../config/config';
 
 
 const ImageZoom = ({images, onClose}) => {
@@ -29,7 +29,8 @@ const ImageZoom = ({images, onClose}) => {
                             return(
                                 <div className='image_box'>
                                     <div>
-                                        <img src={`${backURL}/${v.content}`}/>
+                                        <img src={`${v.content}`}/>
+                                        {/* <img src={`${backURL}/${v.content}`}/> */}
                                     </div>
                                 </div>
                             )
