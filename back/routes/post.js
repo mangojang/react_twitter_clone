@@ -14,16 +14,23 @@ AWS.config.update({
 });
 
 const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, cb){
-            cb(null, 'uploads');
-        },
-        filename(req, file, cb){
-            const ext = path.extname(file.originalname);
-            const basename = path.basename(file.originalname, ext);
-            cb(null, basename + new Date().valueOf() + ext);
+    storage:multerS3({
+        s3: new AWS.S3(),
+        bucket: 'react-twitter-clone',
+        key(req, file, cb){
+            cb(null, `original/${+new Date()}${path.basename(file.originalname)}`)
         }
     }),
+    // storage: multer.diskStorage({
+    //     destination(req, file, cb){
+    //         cb(null, 'uploads');
+    //     },
+    //     filename(req, file, cb){
+    //         const ext = path.extname(file.originalname);
+    //         const basename = path.basename(file.originalname, ext);
+    //         cb(null, basename + new Date().valueOf() + ext);
+    //     }
+    // }),
     limits: { fileSize: 20*1024*1024},
 })
 
@@ -122,7 +129,8 @@ router.post('/',isLoggedIn, upload.none(), async(req, res, next)=>{
 
 router.post('/images',upload.array('image'),(req, res)=>{
     console.log(req.files);
-    return res.json(req.files.map(v=>v.filename));
+    return res.json(req.files.map(v=>v.location));
+    // return res.json(req.files.map(v=>v.filename));
 });
 
 router.get('/:id', async(req, res, next)=>{
