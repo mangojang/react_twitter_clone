@@ -7,6 +7,7 @@ import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { END } from "redux-saga";
 import SearchInput from '../components/SearchInput';
+
 // import axios from 'axios';
 
 const axios = require("axios");
@@ -50,6 +51,7 @@ const Home = () => {
     return (
         <div>
             {/* {mine? <div>로그인 했습니다.{mine.nickname}</div> : <div>로그아웃 했습니다.</div>} */}
+            <p>테스트</p>
             {mine ? <PostForm/> : <SearchInput/>}
             {mainPosts.map((v,i)=>{
                 return(
