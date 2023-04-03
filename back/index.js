@@ -23,7 +23,7 @@ app.use(morgan('dev'));
 app.use(express.json()); // json으로 넘어온 데이타 처리
 app.use(express.urlencoded({extended:true})); //form으로 넘어온 데이타 처리
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV==="production"?"http://mangotwitter.site":"http://localhost:3000",
     credentials: true,
 }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
