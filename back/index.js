@@ -10,6 +10,8 @@ const passportConfig = require('./passport');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
 const hashtagAPIRouter = require('./routes/hashtag');
+const hpp = require('hpp');
+const helmet = require('helmet');
 
 const app = express();
 
@@ -19,7 +21,11 @@ dotenv.config();
 passportConfig(passport);
 app.use('/', express.static('uploads'));
 
-app.use(morgan('dev'));
+if(process.env.NODE_ENV==="production"){
+    app.use(hpp());
+    app.use(helmet());
+}
+app.use(morgan(process.env.NODE_ENV==="production"?'combined':'dev'));
 app.use(express.json()); // json으로 넘어온 데이타 처리
 app.use(express.urlencoded({extended:true})); //form으로 넘어온 데이타 처리
 app.use(cors({
@@ -35,6 +41,7 @@ app.use(expressSession({
         httpOnly: true,
         secure: false, // https 사용시 true
     },
+    domain: process.env.NODE_ENV==="production" && '.mangotwitter.site',
     name: 'mgck'
 }));
 app.use(passport.initialize());
