@@ -40,8 +40,8 @@ app.use(expressSession({
     cookie:{
         httpOnly: true,
         secure: false, // https 사용시 true
+        domain: process.env.NODE_ENV==="production" && '.mangotwitter.site',
     },
-    domain: process.env.NODE_ENV==="production" && '.mangotwitter.site',
     name: 'mgck'
 }));
 app.use(passport.initialize());
