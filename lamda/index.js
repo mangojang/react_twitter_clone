@@ -10,7 +10,7 @@ exports.handler = async (event, context, callback)=>{
     const Key = event.Records[0].s3.object.key;
     const filename = Key.split('/')[Key.split('/').length -1];
     const ext = Key.split('.')[Key.split('/').length -1];
-    console.log(Bucket, key, filename, ext);
+    console.log(Bucket, Key, filename, ext);
     const requireFormat = ext == 'jpg' ? 'jpeg' : ext;
 
     try {
