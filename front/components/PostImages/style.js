@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: flex;
     img{
+        max-height: 300px;
         display: block;
         object-fit: cover;
         cursor: pointer;
