@@ -75,3 +75,7 @@ body {
   border-start-start-radius: 0;
   border-end-start-radius: 0;
 }
+
+.ant-btn-loading-icon{
+  display: inline-block;
+}
