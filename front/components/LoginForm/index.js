@@ -62,12 +62,12 @@ const LoginForm = () => {
                 <FormRow>
                     <label htmlFor="user-id">아이디</label>
                     <Input name='user-id' className='login_input' value={id} onChange={onChangeId}/>
-                    <span style={confirmId? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>아이디를 다시 확인해주세요.</span>
+                    <span style={confirmId? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>아이디를 다시 확인해주세요.</span>
                 </FormRow>
                 <FormRow>
                     <label htmlFor="user-password">비밀번호</label>
                     <Input.Password name='user-password' className='login_input' value={password} onChange={onChangePassword}/>
-                    <span style={confirmPassword? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>비밀번호를 다시 확인해주세요.</span>
+                    <span style={confirmPassword? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>비밀번호를 다시 확인해주세요.</span>
                 </FormRow>
                 <div className='btns_box'>
                     <Button type="primary" htmlType="submit" loading={isLoggedIn}>로그인</Button>

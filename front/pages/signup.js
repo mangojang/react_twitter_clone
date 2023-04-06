@@ -142,26 +142,26 @@ const Signup = () => {
                     <FormRow>
                         <label htmlFor='signup_id'>아이디</label>
                         <Input name='signup_id' value={id} onChange={onChangeId}/>
-                        <span style={confirmId? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>아이디를 다시 확인해주세요.</span>
+                        <span style={confirmId? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>아이디를 다시 확인해주세요.</span>
                     </FormRow>
                     <FormRow>
                         <label htmlFor='signup_nickname'>닉네임</label>
                         <Input name='signup_nickname' value={nickname} onChange={onChangeNickname}/>
-                        <span style={confirmNickname? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>닉네임을 다시 확인해주세요.</span>
+                        <span style={confirmNickname? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>닉네임을 다시 확인해주세요.</span>
                     </FormRow>
                     <FormRow>
                         <label htmlFor='signup_password'>비밀번호</label>
                         <Input.Password name='signup_password' value={password} onChange={onChangePassword}/>
-                        <span style={confirmPassword? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>비밀번호를 다시 확인해주세요.</span>
+                        <span style={confirmPassword? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>비밀번호를 다시 확인해주세요.</span>
                     </FormRow>
                     <FormRow>
                         <label htmlFor='signup_password_check'>비밀번호 확인</label>
                         <Input.Password name='signup_password_check' value={passwordCheck} onChange={onChangePasswordCheck} />
-                        <span style={confirmPasswordCheck? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>비밀번호 확인을 다시 확인해주세요.</span>
+                        <span style={confirmPasswordCheck? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>비밀번호 확인을 다시 확인해주세요.</span>
                     </FormRow>
                     <FormRow>
                         <Checkbox value={term} onChange={onChangeTerm} style={{display:'flex'}}>개인정보 사용에 동의하십니까?</Checkbox>
-                        <span style={confirmTerm? {visibility:'hidden'} : {visibility:'visible'}} className='cmt'>개인정보 사용에 동의해주세요.</span>
+                        <span style={confirmTerm? {visibility:'hidden'} : {visibility:'visible'}} className='cmt_block'>개인정보 사용에 동의해주세요.</span>
                     </FormRow>
                     <div className='btns_area'>
                         <Button type="primary" htmlType="submit" loading={isSigningUp} size={'large'}>가입하기</Button>

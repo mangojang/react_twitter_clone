@@ -29,7 +29,7 @@ export const FormRow = styled.div`
        display: block;
        margin-bottom: 4px;
     }
-    >.cmt{
+    >.cmt_block{
         display: block;
         font-size: 12px;
         color: red;
