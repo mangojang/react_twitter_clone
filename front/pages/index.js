@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST, loginAction, logoutAction } from '../reducers/user'; 
+import {LOAD_MYINFO_REQUEST} from '../reducers/user'; 
 import { LOAD_MAIN_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { END } from "redux-saga";
@@ -50,8 +50,6 @@ const Home = () => {
     
     return (
         <div>
-            {/* {mine? <div>로그인 했습니다.{mine.nickname}</div> : <div>로그아웃 했습니다.</div>} */}
-            <p>테스트</p>
             {mine ? <PostForm/> : <SearchInput/>}
             {mainPosts.map((v,i)=>{
                 return(
