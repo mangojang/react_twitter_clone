@@ -308,7 +308,7 @@ router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
         const retweetWithPrevPost = await db.Post.findOne({
             where: {id: retweet.id},
             include: [{
-                model: User,
+                model: db.User,
                 attributes: {
                     exclude: ['password']
                 },
@@ -324,15 +324,15 @@ router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
                     model: db.Image,
                 },
                 {
-                    model: User, // 좋아요 누른 사람
+                    model: db.User, // 좋아요 누른 사람
                     as: 'Likers',
                     exclude: ['password']
                   }, {
-                    model: Image,
+                    model: db.Image,
                   }, {
-                    model: Comment,
+                    model: db.Comment,
                     include: [{
-                      model: User,
+                      model: db.User,
                       exclude: ['password'],
                     }],
                 
