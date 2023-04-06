@@ -49,6 +49,9 @@ export const Body = styled.div`
             }
             img{
                 border-radius: 0;
+                max-width: 90%;
+                max-height: 90%;
+                object-fit: contain;
             }
         }
         .pagination{
