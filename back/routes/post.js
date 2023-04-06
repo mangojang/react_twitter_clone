@@ -117,6 +117,22 @@ router.post('/',isLoggedIn, upload.none(), async(req, res, next)=>{
                 },
             },{
                 model: db.Image,
+            },{
+                model: db.User,
+                through: 'Like',
+                as: 'Likers',
+                attributes: ['id']
+            },{
+                model: db.Post,
+                as: 'Retweet',
+                include: [{
+                    model: db.User,
+                    attributes: {
+                        exclude: ['password']
+                    },
+                },{
+                    model: db.Image,
+                }]
             }]
         })
         return res.json(fullPost);
@@ -292,7 +308,7 @@ router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
         const retweetWithPrevPost = await db.Post.findOne({
             where: {id: retweet.id},
             include: [{
-                model: db.User,
+                model: User,
                 attributes: {
                     exclude: ['password']
                 },
