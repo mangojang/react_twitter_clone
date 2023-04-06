@@ -23,3 +23,16 @@ export const Btn = styled(Button)`
     }}
     border-radius: 9999px;
 `;
+
+export const FormRow = styled.div`
+    label{
+       display: block;
+       margin-bottom: 4px;
+    }
+    >.cmt{
+        display: block;
+        font-size: 12px;
+        color: red;
+        margin: 4px 0 6px;
+    }
+`;
