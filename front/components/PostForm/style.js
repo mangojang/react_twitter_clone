@@ -13,6 +13,7 @@ export const PostFormBox = styled.div`
         width: 48px;
         height: 48px;
         font-size: 28px;
+        line-height: 1.6em;
     }
     .image_container{
         display: flex;

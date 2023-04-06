@@ -17,7 +17,7 @@ export const Container = styled.div`
                     margin-top: -72px;
                     border: 5px solid white;
                     font-size: 72px;
-                    line-height: 1.5;
+                    line-height: 1.6em;
                 }
             }
             .mid_box{
