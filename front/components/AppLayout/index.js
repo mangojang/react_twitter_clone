@@ -1,43 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Col, Row} from 'antd';
 import Link from 'next/link';
 import LoginForm from '../LoginForm';
 import UserProfile from '../UserProfile';
-import { LOAD_MYINFO_REQUEST, LOAD_USER_REQUEST } from '../../reducers/user';
 import { Container, Gnb, HomeIcon, Logo, LogoIcon, ProfileIcon, SideBarLeft, SideBarRight } from './style';
 import SearchInput from '../SearchInput';
 
 
 const AppLayout = ({children}) => {
-    const {isLoggedIn, mine} = useSelector(state => state.user);
-    const dispatch = useDispatch();
-
-    // useEffect(()=>{
-    //    if(!mine){
-    //        dispatch({
-    //            type: LOAD_MYINFO_REQUEST
-    //        })
-    //    }
-    // },[]);
-
-    
-    const items =[
-        {
-            label: (
-                <Link href="/" legacyBehavior><a>홈</a></Link>
-            ),
-            key: 'home',
-        },
-        {
-            label: (
-                <Link href="/profile" legacyBehavior><a>프로필</a></Link>
-            ),
-            key: 'profile',
-        },
-    ]
-    
-
+    const {mine} = useSelector(state => state.user);
+   
     return (
         <div>
             <Row>
