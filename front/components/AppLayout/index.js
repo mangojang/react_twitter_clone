@@ -41,7 +41,7 @@ const AppLayout = ({children}) => {
     return (
         <div>
             <Row>
-                <SideBarLeft xs={3} sm={3} md={4} xl={6}>
+                <SideBarLeft xs={4} sm={3} md={4} xl={6}>
                     <div>
                         <Logo><Link href="/" legacyBehavior><a><LogoIcon/></a></Link></Logo>
                         <Gnb>
@@ -51,7 +51,7 @@ const AppLayout = ({children}) => {
                         </Gnb>
                     </div>
                 </SideBarLeft>
-                <Col xs={21} sm={21} md={20} xl={18}>
+                <Col xs={20} sm={21} md={20} xl={18}>
                     <Container>
                         <div className='contents'>{children}</div>
                         <SideBarRight className='sidebar_right'>
