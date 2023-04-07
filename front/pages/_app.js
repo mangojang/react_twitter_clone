@@ -15,14 +15,15 @@ const App = ({Component, ...rest }) => {
     return (
         <Provider store={store}>
             <Head>
-                <title>react-twitter-clone</title>
+                <title>mangotwitter</title>
                 <meta charset="UTF-8"/>
                 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes"/>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-                <meta name="description" content="react-twitter-clone"></meta>
-                <meta property="og:title" content="react-twitter-clone" key="title" />
-                <meta property="og:description" content="react-twitter-clone" key="description" />
+                <meta name="description" content="개인 포트폴리오용 트위터 클론 사이트 입니다."></meta>
+                <meta property="og:title" content="mangotwitter" key="title" />
+                <meta property="og:description" content="개인 포트폴리오용 트위터 클론 사이트 입니다." key="description" />
                 <meta property="og:type" content="website"/>
+                <meta property="og:image" content="/og.png" key="image"/>
                 <link rel="shortcut icon" href="/favicon.ico" />
                 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"/>
                 <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" /> 

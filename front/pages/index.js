@@ -17,7 +17,7 @@ const Home = () => {
     const dispatch = useDispatch();
     const countRef = useRef([]);
 
-    const {mine, isLoggedIn} = useSelector(state => state.user);
+    const {mine} = useSelector(state => state.user);
     const {mainPosts, retweetErrorReason, hasMorePost} = useSelector((state) => state.post);
 
     useEffect(() => {

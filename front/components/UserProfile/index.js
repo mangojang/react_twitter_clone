@@ -1,9 +1,8 @@
 import React, {useCallback} from 'react';
 import { Avatar, Button, Card, Popover } from 'antd';
-import { UserOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { EllipsisOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../reducers/user';
-import Link from 'next/link';
 import { TitleBox, UserProfleCard } from './style';
 
 const { Meta } = Card;

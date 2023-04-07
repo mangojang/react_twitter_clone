@@ -11,7 +11,6 @@ const TweetList = ({user}) => {
     
     useEffect(() => {
         function onScroll() {
-            // console.log('@@mainPosts', mainPosts[mainPosts.length-1].id);
             if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
                 if (hasMorePost) {
                     const lastId = mainPosts[mainPosts.length - 1]?.id;

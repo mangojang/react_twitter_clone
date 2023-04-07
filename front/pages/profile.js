@@ -57,49 +57,6 @@ const Profile = () => {
     return (
         <PageLayout title={mine.nickname} desc={mine.Post.length+"트윗"}>
             <ProfileLayout user={mine} rightSideRender={rightSideRender}/>
-            {/* <ProfileLayout>
-                <div className='top_container'>
-                    <div className='bg_box'></div>
-                    <div className='user_info_box'>
-                        <div className='top_box'>
-                            <div><Avatar className='user_avatar'>{mine.nickname.slice(0,1)}</Avatar></div> 
-                            {rightSideRender()}
-                        </div>
-                        <div className='mid_box'>
-                            <p className='nickname'>{mine.nickname}</p>
-                            <p className='userid'>@{mine.userId}</p>
-                        </div>
-                        <div className='bottom_box'>
-                            <p><span>{mine.Followings.length}</span> 팔로우 중</p>
-                            <p><span>{mine.Followers.length}</span> 팔로워</p>
-                        </div>
-                    </div>
-                </div>
-                <div className='bottom_container'>
-                    <Tabs
-                        defaultActiveKey="1"
-                        size={'large'}
-                        centered="true"
-                        items={[
-                            {
-                                label: "트윗",
-                                key: 0,
-                                children: <TweetList/>,
-                            },
-                            {
-                                label: "팔로우",
-                                key: 1,
-                                children: <FollowList type={"following"}/>,
-                            },
-                            {
-                                label: "팔로워",
-                                key: 2,
-                                children: <FollowList type={"follower"}/>,
-                            }
-                        ]}
-                    />
-                </div>
-            </ProfileLayout> */}
         </PageLayout>
     );
 };
