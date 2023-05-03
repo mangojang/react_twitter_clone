@@ -6,12 +6,6 @@
 
 어떠한 악의적인 또는 상업적인 의도는 없습니다. 🙏
 
-## 배포 주소
-
----
-
-> [http://mangotwitter.site/](http://mangotwitter.site/)
-> 
 
 ## 📚Stacks
 
@@ -32,8 +26,7 @@
 - Ant Design
 - Style Component
 - MySQL
-- AWS-E2C
-- AWS-S3
+
 
 ## 주요 기능
 
